@@ -1,0 +1,18 @@
+Plan
+====
+
+-> create a class that can create template from text
+-> create an extended that can create template from existing file
+-> create class from a frame created in a text file
+-> Later, generate code for the frame based on the class
+-> Its a self-learning auto code generator
+
+
+
+Purpose
+=======
+
+-> Enable developing own language to program,
+-> This will not only create code, but also a structure,
+-> Turn every directory in a structure
+-> 
