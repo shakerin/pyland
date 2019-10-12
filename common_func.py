@@ -10,8 +10,6 @@ Function List:
 """
 
 
-
-
 # prints items of list one by one
 def printList(user_list):
 	for item in user_list:
@@ -29,6 +27,5 @@ def printDict(user_dict):
 	for key,val in user_dict.items():
 		print(str(key)+"=>"+str(val))
 	return
-
 
 
