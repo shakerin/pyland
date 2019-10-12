@@ -18,7 +18,7 @@ Usage:
 """
 
 
-import common_func as cf
+from .common_func import *
 from string import Template
 from docopt import docopt
 import re
