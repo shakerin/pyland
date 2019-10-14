@@ -48,7 +48,7 @@ class FileToTemplate(TemplateInfo):
 		to parent class 'TemplateInfo'. Currently, unmodified text
 	"""
 
-	def __init__(self, file_path):
+	def __init__(self, name, file_path):
 		"""Reads the frame file and sends frame string to parent class
 
 		Parameters
@@ -58,7 +58,8 @@ class FileToTemplate(TemplateInfo):
 		"""
 		self.file_path = file_path
 		self.fileToText()
-		super().__init__(self.text)
+		super().__init__(name, self.text) 
+		#TODO self.text is redundant -> remove it and don't use it
 
 
 	def fileToText(self):
@@ -69,7 +70,7 @@ class FileToTemplate(TemplateInfo):
 						
 def Main():
 	argv = docopt(__doc__)
-	a = FileToTemplate("./test_template")
+	a = FileToTemplate("nothing","./test_template")
 	b = a.getGeneratedCode([("name", "Haha"), ("you", "None")])
 	print(b)
 	return
