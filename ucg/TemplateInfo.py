@@ -32,10 +32,13 @@ class TemplateInfo(object):
 	
 	Class Attributes
 	----------------
-	None
+	names : list of strings
+		this variable will keep all the template class names
 
 	Attributes
 	----------
+	name : str
+		this is the name of the template
 	original : str
 		raw frame string provided from class user
 	identifier : str
@@ -56,7 +59,10 @@ class TemplateInfo(object):
 		based on 'key_value_pairs', generate text using the 'template' already
 		created from frame string and return the generated text
 	"""
-	def __init__(self, templateCode):
+
+	names = []
+
+	def __init__(self, name, templateCode):
 		"""Extracts the frame string and store information in variables
 		
 		Parameters
@@ -65,6 +71,8 @@ class TemplateInfo(object):
 			a string that contains the text with ketwords and addressed
 			as 'frame string'
 		"""
+		self.name = name
+		TemplateInfo.names.append(self.name)
 		self.original = templateCode
 		self.templateIns()
 		self.keyWords()
@@ -115,7 +123,7 @@ class TemplateInfo(object):
 
 def Main():
 	argv = docopt(__doc__)
-	a = TemplateInfo("I am $name, Who are $you. $name is me.")
+	a = TemplateInfo("Anything", "I am $name, Who are $you. $name is me.")
 	b = a.getGeneratedCode([("name", "Haha"), ("you", "None")])
 	print(b)
 	return
