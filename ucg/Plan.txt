@@ -1,8 +1,8 @@
 Plan
 ====
 
--> create a class that can create template from text
--> create an extended that can create template from existing file
+-> create a class that can create template from text (done)
+-> create an extended that can create template from existing file (done)
 -> create class from a frame created in a text file
 -> Later, generate code for the frame based on the class
 -> Its a self-learning auto code generator
@@ -35,4 +35,31 @@ Things to remember while creating testcase
 -> if test is slow, keep them in separate place and run 
    as scheduled task to avoid delay in development
 -> 
+
+
+
+Terminology
+-----------
+
+frame string
+    a string that that can be used as a template for automating text
+    generation
+
+frame file (.ff)
+    a text file that contains frame string
+
+frame user param (.fup)
+    a file that contains inputs for generating text based on a specific
+    template
+
+
+
+
+
+
+
+
+
+
+
 
