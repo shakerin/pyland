@@ -6,6 +6,7 @@ Plan
 -> create class from a frame created in a text file
 -> Later, generate code for the frame based on the class
 -> Its a self-learning auto code generator
+-> enable frame_string to contain frame class name
 
 
 
@@ -34,7 +35,13 @@ Things to remember while creating testcase
 -> keep tests as fast as possible
 -> if test is slow, keep them in separate place and run 
    as scheduled task to avoid delay in development
--> 
+
+
+TODO
+----
+- how to define a class on the fly
+
+
 
 
 
