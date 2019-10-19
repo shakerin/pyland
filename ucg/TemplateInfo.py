@@ -60,6 +60,7 @@ class TemplateInfo(object):
 		created from frame string and return the generated text
 	"""
 
+	# TODO evaluate the necessity of names[]
 	names = []
 
 	def __init__(self, name, templateCode):
