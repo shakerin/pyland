@@ -25,6 +25,36 @@ def listCmp(list1, list2):
 
 class TestTemplateLibrary:
     """test name format : test_{className/methodName}_{unit_for_test}"""
+
+    def test_TemplateLibrary_loadFrameFilesFromDir_frame_dirs(self):
+        """check the internal list frame_dirs after calling loadFrameFilesFromDir(dir_path)
+        method from the object"""
+        ins = TL()
+        ins.loadFrameFilesFromDir("/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest")
+        expected_frame_dirs = []
+        assert expected_frame_dirs == ins.frame_dirs
+
+    def test_TemplateLibrary_frame_dirs(self):
+        """this test checks if the frame_dirs are stored properly or not."""
+        ins_22= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest"])
+        ins_22.addFrameDirs(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2"])
+        exp_frame_dirs = [
+            "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest",
+            "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2"
+        ]
+        assert sorted(ins_22.frame_dirs)==sorted(exp_frame_dirs)
+
+    def test_TemplateLibrary_frame_dirs_CheckOneDirIsNotAddedTwice(self):
+        """this test checks if the frame_dirs are stored properly or not."""
+        ins_22= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest", 
+                    "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2"])
+        ins_22.addFrameDirs(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2"])
+        exp_frame_dirs = [
+            "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest",
+            "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2"
+        ]
+        assert sorted(ins_22.frame_dirs)==sorted(exp_frame_dirs)
+
     def test_TemplateLibrary_loadFrameFilesFromDir_frame_files(self):
         """check the internal list frame_files after calling loadFrameFilesFromDir(dir_path)
         method from the object"""
@@ -97,5 +127,67 @@ class TestTemplateLibrary:
         generated_code = ins_7.test_file_2.getGeneratedCode([('word','FILE'),('check','TEST')])
         assert generated_code == "this is single FILE framefile just to TEST"
 
+    def test_TemplateLibrary_loadAllTemplates_addFrameDirs_FalseCheck(self):
+        """check number of frames are different when all frame_dirs are not 
+        included in the class object"""
+        ins_10= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest"])
+        dirpath = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest/"
+        dirpath2 = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/"
+        filepaths = [
+            dirpath + "test_file_1.txt",
+            dirpath + "test_file_2.txt",
+            dirpath + "test_file_3",
+            dirpath2 + "test_file_4.txt",
+            dirpath2 + "test_file_5.txt",
+            dirpath2 + "test_file_6",
+        ]
+        assert sorted(ins_10.frame_files)!=sorted(filepaths)
 
+    def test_TemplateLibrary_loadAllTemplates_addFrameDirs_TrueCheck(self):
+        """check number of frames are same when all frame_dirs are 
+        included in the class object and thus the method addFrameDirs is
+        working fine tested"""
+        ins_11= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest"])
+        ins_11.addFrameDirs(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/"])
+        dirpath = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest/"
+        dirpath2 = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/"
+        filepaths = [
+            dirpath + "test_file_1.txt",
+            dirpath + "test_file_2.txt",
+            dirpath + "test_file_3",
+            dirpath2 + "test_file_4.txt",
+            dirpath2 + "test_file_5.txt",
+            dirpath2 + "test_file_6",
+        ]
+        assert sorted(ins_11.frame_files)==sorted(filepaths)
 
+    def test_TemplateLibrary_loadAllTemplates_addFrameFromFile_TrueCheck(self):
+        """check number of frames are same when all frame_dirs are 
+        included in the class object and thus the method addFrameDirs is
+        working fine tested"""
+        ins_12= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest"])
+        ins_12.addFrameFromFile("/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/test_file_4.txt")
+        dirpath = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest/"
+        dirpath2 = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/"
+        filepaths = [
+            dirpath + "test_file_1.txt",
+            dirpath + "test_file_2.txt",
+            dirpath + "test_file_3",
+            dirpath2 + "test_file_4.txt",
+        ]
+        assert sorted(ins_12.frame_files)==sorted(filepaths)
+
+    def test_TemplateLibrary_loadAllTemplates_addFrameFromFile_FalseCheck(self):
+        """check number of frames are same when all frame_dirs are 
+        included in the class object and thus the method addFrameDirs is
+        working fine tested"""
+        ins_13= TL(["/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest"])
+        ins_13.addFrameFromFile("/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/test_file_10.txt")
+        dirpath = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest/"
+        dirpath2 = "/mnt/c/work/py-work/tests/testdir_TemplateLibraryTest2/"
+        filepaths = [
+            dirpath + "test_file_1.txt",
+            dirpath + "test_file_2.txt",
+            dirpath + "test_file_3",
+        ]
+        assert sorted(ins_13.frame_files)==sorted(filepaths)
