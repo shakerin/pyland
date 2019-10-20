@@ -3,10 +3,10 @@ Plan/Status
 
 -> create a class that can create template from text (done)
 -> create an extended that can create template from existing file (done)
--> generate frames based on available frame strings in frame directories (ongoing)
--> create class from a frame created in a text file
+-> generate frame objects based on available frame strings in frame directories (done)
+-> create object from a frame created in a text file (done)
 -> Later, generate code for the frame based on the class
--> Its a self-learning auto code generator
+-> Its a self-learning auto code generator (far-future)
 -> enable frame_string to contain frame class name
 
 
@@ -23,7 +23,8 @@ Purpose
 
 Tests
 =====
--> Next task is to get started with test writing for the class
+-> Next task is to get started with test writing for the class (done)
+-> 25 tests passing (october 20, 2019) (ongoing)
 
 
 Things to remember while creating testcase
@@ -40,10 +41,9 @@ Things to remember while creating testcase
 
 TODO
 ----
-- how to define a class on the fly > no need: will create class object on the fly
-
-
-
+- how to define a class on the fly > no need: will create class object on the fly (done)
+- think about how to utilize the objects and plan thorougly before
+  writing more codes
 
 
 Terminology
