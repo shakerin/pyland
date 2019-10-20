@@ -23,7 +23,7 @@ from string import Template
 from docopt import docopt
 import re
 from os import walk
-from os.path import join
+from os.path import join, isfile
 
 from .TemplateInfo import TemplateInfo as TI
 from .FileToTemplate import FileToTemplate as FTT
@@ -94,6 +94,15 @@ class TemplateLibrary(object):
 		this method can be used for searching for particular frame path
 		by providing the frame name as an argument
 
+	addFrameDirs(frame_dirs)
+		this method can be used for adding new frame_dir/s to the exisitng
+		'frame_dirs' and load templates, create frame objects based on
+		that
+
+	addFrameFromFile(frame_file)
+		this method can be used for generating frame object based on a 
+		provided frame file path and will be included in that object
+
 	Restrictions
 	------------
 	- this class uses the name of frame files and frame object names
@@ -119,16 +128,41 @@ class TemplateLibrary(object):
 
 
 	def addFrameDirs(self, frame_dirs=[]):
-		pass
+		"""this method lets user to add 'frame_dirs' and update
+		frame objects using 'loadAllTemplates' method
+		
+		Parameter
+		---------
+		frame_dirs : list of str
+			each string in list represent path to a new frame_dir
+		"""
+		self.frame_dirs += frame_dirs
+		self.frame_dirs = list(set(self.frame_dirs))
+		self.loadAllTemplates()
+		return
 
 	def addFrameFromString(self, frame_name, frame_string):
 		#TODO evaluate necessity
 		#TODO this should also register path as 'Dynamically Created'
+		#TODO not necessary (October 20, 2019)
 		pass
 
 	def addFrameFromFile(self, frame_file):
-		#TODO evaluate necessity
-		pass
+		"""this method lets user add single frame object by providing
+		path to the frame file
+		
+		Parameters
+		----------
+		frame_file : str
+			this string represents the path to a frame file
+		"""
+		if isfile(frame_file):
+		  frame_name = frame_file.split(".")[0]
+		  if frame_name not in self.frame_names:
+			  self.frame_names.append(frame_name)
+			  self.frame_files.append(frame_file)
+		else:
+			print(str(frame_file) + "doesn't exist")
 
 
 	def loadAllTemplates(self):
@@ -165,8 +199,6 @@ class TemplateLibrary(object):
 
 
 
-
-
 	def createFrameObjects(self):
 		"""based on the 'frame_names' and 'frame_files' generates instances
 		of 'FTT' to utilize those object for generating text"""
@@ -191,6 +223,10 @@ class TemplateLibrary(object):
 				path = self.frame_files[i]
 				break
 		return path
+
+
+
+
 
 
 
