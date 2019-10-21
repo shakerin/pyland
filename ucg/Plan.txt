@@ -17,7 +17,7 @@ Purpose
 -> Enable developing own language to program,
 -> This will not only create code, but also a structure,
 -> Turn every directory in a structure
--> 
+
 
 
 
@@ -61,13 +61,58 @@ frame user param (.fup)
     template
 
 
+Plan So far
+=============
+
+Framework file
+---------------
+    this file can contain multiple frame object along with other texts
+    it can also contain basic coding commands such as for loop/ if loop
+
+    Example: (Probable Structure)
+    ______________________________________________________________
+   |                                                              |
+   |  This is a frameObj(ÖbjectName1). This can be done with      |
+   |  frameObj(ObjectName2).                                      |
+   |  frameObj(ObjectName3)[$i]                                   |
+   |  ?($j) frameObj(ObjectName4)                                 |
+   |______________________________________________________________|
+
+
+Framework directory
+-------------------
+    this directory will keep information of a directory structure and
+    information about each file's related Framework file that is 
+    mentioned above
+
+    Example: (Probable Structure)
+
+    _____________________________________________________________
+   | $top_dir/                                                   |
+   |     $dir_level1/                                            |
+   |         $filename1, framework_file(name)                    |
+   |         $filename2, framework_file(name)                    |
+   |     $dir_level2/                                            |
+   |         $dir_level2_1/                                      |
+   |              $filename3, framework_file(name)               |
+   |     $dir_level3/ framework_dir(name)                        |
+   |_____________________________________________________________|
 
 
 
+User Input Taker
+----------------
+    > for each leaf level framework file, a input taker will be generated
+    > all the framework_dir will be extracted upto leaf level
+    > how the user input will be taken is not decided yet (may be json)
 
 
-
-
-
-
-
+So, the flow is as below -
+1) frame objects will be created based on frame_files in frame_dirs
+2) frame_objects and functional_commands will be used to create framework_file
+3) framework_dir will be used for containing information about directory
+   structure, framework_file usage and other framework_dirs
+4) based on that, user will be provided with a parallel directory structure
+   that will give place for inputs from users
+5) based on users input, directories and texts will be generated and other
+   scripts will also be run
