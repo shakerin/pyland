@@ -64,6 +64,30 @@ frame user param (.fup)
 Plan So far
 =============
 
+CommandLibrary
+--------------
+    a new class is extended from TemplateLibrary to separate general
+    frame files from command frame files
+
+    general frame files are the file that are addressed as "frame file"
+    through the projects
+
+    command frame files are the files that are going to be used for
+    executing python commands
+
+    While generating text from objects created in TemplateLibrary 
+    user has to call the 'getGeneratedCode' method from the TemplateInfo 
+    class
+
+    In case of CommandLibrary, user has to call 'runGeneratedCode' instead
+
+    By including CommandLibrary as a separate class, confusion will be
+    avoided between frame file and command frame file
+
+    frame file is addressed as 'frame file', command frame file is 
+    addressed as 'command file' throughout the project
+
+
 Framework file
 ---------------
     this file can contain multiple frame object along with other texts
