@@ -195,10 +195,6 @@ class TemplateLibrary(object):
 
 
 
-
-
-
-
 	def createFrameObjects(self):
 		"""based on the 'frame_names' and 'frame_files' generates instances
 		of 'FTT' to utilize those object for generating text"""
@@ -226,13 +222,8 @@ class TemplateLibrary(object):
 
 
 
-
-
-
-
 	def getGeneratedStr(self, frame_name, list_of_param_dicts):
 		pass
-
 
 
 
@@ -240,9 +231,6 @@ class TemplateLibrary(object):
 	def getAllFrames(self):
 		"""this method returns all frame classes created based """
 		pass
-	pass
-
-
 
 
 
@@ -250,4 +238,3 @@ class TemplateLibrary(object):
 		"""use this method only to register frames as permanent by
 		generating extended class from this class"""
 		pass
-
