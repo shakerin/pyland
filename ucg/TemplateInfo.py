@@ -58,6 +58,12 @@ class TemplateInfo(object):
 	getGeneratedCode(key_value_pairs)
 		based on 'key_value_pairs', generate text using the 'template' already
 		created from frame string and return the generated text
+	runGeneratedCode(key_value_pairs)
+		based on 'key_value_pairs', generate text by calling getGeneratedCode()
+		method and execute the returned text as command; user has to be very
+		very careful when using this method. command must be tested before 
+		using this method since this method doesn't have any fault command
+		checking mechanism
 	"""
 
 	# TODO evaluate the necessity of names[]
@@ -120,6 +126,33 @@ class TemplateInfo(object):
 			key_value_pairs_dict[key] = value
 		generated_code = self.template.substitute(key_value_pairs_dict)
 		return generated_code
+
+	def runGeneratedCode(self, key_value_pairs):
+		"""Executes the generated text based on key_value_pairs as python
+		command.
+
+		this method, uses the list of tuples to generate text from the stored
+		'template'. this method uses the 'getGeneratedCode()' method to 
+		generate the text. after getting the generated text, it executes that
+		text as python command. this method doesn't return anything.
+
+		Parameters
+		----------
+		key_value_pairs : list of tuples
+			a list of tuples of structure (search, replace) where both
+			search and replace are strings, i.e. [('i', "1")]
+
+		Restriction
+		-----------
+		- user must be careful while using this method
+		- this method doesn't check if the generated text is free 
+	      from syntax errors
+		- user must confirm generated text is syntax error free
+	      python command before using this method
+		"""
+		generated_code = self.getGeneratedCode(key_value_pairs)
+		exec(generated_code)
+		return
 
 
 def Main():
