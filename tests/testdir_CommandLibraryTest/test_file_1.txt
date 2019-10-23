@@ -1,0 +1,5 @@
+The ID of this file is $number.
+
+Anyone can create a $name class with it
+
+So, $name is the example file.
