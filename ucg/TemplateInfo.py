@@ -153,15 +153,3 @@ class TemplateInfo(object):
 		generated_code = self.getGeneratedCode(key_value_pairs)
 		exec(generated_code)
 		return
-
-
-def Main():
-	argv = docopt(__doc__)
-	a = TemplateInfo("Anything", "I am $name, Who are $you. $name is me.")
-	b = a.getGeneratedCode([("name", "Haha"), ("you", "None")])
-	print(b)
-	return
-
-
-if __name__ == '__main__':
-  Main()

@@ -66,15 +66,3 @@ class FileToTemplate(TemplateInfo):
 		"""Reads the frame file and stores as a string in 'text'"""
 		with open(self.file_path, 'r') as f:
 			self.text = f.read()
-
-						
-def Main():
-	argv = docopt(__doc__)
-	a = FileToTemplate("nothing","./test_template")
-	b = a.getGeneratedCode([("name", "Haha"), ("you", "None")])
-	print(b)
-	return
-
-
-if __name__ == '__main__':
-  Main()
