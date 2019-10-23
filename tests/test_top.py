@@ -51,13 +51,13 @@ class TestTop:
 
     def test_FileToTemplate_file_path(self):
         """check if the file_path variable is stored properly"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
         ins1 = FTT("instance1", filepath)
         assert ins1.file_path == filepath
 
     def test_FileToTemplate_original(self):
         """internal variable original value check"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
         ins = FTT("instance1", filepath)
         frame_string = ""
         with open(filepath, 'r') as f:
@@ -66,14 +66,14 @@ class TestTop:
 
     def test_FileToTemplate_key_words(self):
         """internal variable key_words value check"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
         ins = FTT("instance1", filepath)
         assert listCmp(ins.key_words,['something', 'mood']) == True
 
     def test_FileToTemplate_Generated_code(self):
         """check generated code is okay"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
-        genfilepath = "/mnt/c/work/py-work/tests/test_frame_file_1_gc.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
+        genfilepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1_gc.txt"
         ins = FTT("instance1", filepath)
         generated_string = ""
         with open(genfilepath, 'r') as f:
@@ -83,13 +83,13 @@ class TestTop:
 
     def test_FileToTemplate_name(self):
         """check if the name variable is stored properly"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
         ins1 = FTT("drStrange", filepath)
         assert ins1.name == "drStrange"
 
     def test_FileToTemplate_names(self):
         """check if the name variable is stored properly"""
-        filepath = "/mnt/c/work/py-work/tests/test_frame_file_1.txt"
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
         instances = TI.names + ["drStrange"]
         ins1 = FTT("drStrange", filepath)
         assert listCmp(TI.names,instances) == True
