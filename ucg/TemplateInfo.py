@@ -150,6 +150,7 @@ class TemplateInfo(object):
 		- user must confirm generated text is syntax error free
 	      python command before using this method
 		"""
+		self.return_vals = ""
 		generated_code = self.getGeneratedCode(key_value_pairs)
 		exec(generated_code)
-		return
+		return self.return_vals
