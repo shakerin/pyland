@@ -8,6 +8,8 @@ Plan/Status
 -> Later, generate code for the frame based on the class
 -> Its a self-learning auto code generator (far-future)
 -> enable frame_string to contain frame class name
+-> plan is basically being moved to the issues section in Github for 
+   better tracking
 
 
 
