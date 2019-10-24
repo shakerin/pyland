@@ -1,0 +1,2 @@
+with open("$filepath", "w") as f:
+    f.write("$txt")
