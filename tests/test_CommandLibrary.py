@@ -120,7 +120,12 @@ class TestCommandLibrary:
         """test the internal variable 'key_words' that is stored in frame object
         matches the actual number of keywords in frame file"""
         ins_5= CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest","/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2"])
-        assert sorted(ins_5.test_file_1.key_words) == sorted(["number", "name"])
+        assert sorted(ins_5.test_file_1.key_words) == sorted([
+                                                              "start", 
+                                                              "item", 
+                                                              "list_or_dict",
+                                                              "do_cmd",
+                                                              "end"])
 
     def test_CommandLibrary_loadAllTemplates_DynamicObjectsUsage(self):
         """check the generated text from particular frame object is correct"""
@@ -192,3 +197,51 @@ class TestCommandLibrary:
             dirpath + "test_file_3",
         ]
         assert sorted(ins_13.frame_files)==sorted(filepaths)
+
+
+    def test_CommandLibrary_FrameObj_runGeneratedCode_WriteToAFile(self):
+        """check if the runGeneratedCode is working fine. In this test, a new file 
+        is written with specific value"""
+        ins_14 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
+        txt_2_write = "I am from the class test_CommandLibrary.py"
+        ins_14.test_file_3.runGeneratedCode([('filepath', "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3"), ('txt', txt_2_write)])
+        readTxt = ""
+        with open("/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3", "r") as f:
+            readTxt = f.read()
+        assert readTxt == txt_2_write
+
+
+    def test_CommandLibrary_FrameObj_runGeneratedCode_ForLoop(self):
+        """check if the runGeneratedCode is working fine. In this test, just checking
+        if for loop works"""
+        ins_15 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
+        a = ins_15.test_file_1.runGeneratedCode([('item','i'),
+                                             ('list_or_dict','range(10)'),
+                                             ('do_cmd', 'number += i'), 
+                                             ('start', 'number=0'), 
+                                             ('end', 'self.return_vals = number')])
+        assert a == 45
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
