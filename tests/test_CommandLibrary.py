@@ -201,7 +201,16 @@ class TestCommandLibrary:
 
     def test_CommandLibrary_FrameObj_runGeneratedCode_WriteToAFile(self):
         """check if the runGeneratedCode is working fine. In this test, a new file 
-        is written with specific value"""
+        is written with specific value
+        
+        Command Frame Files : test_file_3 (this is the command executed by 
+        runGeneratedCode)
+        ------------------------------------------------------------------
+        with open("$filepath", "w") as f:
+            f.write("$txt")
+        ------------------------------------------------------------------
+        command frame keywords : filepath, txt
+        """
         ins_14 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
         txt_2_write = "I am from the class test_CommandLibrary.py"
         ins_14.test_file_3.runGeneratedCode([('filepath', "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3"), ('txt', txt_2_write)])
@@ -212,8 +221,28 @@ class TestCommandLibrary:
 
 
     def test_CommandLibrary_FrameObj_runGeneratedCode_ForLoop(self):
-        """check if the runGeneratedCode is working fine. In this test, just checking
-        if for loop works"""
+        """check if the runGeneratedCode is working fine. In this test, just 
+        checking if for loop works
+        
+        Command Frame Files : test_file_1 (this is the command executed by 
+        runGeneratedCode)
+        ------------------------------------------------------------------
+        # any_item : 
+        #   can be anything acceptable for python for loop
+        # any_store :
+        #   can be anything acceptable for python for loop 
+        #   in accordance with any_item
+        # do_anything :
+        #   do_anything is any python command as required by situation
+        # return_item :
+        #   this must be a variable that is usable to return
+        $start
+        for $item in $list_or_dict:
+            $do_cmd
+        $end
+        ------------------------------------------------------------------
+        command frame keywords : start, item, list_or_dict, do_cmd, end
+        """
         ins_15 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
         a = ins_15.test_file_1.runGeneratedCode([('item','i'),
                                              ('list_or_dict','range(10)'),
