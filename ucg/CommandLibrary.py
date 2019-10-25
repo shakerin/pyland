@@ -30,6 +30,11 @@ from .FileToTemplate import FileToTemplate as FTT
 from .TemplateLibrary import TemplateLibrary as TL
 
 class CommandLibrary(TL):
+	"""
+	Open Issues
+	-------------
+		https://github.com/shakerin/pyland/issues/9
+	"""
 	# 1. this class is going to be very similar to parent class
 	# 2. at least at this moment they are going to be same
 	# 3. the only difference is:

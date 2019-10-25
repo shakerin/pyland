@@ -64,6 +64,14 @@ class TemplateInfo(object):
 		very careful when using this method. command must be tested before 
 		using this method since this method doesn't have any fault command
 		checking mechanism
+
+
+	Open Issues
+	-------------
+		https://github.com/shakerin/pyland/issues/4
+		https://github.com/shakerin/pyland/issues/7
+		https://github.com/shakerin/pyland/issues/10
+		https://github.com/shakerin/pyland/issues/11
 	"""
 
 	# TODO evaluate the necessity of names[]
@@ -129,12 +137,14 @@ class TemplateInfo(object):
 
 	def runGeneratedCode(self, key_value_pairs):
 		"""Executes the generated text based on key_value_pairs as python
-		command.
+		command and returns 'return_vals' after execution of command
 
 		this method, uses the list of tuples to generate text from the stored
 		'template'. this method uses the 'getGeneratedCode()' method to 
 		generate the text. after getting the generated text, it executes that
-		text as python command. this method doesn't return anything.
+		text as python command. this method returns 'return_vals' after execution
+		of command. 'return_vals' by default is empty string. It can be anything
+		based on how the command frame file is created
 
 		Parameters
 		----------
