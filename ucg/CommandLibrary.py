@@ -47,4 +47,34 @@ class CommandLibrary(TL):
 	#    general frames and command frames.
 	pass
 
+	def runGeneratedCode(self, cmd_frame_name, key_value_pairs):
+		"""Executes the generated text based on key_value_pairs as python
+		command and returns 'return_vals' after execution of command
+
+		this method, uses the dict to generate text from the stored
+		'template'. this method uses the 'getGeneratedCode()' method to 
+		generate the text. after getting the generated text, it executes that
+		text as python command. this method returns 'return_vals' after execution
+		of command. 'return_vals' by default is empty string. It can be anything
+		based on how the command frame file is created
+
+		Parameters
+		----------
+		key_value_pairs : dict
+			a dict structure (search:replace) where both
+			search and replace are strings, i.e. {'i' : "1"}
+
+		Restriction
+		-----------
+		- user must be careful while using this method
+		- this method doesn't check if the generated text is free 
+	      from syntax errors
+		- user must confirm generated text is syntax error free
+	      python command before using this method
+		"""
+		self.return_vals = ""
+		generated_code = self.getGeneratedCode(cmd_frame_name, key_value_pairs)
+		exec(generated_code)
+		return self.return_vals
+
 	
