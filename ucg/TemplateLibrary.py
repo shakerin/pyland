@@ -220,6 +220,39 @@ class TemplateLibrary(object):
 				break
 		return path
 
+	# key_value_pair is a list of tuples (search, replace)
+	def getGeneratedCode(self, frame_name, key_value_pairs):
+		"""Returns the generated text from a provided search/replace pair
+
+		this method, uses the dict to generate text from the stored
+		'template' and returns the generated text. The search items are keywords
+		of the template and replace items are any text the task caller wants to
+		replace the keyword with. Existing keywords in a template class is stored
+		in a list named 'key_words'
+
+		Parameters
+		----------
+		key_value_pairs : dict
+			a dict of structure (search:replace) where both
+			search and replace are strings, i.e. {'name' : 'Sha'}
+
+		Limitations
+		-----------
+		this method doesn't care if the provided key_value pair matches the
+		'key_words' or not. if all key_word value is not provided, the default
+		value is empty string(''). If any wrong key is provided, that will
+		be just ignored.
+		TODO: consider the requirement of having key_pair checker
+		"""
+		key_value_pairs_dict_checked = {}
+		for i, key_word in enumerate(frame_name.key_words):
+			if key_word in key_value_pairs:
+				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
+			else:
+				print("TemplateLibrary.py : getGeneratedCode :: " + frame_name + ":: key not defined ::" + key_word)
+				key_value_pairs_dict_checked[key_word] = frame_name.key_word_defaults[i]
+		generated_code = frame_name.template.substitute(key_value_pairs_dict_checked)
+		return generated_code
 
 
 	def getGeneratedStr(self, frame_name, list_of_param_dicts):
