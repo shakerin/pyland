@@ -249,7 +249,7 @@ class TemplateLibrary(object):
 			if key_word in key_value_pairs:
 				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
 			else:
-				print("TemplateLibrary.py : getGeneratedCode :: " + frame_name + ":: key not defined ::" + key_word)
+				print("TemplateLibrary.py : getGeneratedCode :: " + frame_name.name + ":: key not defined ::" + key_word)
 				key_value_pairs_dict_checked[key_word] = frame_name.key_word_defaults[i]
 		generated_code = frame_name.template.substitute(key_value_pairs_dict_checked)
 		return generated_code
