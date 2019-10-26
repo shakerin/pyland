@@ -26,7 +26,8 @@ Purpose
 Tests
 =====
 -> Next task is to get started with test writing for the class (done)
--> 25 tests passing (october 20, 2019) (ongoing)
+-> 25 tests passing (october 20, 2019) 
+-> 54 tests passing (october 27, 2019) 
 
 
 Things to remember while creating testcase
