@@ -45,6 +45,10 @@ class TemplateInfo(object):
 		a prefix to indicate keywords in a frame string.
 	key_words : list of strings
 		list of keywords extracted from the frame string
+	key_word_defaults : list of strings
+		during creation of object of any frame, this list will 
+		remain a list of empty strings, this is just an item
+		left for future extension
 	template : Template
 		a 'Template' object; created from frame string
 
@@ -105,6 +109,7 @@ class TemplateInfo(object):
 		self.key_words = []
 		re_key_search = re.findall(r'(?<=\$)\w+',self.original)
 		self.key_words = list(set(re_key_search))
+		self.key_word_defaults = ["" for key in self.key_words]
 		return self.key_words
 
 	def templateIns(self):
@@ -116,7 +121,7 @@ class TemplateInfo(object):
 	def getGeneratedCode(self, key_value_pairs):
 		"""Returns the generated text from a provided search/replace pair
 
-		this method, uses the list of tuples to generate text from the stored
+		this method, uses the dict to generate text from the stored
 		'template' and returns the generated text. The search items are keywords
 		of the template and replace items are any text the task caller wants to
 		replace the keyword with. Existing keywords in a template class is stored
@@ -124,22 +129,33 @@ class TemplateInfo(object):
 
 		Parameters
 		----------
-		key_value_pairs : list of tuples
-			a list of tuples of structure (search, replace) where both
-			search and replace are strings, i.e. [('name', 'Sha')]
+		key_value_pairs : dict
+			a dict of structure (search:replace) where both
+			search and replace are strings, i.e. {'name' : 'Sha'}
+
+		Limitations
+		-----------
+		this method doesn't care if the provided key_value pair matches the
+		'key_words' or not. if all key_word value is not provided, the default
+		value is empty string(''). If any wrong key is provided, that will
+		be just ignored.
+		TODO: consider the requirement of having key_pair checker
 		"""
-		key_value_pairs_dict = {}
-		for key_value in key_value_pairs:
-			key, value = key_value
-			key_value_pairs_dict[key] = value
-		generated_code = self.template.substitute(key_value_pairs_dict)
+		key_value_pairs_dict_checked = {}
+		for i, key_word in enumerate(self.key_words):
+			if key_word in key_value_pairs:
+				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
+			else:
+				print("TemplateInfo.py : getGeneratedCode :: " + self.name + ":: key not defined ::" + key_word)
+				key_value_pairs_dict_checked[key_word] = self.key_word_defaults[i]
+		generated_code = self.template.substitute(key_value_pairs_dict_checked)
 		return generated_code
 
 	def runGeneratedCode(self, key_value_pairs):
 		"""Executes the generated text based on key_value_pairs as python
 		command and returns 'return_vals' after execution of command
 
-		this method, uses the list of tuples to generate text from the stored
+		this method, uses the dict to generate text from the stored
 		'template'. this method uses the 'getGeneratedCode()' method to 
 		generate the text. after getting the generated text, it executes that
 		text as python command. this method returns 'return_vals' after execution
@@ -148,9 +164,9 @@ class TemplateInfo(object):
 
 		Parameters
 		----------
-		key_value_pairs : list of tuples
-			a list of tuples of structure (search, replace) where both
-			search and replace are strings, i.e. [('i', "1")]
+		key_value_pairs : dict
+			a dict structure (search:replace) where both
+			search and replace are strings, i.e. {'i' : "1"}
 
 		Restriction
 		-----------
