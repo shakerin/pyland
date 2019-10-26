@@ -124,7 +124,11 @@ class TestTemplateLibrary:
     def test_TemplateLibrary_loadAllTemplates_DynamicObjectsUsage(self):
         """check the generated text from particular frame object is correct"""
         ins_7= TL(["/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest"])
-        generated_code = ins_7.test_file_2.getGeneratedCode([('word','FILE'),('check','TEST')])
+        #generated_code = ins_7.test_file_2.getGeneratedCode([('word','FILE'),('check','TEST')])
+        generated_code = ins_7.test_file_2.getGeneratedCode({
+                                                             'word':'FILE',
+                                                             'check':'TEST'
+                                                             })
         assert generated_code == "this is single FILE framefile just to TEST"
 
     def test_TemplateLibrary_loadAllTemplates_addFrameDirs_FalseCheck(self):

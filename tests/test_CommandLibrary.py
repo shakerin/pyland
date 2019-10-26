@@ -130,7 +130,10 @@ class TestCommandLibrary:
     def test_CommandLibrary_loadAllTemplates_DynamicObjectsUsage(self):
         """check the generated text from particular frame object is correct"""
         ins_7= CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
-        generated_code = ins_7.test_file_2.getGeneratedCode([('word','FILE'),('check','TEST')])
+        generated_code = ins_7.test_file_2.getGeneratedCode({
+                                                            'word':'FILE',
+                                                            'check':'TEST'
+                                                            })
         assert generated_code == "this is single FILE framefile just to TEST"
 
     def test_CommandLibrary_loadAllTemplates_addFrameDirs_FalseCheck(self):
@@ -213,7 +216,10 @@ class TestCommandLibrary:
         """
         ins_14 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
         txt_2_write = "I am from the class test_CommandLibrary.py"
-        ins_14.test_file_3.runGeneratedCode([('filepath', "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3"), ('txt', txt_2_write)])
+        ins_14.test_file_3.runGeneratedCode({
+                                             'filepath' : "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3",
+                                             'txt' : txt_2_write
+                                             })
         readTxt = ""
         with open("/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2/test_file_3", "r") as f:
             readTxt = f.read()
@@ -244,11 +250,13 @@ class TestCommandLibrary:
         command frame keywords : start, item, list_or_dict, do_cmd, end
         """
         ins_15 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
-        a = ins_15.test_file_1.runGeneratedCode([('item','i'),
-                                             ('list_or_dict','range(10)'),
-                                             ('do_cmd', 'number += i'), 
-                                             ('start', 'number=0'), 
-                                             ('end', 'self.return_vals = number')])
+        a = ins_15.test_file_1.runGeneratedCode({
+                                                 'item':'i',
+                                                 'list_or_dict':'range(10)',
+                                                 'do_cmd' : 'number += i', 
+                                                 'start' : 'number=0', 
+                                                 'end': 'self.return_vals = number'
+                                                })
         assert a == 45
 
 

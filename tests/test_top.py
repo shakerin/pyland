@@ -35,7 +35,10 @@ class TestTop:
     def test_TemlateInfo_Generated_code(self):
         """generated code from the template check"""
         ins = TI("ins3","I am $name, Who are $you. $name is me.")
-        generated_code = ins.getGeneratedCode([("name", "Haha"), ("you", "None")])
+        generated_code = ins.getGeneratedCode({
+                                                "name" : "Haha", 
+                                                "you" : "None"
+                                              })
         assert generated_code == "I am Haha, Who are None. Haha is me."
 
     def test_TemplateInfo_name(self):
@@ -78,7 +81,10 @@ class TestTop:
         generated_string = ""
         with open(genfilepath, 'r') as f:
             generated_string = f.read()
-        generated_code = ins.getGeneratedCode([("something", "smile"), ("mood", "serious")])
+        generated_code = ins.getGeneratedCode({
+                                                "something" : "smile", 
+                                                "mood":"serious"
+                                              })
         assert generated_code == generated_string
 
     def test_FileToTemplate_name(self):
