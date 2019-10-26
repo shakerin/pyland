@@ -99,3 +99,58 @@ class TestTop:
         instances = TI.names + ["drStrange"]
         ins1 = FTT("drStrange", filepath)
         assert listCmp(TI.names,instances) == True
+
+    def test_FileToTemplate_Generated_code_DefaultValueOfKeyWords(self):
+        """check generated code is okay when argument is missing for frames"""
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
+        genfilepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1_gc.txt"
+        ins2 = FTT("instance1", filepath)
+        generated_string = ""
+        with open(genfilepath, 'r') as f:
+            generated_string = f.read()
+        generated_code = ins2.getGeneratedCode({
+                                                "something" : "smile"
+                                              })
+        generated_string = generated_string.replace("serious", "")
+        assert generated_code == generated_string
+
+    def test_FileToTemplate_Generated_code_DefaultValueOfExtraKeyWordsAndMissingKeyword(self):
+        """check generated code is okay when extra inputs provided for frame object"""
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
+        genfilepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1_gc.txt"
+        ins2 = FTT("instance1", filepath)
+        generated_string = ""
+        with open(genfilepath, 'r') as f:
+            generated_string = f.read()
+        generated_code = ins2.getGeneratedCode({
+                                                "something" : "smile",
+                                                "nothing" : "lol"
+                                              })
+        generated_string = generated_string.replace("serious", "")
+        assert generated_code == generated_string
+
+    def test_FileToTemplate_Generated_code_DefaultValueOfExtraKeyWords(self):
+        """check generated code is okay when extra inputs provided for frame object"""
+        filepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1.txt"
+        genfilepath = "/mnt/c/work/py-land/pyland/tests/test_frame_file_1_gc.txt"
+        ins2 = FTT("instance1", filepath)
+        generated_string = ""
+        with open(genfilepath, 'r') as f:
+            generated_string = f.read()
+        generated_code = ins2.getGeneratedCode({
+                                                "something" : "smile",
+                                                "nothing" : "lol",
+                                                "mood":"serious"
+                                              })
+        assert generated_code == generated_string
+
+
+
+
+
+
+
+
+
+
+
