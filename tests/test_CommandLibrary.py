@@ -311,16 +311,48 @@ class TestCommandLibrary:
         ins_15 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"])
         a = ins_15.runGeneratedCode(ins_15.test_file_1,
                                     {
-                                     'item':'i',
-                                     'list_or_dict':'range(10)',
-                                     'do_cmd' : 'number += i', 
-                                     'start' : 'number=0', 
-                                     'end': 'self.return_vals = number'
+                                     'item'        : 'i',
+                                     'list_or_dict': 'range(10)',
+                                     'do_cmd'      : 'number += i', 
+                                     'start'       : 'number=0', 
+                                     'end'         : 'self.return_vals = number'
                                     }
                                    )
         assert a == 45
 
-
+    def test_CommandLibrary_runGeneratedCode_SimpleForLoop(self):
+        """check if the runGeneratedCode is working fine. In this test, just 
+        checking if for loop works
+        
+        Command Frame Files : test_file_1 (this is the command executed by 
+        runGeneratedCode)
+        ------------------------------------------------------------------
+        # start : 
+        #   just initialize or do anything that is required
+        # list_or_dict :
+        #   can be a python list or dict 
+        # do_cmd :
+        #   anything that is needed to be done in for loop
+        #   keep it single string for simplicity
+        #   if want to use multi-string, consider proper indentation
+        # return_item :
+        #   this must be a variable that is usable to return
+        $start
+        for i, item in enumerate($list_or_dict):
+            $do_cmd
+        $end
+        ------------------------------------------------------------------
+        command frame keywords : start, item, list_or_dict, do_cmd, end
+        """
+        ins_15 = CL(["/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2"])
+        a = ins_15.runGeneratedCode(ins_15.test_file_4,
+                                    {
+                                     'start'       : 'self.return_vals=0',
+                                     'list_or_dict': 'range(10)',
+                                     'do_cmd'      : 'self.return_vals += i'
+                                    }
+                                   )
+        assert (a == 45) & (ins_15.return_vals == 45)
 
 
 
