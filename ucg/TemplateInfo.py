@@ -107,6 +107,7 @@ class TemplateInfo(object):
 		"""
 		self.identifier = identifier
 		self.key_words = []
+		self.exec_sections = [] # this will contain all executable codes
 		re_key_search = re.findall(r'(?<=\$)\w+',self.original)
 		self.key_words = list(set(re_key_search))
 		self.key_word_defaults = ["" for key in self.key_words]
@@ -180,3 +181,27 @@ class TemplateInfo(object):
 		generated_code = self.getGeneratedCode(key_value_pairs)
 		exec(generated_code)
 		return self.return_vals
+
+	def execSections(self):
+		"""this method will extract all the executable sections from
+		the frame string"""
+		self.exec_sections = []
+		return self.exec_sections
+
+
+	def runExecSections(self):
+		"""this method will be called to execute all the executable 
+		sections one after another"""
+		pass
+
+	def runExecSection(self):
+		"""this method will be called to execute only one section.
+		so, this will be called from runExecSections()"""
+		pass
+
+	def getAll(self):
+		"""this method will call both generatedCOde method and
+		execute code method and return the final code to something"""
+		pass
+
+

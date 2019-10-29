@@ -90,11 +90,38 @@ CommandLibrary
     frame file is addressed as 'frame file', command frame file is 
     addressed as 'command file' throughout the project
 
+    TODO: considering the requirement of CommandLibrary. Since, python
+    functions can be used instead of commands
+
 
 Framework file
 ---------------
     this file can contain multiple frame object along with other texts
     it can also contain basic coding commands such as for loop/ if loop
+
+    IDEA:
+        - no need of separate class for framework_file
+        - frame file concept will be extended to accomodate the idea of
+          framework file
+        - there will remain separate section for executable code in 
+          python 
+        - initially only python code can be inserted for executing 
+        - in future, other languages can be added for support (lowest 
+          priority)
+        - The flow will be like this -
+            > one frame file can contain basic frame string and executable
+              section that can be recongnized from the code block begin
+              end format
+            > whenever one frame is called, currently only getGeneratedCode
+              method is called to get the code
+            > in extention, getGeneratedCode will return a string that will
+              be passed to executionMethod(not defined yet)
+            > executionMethod will execute the sections indicated by begin
+              end type blocks
+            > since, every frame is an object here, every frame that is 
+              present in the hierarchy will return the generated and executionMethod
+              code properly.
+
 
     Example: (Probable Structure)
     ______________________________________________________________
