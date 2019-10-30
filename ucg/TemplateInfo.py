@@ -42,7 +42,9 @@ class TemplateInfo(object):
 	original : str
 		raw frame string provided from class user
 	identifier : str
-		a prefix to indicate keywords in a frame string.
+		a prefix to indicate keywords in a frame string. the method keyWords
+		automatically adds \ as prefix for any escape character used as
+		identifier
 	key_words : list of strings
 		list of keywords extracted from the frame string
 	key_word_defaults : list of strings
@@ -54,7 +56,7 @@ class TemplateInfo(object):
 
 	Methods
 	-------
-	keyWords(identifier="$")
+	keyWords()
 		extracts keywords from frame string, stores in 'key_words', 
 		returns 'key_words' as well
 	templateIns()
@@ -68,20 +70,20 @@ class TemplateInfo(object):
 		very careful when using this method. command must be tested before 
 		using this method since this method doesn't have any fault command
 		checking mechanism
-
+	execSections()
+		from 'original' it extracts all the executable segments and store
+		them in a list named 'exec_sections' and returns the list when called
 
 	Open Issues
 	-------------
 		https://github.com/shakerin/pyland/issues/4
-		https://github.com/shakerin/pyland/issues/7
 		https://github.com/shakerin/pyland/issues/10
-		https://github.com/shakerin/pyland/issues/11
 	"""
 
 	# TODO evaluate the necessity of names[]
 	names = []
 
-	def __init__(self, name, templateCode):
+	def __init__(self, name, templateCode, identifier="$", block_identifier=("<<<",">>>")):
 		"""Extracts the frame string and store information in variables
 		
 		Parameters
@@ -91,24 +93,26 @@ class TemplateInfo(object):
 			as 'frame string'
 		"""
 		self.name = name
+		self.identifier = identifier
+		start, end = block_identifier
+		if start == end:
+			block_identifier = ("<<<",">>>")
+		self.block_identifier = block_identifier
 		TemplateInfo.names.append(self.name)
 		self.original = templateCode
 		self.templateIns()
 		self.keyWords()
+		self.execSections()
 
-	def keyWords(self, identifier="$"):
-		"""Extracts keywords from frame string and stores in 'key_words'
-
-		Parameters
-		----------
-		identifier : str
-			a prefix that indicates following word is a keyword,
-			i.e. $i_am_keyword
-		"""
-		self.identifier = identifier
+	def keyWords(self):
+		"""Extracts keywords from frame string and stores in 'key_words'"""
+		escape_chars = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+		if(escape_chars.search(self.identifier)):
+			self.identifier = "\\"+ self.identifier
 		self.key_words = []
 		self.exec_sections = [] # this will contain all executable codes
-		re_key_search = re.findall(r'(?<=\$)\w+',self.original)
+		regex_cmd = r"(?<=" + self.identifier + r")\w+"
+		re_key_search = re.findall(regex_cmd,self.original)
 		self.key_words = list(set(re_key_search))
 		self.key_word_defaults = ["" for key in self.key_words]
 		return self.key_words
@@ -182,11 +186,40 @@ class TemplateInfo(object):
 		exec(generated_code)
 		return self.return_vals
 
+
+	def isStrPresent(self, string, search_item):
+		""""this method checks if search_item is present in
+		string. it returns True if present, otherwise False"""
+		search_term_present = False
+		if search_item in string:
+			search_term_present = True
+		return search_term_present
+
+
 	def execSections(self):
 		"""this method will extract all the executable sections from
-		the frame string"""
+		the frame string and store it in 'exec_sections' object
+		variable"""
+		start_of_segment, end_of_segment = self.block_identifier
+		list_of_lines = self.original.splitlines(True)
 		self.exec_sections = []
+		extracted_segments = []
+		start_found = False
+		segment = ""
+		for line in list_of_lines:
+			if start_found:
+				if (self.isStrPresent(line, end_of_segment)):
+					start_found = False
+					extracted_segments.append(segment)
+					segment = ""
+				else:
+					segment += line
+			else:
+				if (self.isStrPresent(line, start_of_segment)):
+					start_found = True
+		self.exec_sections = extracted_segments
 		return self.exec_sections
+
 
 
 	def runExecSections(self):
