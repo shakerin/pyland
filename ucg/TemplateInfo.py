@@ -102,8 +102,8 @@ class TemplateInfo(object):
 		self.original = templateCode
 		self.templateIns()
 		self.keyWords()
-		self.execSections()
-
+		self.exec_sections, self.modified_string = self.execSections(self.original)
+		
 	def keyWords(self):
 		"""Extracts keywords from frame string and stores in 'key_words'"""
 		escape_chars = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
@@ -196,45 +196,69 @@ class TemplateInfo(object):
 		return search_term_present
 
 
-	def execSections(self):
+	def execSections(self, string):
 		"""this method will extract all the executable sections from
 		the frame string and store it in 'exec_sections' object
 		variable"""
-		start_of_segment, end_of_segment = self.block_identifier
-		list_of_lines = self.original.splitlines(True)
-		self.exec_sections = []
-		extracted_segments = []
+		modified_string = ""
+		start_of_exec_segment, end_of_exec_segment = self.block_identifier
+		list_of_lines = string.splitlines(True)
+		extracted_exec_segments = []
+		no_exec_segment = 0
 		start_found = False
-		segment = ""
+		exec_segment = ""
 		for line in list_of_lines:
 			if start_found:
-				if (self.isStrPresent(line, end_of_segment)):
+				if (self.isStrPresent(line, end_of_exec_segment)):
 					start_found = False
-					extracted_segments.append(segment)
-					segment = ""
+					no_exec_segment += 1
+					extracted_exec_segments.append(exec_segment)
+					exec_segment_replacement = start_of_exec_segment + " " + str(no_exec_segment) + " " + end_of_exec_segment + "\n"
+					modified_string += exec_segment_replacement
+					exec_segment = ""
 				else:
-					segment += line
+					exec_segment += line
 			else:
-				if (self.isStrPresent(line, start_of_segment)):
+				if (self.isStrPresent(line, start_of_exec_segment)):
 					start_found = True
-		self.exec_sections = extracted_segments
-		return self.exec_sections
+				else:
+					modified_string += line
+		return (extracted_exec_segments, modified_string)
 
 
 
-	def runExecSections(self):
+	def runExecSections(self, list_of_strings_to_exec):
 		"""this method will be called to execute all the executable 
 		sections one after another"""
-		pass
+		post_exec_txt_list = []
+		for string_to_exec in list_of_strings_to_exec:
+			post_exec_txt_list.append(runExecSection(string_to_exec))
+		return post_exec_txt_list
 
-	def runExecSection(self):
+	def runExecSection(self, string_to_exec):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
-		pass
+		txt = ""
+		exec(string_to_exec)
+		return txt
 
-	def getAll(self):
+
+	def getAllCode(self, string, list_of_post_exec_strings):
+		string_to_use = string
+		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
+			start, end = self.block_identifier
+			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end + "\n"
+			string_to_use.replace(exec_segment_replacement, list_of_post_exec_strings[i])
+		return string
+
+	def getAll(self, key_value_pairs):
 		"""this method will call both generatedCOde method and
 		execute code method and return the final code to something"""
-		pass
+		generated_code = self.getGeneratedCode(key_value_pairs)
+		executable_segments, modified_string = self.execSections(generated_code)
+		post_exec_txt_list = self.runExecSections(executable_segments)
+		final_code = self.getAllCode(modified_string, post_exec_txt_list)
+
+
 
 
