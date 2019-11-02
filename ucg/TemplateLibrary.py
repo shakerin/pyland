@@ -255,19 +255,35 @@ class TemplateLibrary(object):
 		return generated_code
 
 
-	def getGeneratedStr(self, frame_name, list_of_param_dicts):
-		pass
+	def runExecSections(self, list_of_strings_to_exec):
+		"""this method will be called to execute all the executable 
+		sections one after another"""
+		post_exec_txt_list = []
+		for string_to_exec in list_of_strings_to_exec:
+			post_exec_txt_list.append(self.runExecSection(string_to_exec))
+		return post_exec_txt_list
+
+	def runExecSection(self, string_to_exec):
+		"""this method will be called to execute only one section.
+		so, this will be called from runExecSections()"""
+		txt = ""
+		exec(string_to_exec)
+		return txt
 
 
+	def getAllCode(self, frame_name, string, list_of_post_exec_strings):
+		string_to_use = string
+		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
+			start, end = frame_name.block_identifier
+			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end + "\n"
+			string_to_use.replace(exec_segment_replacement, list_of_post_exec_strings[i])
+		return string
 
+	def getAll(self, frame_name, key_value_pairs):
+		"""this method will call both generatedCOde method and
+		execute code method and return the final code to something"""
+		generated_code = frame_name.getGeneratedCode(key_value_pairs)
+		executable_segments, modified_string = frame_name.execSections(generated_code)
+		post_exec_txt_list = self.runExecSections(executable_segments)
+		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
 
-	def getAllFrames(self):
-		"""this method returns all frame classes created based """
-		pass
-
-
-
-	def createExtendedLibrary(self):
-		"""use this method only to register frames as permanent by
-		generating extended class from this class"""
-		pass
