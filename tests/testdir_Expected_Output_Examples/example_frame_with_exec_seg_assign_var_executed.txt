@@ -1,0 +1,18 @@
+Name: EXAMPLE
+Anything: FILE : it can be any word
+Programming language: PYTHON
+
+This is one EXAMPLE class.
+In this class of EXAMPLE, we are going to 
+check if internal frames work within EXAMPLE.
+
+we can keep executable segments below.
+The arrows below represents code segment. 
+Anything type between them will be executed 
+in python.
+
+
+for now, there is a predefined variable that must
+be used for returning any value.
+
+You can create FILE using valid PYTHON code
