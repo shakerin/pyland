@@ -12,6 +12,8 @@ from ucg.TemplateLibrary import TemplateLibrary as TL
 
 testdir_TemplateLibraryTest = "/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest"
 testdir_TemplateLibraryTest2 = "/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest2"
+testdir_Discrete_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Discrete_Examples"
+testdir_Expected_Output_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Expected_Output_Examples"
 
 class TestTemplateLibrary:
     """test name format : test_{className/methodName}_{unit_for_test}"""
@@ -199,4 +201,36 @@ class TestTemplateLibrary:
         ]
         assert sorted(ins_13.frame_files)==sorted(filepaths)
 
+    def test_TemplateLibrary_frameObj_withExecSegments_getGeneratedCode(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        generated_code = ins_14.getGeneratedCode(ins_14.frame_with_exec_seg_assign_var,
+                                                 {
+                                                  'name':'EXAMPLE',
+                                                  'anything':'FILE',
+                                                  'language':'PYTHON'
+                                                 })
+        output_file_path = testdir_Expected_Output_Examples + \
+                           "/example_frame_with_exec_seg_assign_var.txt" 
+        expected_output = ""
+        with open(output_file_path, 'r') as f:
+            expected_output = f.read()
+        assert generated_code == expected_output
 
+    def test_TemplateLibrary_frameObj_withExecSegments_exec_sections(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        execSections = ins_14.frame_with_exec_seg_assign_var.exec_sections
+        expected_output = ['txt = "I am a txt generated from " + $name + "class"\n']
+        assert execSections == expected_output
+
+    def test_TemplateLibrary_frameObj_withExecSegments_modified_string(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        modified_string = ins_14.frame_with_exec_seg_assign_var.modified_string
+        output_file_path = testdir_Expected_Output_Examples + \
+                           "/example_frame_with_exec_seg_assign_var_modified_string.txt" 
+        expected_output = ""
+        with open(output_file_path, 'r') as f:
+            expected_output = f.read()
+        assert modified_string == expected_output
