@@ -11,6 +11,7 @@ The arrows below represents code segment.
 Anything type between them will be executed 
 in python.
 
+I am a txt generated from EXAMPLE class
 
 for now, there is a predefined variable that must
 be used for returning any value.
