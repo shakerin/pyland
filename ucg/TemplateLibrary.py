@@ -266,18 +266,22 @@ class TemplateLibrary(object):
 	def runExecSection(self, string_to_exec):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
-		txt = ""
+		self.txt = ""
 		exec(string_to_exec)
-		return txt
+		return self.txt
 
 
 	def getAllCode(self, frame_name, string, list_of_post_exec_strings):
 		string_to_use = string
+		no_exec_segment = 0
+		print(list_of_post_exec_strings)
+		print(string_to_use)
 		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
+			no_exec_segment += 1
 			start, end = frame_name.block_identifier
-			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end + "\n"
-			string_to_use.replace(exec_segment_replacement, list_of_post_exec_strings[i])
-		return string
+			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end
+			string_to_use = re.sub(exec_segment_replacement, list_of_post_exec_strings[i], string_to_use)
+		return string_to_use
 
 	def getAll(self, frame_name, key_value_pairs):
 		"""this method will call both generatedCOde method and
@@ -286,4 +290,5 @@ class TemplateLibrary(object):
 		executable_segments, modified_string = frame_name.execSections(generated_code)
 		post_exec_txt_list = self.runExecSections(executable_segments)
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
+		return final_code
 
