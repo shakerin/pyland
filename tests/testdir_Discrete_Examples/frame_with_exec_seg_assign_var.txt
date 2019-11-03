@@ -12,7 +12,7 @@ Anything type between them will be executed
 in python.
 
 <<<
-txt = "I am a txt generated from " + $name + "class"
+self.txt = "I am a txt generated from $name class"
 >>>
 
 for now, there is a predefined variable that must
