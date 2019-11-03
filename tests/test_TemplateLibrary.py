@@ -221,7 +221,7 @@ class TestTemplateLibrary:
         """check the generated text from particular frame object is correct"""
         ins_14= TL([testdir_Discrete_Examples])
         execSections = ins_14.frame_with_exec_seg_assign_var.exec_sections
-        expected_output = ['txt = "I am a txt generated from " + $name + "class"\n']
+        expected_output = ['self.txt = "I am a txt generated from $name class"\n']
         assert execSections == expected_output
 
     def test_TemplateLibrary_frameObj_withExecSegments_modified_string(self):
@@ -234,3 +234,53 @@ class TestTemplateLibrary:
         with open(output_file_path, 'r') as f:
             expected_output = f.read()
         assert modified_string == expected_output
+
+    def test_TemplateLibrary_frameObj_withExecSegments_runExecSection(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        output = ins_14.runExecSection('self.txt = "I am Executed Text"')
+        assert output == "I am Executed Text"
+
+    def test_TemplateLibrary_frameObj_withExecSegments_runExecSections_1(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        exec_strings_list = [
+            'self.txt = "I am Executed Text 1"',
+            'self.txt = "I am Executed Text 2"'
+        ]
+        output = ins_14.runExecSections(exec_strings_list)
+        expected_output = [
+            'I am Executed Text 1',
+            'I am Executed Text 2'
+        ]
+        assert sorted(output) == sorted(expected_output)
+
+    def test_TemplateLibrary_frameObj_withExecSegments_runExecSections_2(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        exec_strings_list = [
+            'self.txt = "I am Executed Text 1"',
+            'print("I am Executed Text 2")'
+        ]
+        output = ins_14.runExecSections(exec_strings_list)
+        expected_output = [
+            'I am Executed Text 1',
+            ''
+        ]
+        assert sorted(output) == sorted(expected_output)
+
+    def test_TemplateLibrary_frameObj_withExecSegments_getAll_1(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        generated_code = ins_14.getAll(ins_14.frame_with_exec_seg_assign_var,
+                                      {
+                                        'name':'EXAMPLE',
+                                        'anything':'FILE',
+                                        'language':'PYTHON'
+                                       })
+        output_file_path = testdir_Expected_Output_Examples + \
+                           "/example_frame_with_exec_seg_assign_var_executed.txt" 
+        expected_output = ""
+        with open(output_file_path, 'r') as f:
+            expected_output = f.read()
+        assert generated_code == expected_output
