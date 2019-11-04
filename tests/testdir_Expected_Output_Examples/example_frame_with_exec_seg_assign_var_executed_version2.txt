@@ -1,0 +1,44 @@
+Name: EXAMPLE
+Anything: FILE : it can be any word
+Programming language: PYTHON
+
+This is one EXAMPLE class.
+In this class of EXAMPLE, we are going to 
+check if internal frames work within EXAMPLE.
+
+we can keep executable segments below.
+The arrows below represents code segment. 
+Anything type between them will be executed 
+in python.
+
+I am a txt generated from EXAMPLE class1
+I am a txt generated from EXAMPLE class2
+I am a txt generated from EXAMPLE class3
+I am a txt generated from EXAMPLE class4
+I am a txt generated from EXAMPLE class5
+I am a txt generated from EXAMPLE class6
+I am a txt generated from EXAMPLE class7
+I am a txt generated from EXAMPLE class8
+I am a txt generated from EXAMPLE class9
+I am a txt generated from EXAMPLE class10
+
+
+for now, there is a predefined variable that must
+be used for returning any value.
+
+You can create FILE using valid PYTHON code
+
+I am a txt generated from EXAMPLE class1
+I am a txt generated from EXAMPLE class2
+I am a txt generated from EXAMPLE class3
+I am a txt generated from EXAMPLE class4
+I am a txt generated from EXAMPLE class5
+I am a txt generated from EXAMPLE class6
+I am a txt generated from EXAMPLE class7
+I am a txt generated from EXAMPLE class8
+I am a txt generated from EXAMPLE class9
+I am a txt generated from EXAMPLE class10
+
+
+I am a txt generated from EXAMPLE class10
+
