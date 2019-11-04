@@ -267,15 +267,22 @@ class TemplateLibrary(object):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
 		self.txt = ""
+		string_to_exec = self.cleanPyCode(string_to_exec)
 		exec(string_to_exec)
 		return self.txt
 
+	def cleanPyCode(self, string_to_exec):
+		# TODO no use for now
+		return string_to_exec
+
+	def printHere(self, string_to_exec):
+		exec_cmd = "self.txt += \"" + string_to_exec + "\\n\""
+		exec(exec_cmd)
+		return
 
 	def getAllCode(self, frame_name, string, list_of_post_exec_strings):
 		string_to_use = string
 		no_exec_segment = 0
-		print(list_of_post_exec_strings)
-		print(string_to_use)
 		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
 			no_exec_segment += 1
 			start, end = frame_name.block_identifier
