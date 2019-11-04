@@ -284,3 +284,19 @@ class TestTemplateLibrary:
         with open(output_file_path, 'r') as f:
             expected_output = f.read()
         assert generated_code == expected_output
+
+    def test_TemplateLibrary_frameObj_withExecSegments_getAll_2(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        generated_code = ins_14.getAll(ins_14.frame_with_exec_seg_assign_var_version2,
+                                      {
+                                        'name':'EXAMPLE',
+                                        'anything':'FILE',
+                                        'language':'PYTHON'
+                                       })
+        output_file_path = testdir_Expected_Output_Examples + \
+                           "/example_frame_with_exec_seg_assign_var_executed_version2.txt" 
+        expected_output = ""
+        with open(output_file_path, 'r') as f:
+            expected_output = f.read()
+        assert generated_code == expected_output
