@@ -122,7 +122,6 @@ class TemplateInfo(object):
 		self.template = Template(self.original)
 
 
-	# key_value_pair is a list of tuples (search, replace)
 	def getGeneratedCode(self, key_value_pairs):
 		"""Returns the generated text from a provided search/replace pair
 

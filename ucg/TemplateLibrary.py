@@ -68,6 +68,10 @@ class TemplateLibrary(object):
 		will create same frame object named 'example'. so, all files
 		in all directories need unique name.
 
+	txt : any type
+		this variable is kept just for getting return values after
+		executing frame string's executable segments
+
 	Methods
 	-------
 	loadAllTemplates()
@@ -102,6 +106,14 @@ class TemplateLibrary(object):
 	addFrameFromFile(frame_file)
 		this method can be used for generating frame object based on a 
 		provided frame file path and will be included in that object
+
+	getGeneratedCode(frame_name, key_value_pairs)
+		this method replaces the keywords with the values from the
+		key_value_pairs dict
+
+	getAllCode(frame_name, string, list_of_post_exec_strings)
+		this method creates the final output based on the frame object, 
+		modified_string and list of generated texts from executed segments
 
 	Restrictions
 	------------
@@ -276,11 +288,48 @@ class TemplateLibrary(object):
 		return string_to_exec
 
 	def printHere(self, string_to_exec):
+		"TODO will be removed in future"
 		exec_cmd = "self.txt += \"" + string_to_exec + "\\n\""
 		exec(exec_cmd)
 		return
 
 	def getAllCode(self, frame_name, string, list_of_post_exec_strings):
+		"""this method replaces replacements of the executable segments with 
+		executed sections
+
+		each frame object has got internal variable named 'modified_string'.
+		The difference between orignal frame string and modified_string is -
+		in case of modified string the executable segments are replaced with
+		'single line text' that can be replaced later with the generated code
+		after executing the executable segments
+
+		this method receives the modified string as an input named 'string'
+		and generated code after execution of executable segments as list
+		of strings named 'list_of_post_exec_string'
+
+		this method, replaces each 'single line text' with each item in the
+		list. This list is prepared from another method. For this class,
+		getAll() method is doing that.
+
+		After replacing, this method returns the final generated code for that
+		file.
+
+		Parameters
+		----------
+		frame_name : frame Object
+			this has to be a frame object name; the frame object has to be 
+			declared in this class
+
+		string : str
+			this is the modified string that is found after calling the frame 
+			object method named 'execSections'
+
+		list_of_post_exec_strings : list of str
+			each string in this list corresponds to generated text or code 
+			for each executable segment present in that frame string; string
+			will be empty if that particular executable segment do not 
+			generate any text to be copied in its place.
+		"""
 		string_to_use = string
 		no_exec_segment = 0
 		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
@@ -292,7 +341,33 @@ class TemplateLibrary(object):
 
 	def getAll(self, frame_name, key_value_pairs):
 		"""this method will call both generatedCOde method and
-		execute code method and return the final code to something"""
+		execute code method and return the final code to something
+
+		this method, first replaces all the key_words with replacement
+		strings based on the key_value_pairs,
+
+		then, it calls the execSections() method of the frame object to
+		get the executable_segments(a list of strings) and modified_string
+		(a string with single line replacement texts for each executable
+		segments).
+
+		all segments present in executable_segments list are executed and
+		return data is stored in another list named post_exec_txt_list
+
+		Finally, getAllCode method is called to use modified_string and
+		post_exec_txt_list to generate the final text
+
+		Parameters
+		----------		
+		frame_name : frame object
+			this is a frame object that is created in this class
+
+		key_value_pairs : dict
+			a dict of structure (search:replace) where both
+			search and replace are strings, i.e. {'name' : 'Sha'}
+			this is required for generating the text from frame string
+			properly
+		"""
 		generated_code = frame_name.getGeneratedCode(key_value_pairs)
 		executable_segments, modified_string = frame_name.execSections(generated_code)
 		post_exec_txt_list = self.runExecSections(executable_segments)
