@@ -1,0 +1,9 @@
+I am $name
+<<<
+self.txt = "I am generated Too"
+>>>
+<<<
+self.txt = self.getAll(self.frame_simple_v2,{
+    'something': "$name"
+})
+>>>

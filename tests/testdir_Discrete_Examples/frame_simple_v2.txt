@@ -1,0 +1,4 @@
+I am Nightmare
+<<<
+self.txt = "This is an $something"
+>>>

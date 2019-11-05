@@ -31,3 +31,9 @@ for i in range(10):
     if i==9:
         self.txt += "I am a txt generated from $name class" + str(i+1) + "\n"
 >>>
+
+<<<
+self.txt = self.getAll(self.frame_simple,{
+    'name': "$name"
+})
+>>>

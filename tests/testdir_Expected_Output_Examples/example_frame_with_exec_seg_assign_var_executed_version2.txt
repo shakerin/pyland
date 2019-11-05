@@ -42,3 +42,10 @@ I am a txt generated from EXAMPLE class10
 
 I am a txt generated from EXAMPLE class10
 
+
+I am EXAMPLE
+I am generated Too
+I am Nightmare
+This is an EXAMPLE
+
+
