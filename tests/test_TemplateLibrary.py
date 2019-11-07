@@ -300,3 +300,14 @@ class TestTemplateLibrary:
         with open(output_file_path, 'r') as f:
             expected_output = f.read()
         assert generated_code == expected_output
+
+    def test_TemplateLibrary_frameObj_withExecSegments_modified_string_2(self):
+        """check the generated text from particular frame object is correct"""
+        ins_14= TL([testdir_Discrete_Examples])
+        modified_string = ins_14.frame_with_exec_seg_assign_var_version2.modified_string
+        output_file_path = testdir_Expected_Output_Examples + \
+                           "/example_frame_with_exec_seg_assign_var_modified_string_2.txt" 
+        expected_output = ""
+        with open(output_file_path, 'r') as f:
+            expected_output = f.read()
+        assert modified_string == expected_output
