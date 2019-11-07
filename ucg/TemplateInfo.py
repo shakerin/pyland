@@ -212,8 +212,10 @@ class TemplateInfo(object):
 					start_found = False
 					no_exec_segment += 1
 					extracted_exec_segments.append(exec_segment)
-					exec_segment_replacement = start_of_exec_segment + " " + str(no_exec_segment) + " " + end_of_exec_segment + "\n"
+					exec_segment_replacement = start_of_exec_segment + " " + str(no_exec_segment) + " " + end_of_exec_segment
 					modified_string += exec_segment_replacement
+					if "\n" in line:
+						modified_string += "\n"
 					exec_segment = ""
 				else:
 					exec_segment += line
