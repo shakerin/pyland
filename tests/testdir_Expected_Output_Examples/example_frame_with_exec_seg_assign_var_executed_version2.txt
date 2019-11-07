@@ -47,5 +47,3 @@ I am EXAMPLE
 I am generated Too
 I am Nightmare
 This is an EXAMPLE
-
-
