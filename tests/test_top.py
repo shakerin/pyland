@@ -93,12 +93,6 @@ class TestTop:
         ins = TI("nightmare","I am $name, Who are $you. $name is me.")
         assert ins.name == "nightmare"
 
-    def test_TemplateInfo_names(self):
-        """check if the class variable names stores all instance names properly"""
-        instances = TI.names + ["nightmare"]
-        ins1 = TI("nightmare","I am $name, Who are $you. $name is me.")
-        assert sorted(TI.names) == sorted(instances)
-
     def test_FileToTemplate_file_path(self):
         """check if the file_path variable is stored properly"""
         filepath = tests + "/test_frame_file_1.txt"
@@ -139,13 +133,6 @@ class TestTop:
         filepath = tests + "/test_frame_file_1.txt"
         ins1 = FTT("drStrange", filepath)
         assert ins1.name == "drStrange"
-
-    def test_FileToTemplate_names(self):
-        """check if the name variable is stored properly"""
-        filepath = tests + "/test_frame_file_1.txt"
-        instances = TI.names + ["drStrange"]
-        ins1 = FTT("drStrange", filepath)
-        assert sorted(TI.names) == sorted(instances)
 
     def test_FileToTemplate_Generated_code_DefaultValueOfKeyWords(self):
         """check generated code is okay when argument is missing for frames"""

@@ -32,8 +32,6 @@ class TemplateInfo(object):
 	
 	Class Attributes
 	----------------
-	names : list of strings
-		this variable will keep all the template class names
 
 	Attributes
 	----------
@@ -80,8 +78,6 @@ class TemplateInfo(object):
 		https://github.com/shakerin/pyland/issues/10
 	"""
 
-	# TODO evaluate the necessity of names[]
-	names = []
 
 	def __init__(self, name, templateCode, identifier="$", block_identifier=("<<<",">>>")):
 		"""Extracts the frame string and store information in variables
@@ -98,7 +94,6 @@ class TemplateInfo(object):
 		if start == end:
 			block_identifier = ("<<<",">>>")
 		self.block_identifier = block_identifier
-		TemplateInfo.names.append(self.name)
 		self.original = templateCode
 		self.templateIns()
 		self.keyWords()
