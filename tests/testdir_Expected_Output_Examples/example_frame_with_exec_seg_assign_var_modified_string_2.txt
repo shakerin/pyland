@@ -1,0 +1,25 @@
+Name: $name
+Anything: $anything : it can be any word
+Programming language: $language
+
+This is one $name class.
+In this class of $name, we are going to 
+check if internal frames work within $name.
+
+we can keep executable segments below.
+The arrows below represents code segment. 
+Anything type between them will be executed 
+in python.
+
+<<< 1 >>>
+
+for now, there is a predefined variable that must
+be used for returning any value.
+
+You can create $anything using valid $language code
+
+<<< 2 >>>
+
+<<< 3 >>>
+
+<<< 4 >>>
