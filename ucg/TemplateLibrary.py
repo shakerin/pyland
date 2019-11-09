@@ -254,7 +254,10 @@ class TemplateLibrary(object):
 		'key_words' or not. if all key_word value is not provided, the default
 		value is empty string(''). If any wrong key is provided, that will
 		be just ignored.
-		TODO: consider the requirement of having key_pair checker
+		
+		Open Case
+		--------- 
+			https://github.com/shakerin/pyland/issues/24
 		"""
 		key_value_pairs_dict_checked = {}
 		for i, key_word in enumerate(frame_name.key_words):
@@ -279,13 +282,39 @@ class TemplateLibrary(object):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
 		self.txt = ""
-		string_to_exec = self.cleanPyCode(string_to_exec)
+		string_to_exec = self.pythonify(string_to_exec)
 		exec(string_to_exec)
 		return self.txt
 
-	def cleanPyCode(self, string_to_exec):
+	def pythonify(self, string_to_exec):
 		# TODO no use for now
+		string_to_exec = self.pythonifyVars(string_to_exec)
 		return string_to_exec
+
+	def pythonifyVars(self, string_to_exec):
+		"""
+		there are three types of variables that can be declared
+		1. local to segment - only accessible within a segment
+			__var__ is prefix
+			i.e. __var__name
+			__var__name should be replaced by self.name and deleted
+			after segment execution 
+
+		2. local to frame string but global to segment - accessible 
+		   within a frame string
+		   __local__ is prefix
+		   i.e. __local__name
+		   __local__name should be replaced by self.name and deleted
+		   after frame string execution 
+
+		3. global to all frames
+		   __global__ is prefix
+		   i.e. __global__name
+		   __global__name should be replaced by self.name and will 
+		   never be deleted
+		"""
+		return string_to_exec
+
 
 	def printHere(self, string_to_exec):
 		"TODO will be removed in future"
