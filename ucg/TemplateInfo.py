@@ -98,6 +98,8 @@ class TemplateInfo(object):
 		self.templateIns()
 		self.keyWords()
 		self.exec_sections, self.modified_string = self.execSections(self.original)
+		self.exec_var_local, self.exec_var_global, self.exec_var_basic = [], [], []
+		self.analyzeExecVars(self.exec_sections)
 		
 	def keyWords(self):
 		"""Extracts keywords from frame string and stores in 'key_words'"""
@@ -220,4 +222,21 @@ class TemplateInfo(object):
 				else:
 					modified_string += line
 		return (extracted_exec_segments, modified_string)
+
+
+	def analyzeExecVars(self, exec_segments):
+		self.exec_var_local, self.exec_var_global, self.exec_var_basic = [], [], []
+		for segment in exec_segments:
+			exec_var_basic = re.findall(r"__var__\w+", segment)
+			exec_var_local = re.findall(r"__local__\w+", segment)
+			exec_var_global = re.findall(r"__global__\w+", segment)
+			self.exec_var_basic.extend(exec_var_basic)
+			self.exec_var_local.extend(exec_var_local)
+			self.exec_var_global.extend(exec_var_global)
+		self.exec_var_global = list(set(self.exec_var_global))
+		self.exec_var_local = list(set(self.exec_var_local) - set(self.exec_var_global))
+		self.exec_var_basic = list(set(self.exec_var_basic) - set(self.exec_var_global))
+		self.exec_var_basic = list(set(self.exec_var_basic) - set(self.exec_var_local))
+		return (self.exec_var_basic,self.exec_var_local, self.exec_var_global)
+
 
