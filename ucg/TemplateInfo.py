@@ -100,6 +100,7 @@ class TemplateInfo(object):
 		self.exec_sections, self.modified_string = self.execSections(self.original)
 		self.exec_var_local, self.exec_var_global, self.exec_var_basic = [], [], []
 		self.analyzeExecVars(self.exec_sections)
+		self.pythonifyExecSections(self.exec_sections)
 		
 	def keyWords(self):
 		"""Extracts keywords from frame string and stores in 'key_words'"""
@@ -225,18 +226,66 @@ class TemplateInfo(object):
 
 
 	def analyzeExecVars(self, exec_segments):
-		self.exec_var_local, self.exec_var_global, self.exec_var_basic = [], [], []
+		exec_var_local_list, exec_var_global_list, exec_var_basic_list = [], [], []
 		for segment in exec_segments:
 			exec_var_basic = re.findall(r"__var__\w+", segment)
 			exec_var_local = re.findall(r"__local__\w+", segment)
 			exec_var_global = re.findall(r"__global__\w+", segment)
-			self.exec_var_basic.extend(exec_var_basic)
-			self.exec_var_local.extend(exec_var_local)
-			self.exec_var_global.extend(exec_var_global)
-		self.exec_var_global = list(set(self.exec_var_global))
-		self.exec_var_local = list(set(self.exec_var_local) - set(self.exec_var_global))
-		self.exec_var_basic = list(set(self.exec_var_basic) - set(self.exec_var_global))
-		self.exec_var_basic = list(set(self.exec_var_basic) - set(self.exec_var_local))
-		return (self.exec_var_basic,self.exec_var_local, self.exec_var_global)
+			exec_var_basic_list.extend(exec_var_basic)
+			exec_var_local_list.extend(exec_var_local)
+			exec_var_global_list.extend(exec_var_global)
+		exec_var_local_list = [item.replace("__local__", "") for item in exec_var_local_list]
+		exec_var_global_list = [item.replace("__global__", "") for item in exec_var_global_list]
+		exec_var_basic_list = [item.replace("__var__", "") for item in exec_var_basic_list]
+		exec_var_global_list = list(set(exec_var_global_list))
+		exec_var_local_list = list(set(exec_var_local_list) - set(exec_var_global_list))
+		exec_var_basic_list = list(set(exec_var_basic_list) - set(exec_var_global_list))
+		exec_var_basic_list = list(set(exec_var_basic_list) - set(exec_var_local_list))
+		self.exec_var_local = exec_var_local_list
+		self.exec_var_global = exec_var_global_list
+		self.exec_var_basic = exec_var_basic_list
+		return (self.exec_var_basic, self.exec_var_local, self.exec_var_global)
+	
+	def pythonifyExecSections(self, exec_segments):
+		pythonified_exec_segments = []
+		for segment in exec_segments:
+			pythonified_exec_segment = self.pythonify(segment)
+			pythonified_exec_segments.append(pythonified_exec_segment)
+		self.exec_sections = pythonified_exec_segments
+		return self.exec_sections
+
+	def pythonify(self, string_to_exec):
+		# TODO no use for now
+		string_to_exec = self.pythonifyVars(string_to_exec)
+		return string_to_exec
+
+	def pythonifyVars(self, string_to_exec):
+		"""
+		there are three types of variables that can be declared
+		1. local to segment - only accessible within a segment
+			__var__ is prefix
+			i.e. __var__name
+			__var__name should be replaced by self.name and deleted
+			after segment execution 
+
+		2. local to frame string but global to segment - accessible 
+		   within a frame string
+		   __local__ is prefix
+		   i.e. __local__name
+		   __local__name should be replaced by self.name and deleted
+		   after frame string execution 
+
+		3. global to all frames
+		   __global__ is prefix
+		   i.e. __global__name
+		   __global__name should be replaced by self.name and will 
+		   never be deleted
+		"""
+		string_to_exec = re.sub("__local__", "self.", string_to_exec)
+		string_to_exec = re.sub("__var__", "self.", string_to_exec)
+		string_to_exec = re.sub("__global__", "self.", string_to_exec)
+		return string_to_exec
+
+
 
 
