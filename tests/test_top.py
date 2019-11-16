@@ -289,38 +289,6 @@ class TestTop:
         output_list = ["cmd1", "cmd2"]
         assert sorted(ins.exec_var_local) == sorted(output_list)
 
-    def test_TemlateInfo_exec_sections_multipleExecPresentInFrameString_ExecBasicVar1(self):
-        """internal variable exec_sections check when multiple executable string present
-        in string"""
-        frame_string = (
-                        "This is a $frame $string\n" 
-                        "<<<\n this is a __var__cmd1 line \n"
-                        " __var__cmd2 2 \n"
-                        " >>>\n"
-                        " this is it \n"
-                        "<<<\n"
-                        " this is a __var__cmd2 line \n line 4 \n >>>"
-                        )
-        ins = TI("ins2", frame_string)
-        output_list = ["cmd1", "cmd2"]
-        assert sorted(ins.exec_var_basic) == sorted(output_list)
-
-    def test_TemlateInfo_exec_sections_multipleExecPresentInFrameString_ExecBasicVar2(self):
-        """internal variable exec_sections check when multiple executable string present
-        in string"""
-        frame_string = (
-                        "This is a $frame $string\n" 
-                        "<<<\n this is a __var__cmd1 line \n"
-                        " __global__cmd2 2 \n"
-                        " >>>\n"
-                        " this is it \n"
-                        "<<<\n"
-                        " this is a __var__cmd2 line \n line 4 \n >>>"
-                        )
-        ins = TI("ins2", frame_string)
-        output_list = ["cmd1"]
-        assert sorted(ins.exec_var_basic) == sorted(output_list)
-
     def test_TemlateInfo_exec_sections_multipleExecPresentInFrameString_ExecGlobalVar1(self):
         """internal variable exec_sections check when multiple executable string present
         in string"""
@@ -355,7 +323,29 @@ class TestTop:
         ins = TI("ins2", frame_string)
         output_list = [
                         " self.this is a cmd line \n self.line 2 \n", 
-                        " this self.is a cmd self.line \n line 4 \n"
+                        " this __var__is a cmd self.line \n line 4 \n"
+                      ]
+        assert sorted(ins.exec_sections) == sorted(output_list)
+
+    def test_TemlateInfo_exec_sections_multipleExecPresentInFrameString_PrintVarsCheck(self):
+        """internal variable exec_sections check when multiple executable string present
+        in string"""
+        frame_string = (
+                        "This is a $frame $string\n" 
+                        "<<<\n "
+                        "__global__this is a cmd line \n"
+                        " __local__line 2 \n"
+                        " >>>\n"
+                        " this is it \n"
+                        "<<<\n"
+                        " this __var__is a cmd __global__line \n"
+                        " __print__==__global__line \n"
+                        " >>>"
+                        )
+        ins = TI("ins2", frame_string)
+        output_list = [
+                        " self.this is a cmd line \n self.line 2 \n", 
+                        " this __var__is a cmd self.line \n self.txt += self.line \n"
                       ]
         assert sorted(ins.exec_sections) == sorted(output_list)
 
