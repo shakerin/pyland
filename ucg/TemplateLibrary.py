@@ -276,14 +276,12 @@ class TemplateLibrary(object):
 		post_exec_txt_list = []
 		for string_to_exec in list_of_strings_to_exec:
 			post_exec_txt_list.append(self.runExecSection(string_to_exec))
-		#string_to_exec == <delete or empty local vars here>
 		return post_exec_txt_list
 
 	def runExecSection(self, string_to_exec):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
 		self.txt = ""
-		#string_to_exec == <delete or empty basic vars here>
 		exec(string_to_exec)
 		return self.txt
 
@@ -373,5 +371,15 @@ class TemplateLibrary(object):
 		executable_segments, modified_string = frame_name.execSections(generated_code)
 		post_exec_txt_list = self.runExecSections(executable_segments)
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
+		self.deleteFrameLocalVars(frame_name)
 		return final_code
+
+
+	def deleteFrameLocalVars(self, frame_name):
+		local_vars_in_frame = frame_name.exec_var_local
+		cmds_to_del_local_vars = ["del "+local_var for local_var in local_vars_in_frame]
+		for cmd in cmds_to_del_local_vars:
+			exec(cmd)
+		return
+
 
