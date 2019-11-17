@@ -39,10 +39,17 @@ class TemplateInfo(object):
 		this is the name of the template
 	original : str
 		raw frame string provided from class user
+	modified_string : str
+		this string is created from the original string by replacing executable
+		segments with identifiable string just to replace is future when 
+		executable segments are executed by user class of this frame object
 	identifier : str
 		a prefix to indicate keywords in a frame string. the method keyWords
 		automatically adds \ as prefix for any escape character used as
 		identifier
+	block_identifier : tuple of two strings
+		first string represents the starting string to identify a executable
+		segment, second string represents the end
 	key_words : list of strings
 		list of keywords extracted from the frame string
 	key_word_defaults : list of strings
@@ -51,6 +58,12 @@ class TemplateInfo(object):
 		left for future extension
 	template : Template
 		a 'Template' object; created from frame string
+	exec_var_local : list of strings
+		each string represents a frame local variable
+	exec_var_global : list of strings
+		each string represents a frame global variable
+	exec_sections : list of strings
+		each segment represents an executable segment of the frame string
 
 	Methods
 	-------
@@ -119,7 +132,6 @@ class TemplateInfo(object):
 		"""Converts frame string to a 'Template' object & stores in 'template'"""
 		self.template = Template(self.original)
 
-
 	def getGeneratedCode(self, key_value_pairs):
 		"""Returns the generated text from a provided search/replace pair
 
@@ -183,7 +195,6 @@ class TemplateInfo(object):
 		exec(generated_code)
 		return self.return_vals
 
-
 	def isStrPresent(self, string, search_item):
 		""""this method checks if search_item is present in
 		string. it returns True if present, otherwise False"""
@@ -191,7 +202,6 @@ class TemplateInfo(object):
 		if search_item in string:
 			search_term_present = True
 		return search_term_present
-
 
 	def execSections(self, string):
 		"""this method will extract all the executable sections from
@@ -224,8 +234,23 @@ class TemplateInfo(object):
 					modified_string += line
 		return (extracted_exec_segments, modified_string)
 
-
 	def analyzeExecVars(self, exec_segments):
+		"""This method collects all local and global frame variables from
+		all executable segments and stores them in object variables for
+		easier access through objects
+
+		Parameter
+		---------
+		exec_segments : list of strings
+			each string in the list represents a raw executable segment of
+			the frame string
+		
+		Returns
+		-------
+		(self.exec_var_local, self.exec_var_global) : a tuple of two lists
+			first element of the tuple is the list of local variables of the 
+			frameand second element is global varaibles of the frames
+		"""
 		exec_var_local_list, exec_var_global_list = [], []
 		for segment in exec_segments:
 			exec_var_basic = re.findall(r"__var__\w+", segment)
@@ -242,6 +267,22 @@ class TemplateInfo(object):
 		return (self.exec_var_local, self.exec_var_global)
 	
 	def pythonifyExecSections(self, exec_segments):
+		"""This method converts all the executable segments of this frame
+		string into error-free Python code
+		
+		Parameter
+		---------
+		exec_segments : list of strings
+			each string in the list represents raw executable segments that
+			are present in that frame string
+
+		Returns
+		-------
+		self.exec_sections : list of strings
+			each string in the list is a error-free Python code that will be
+			executed from any class that is using this class to create
+			object of this frame.
+		"""
 		pythonified_exec_segments = []
 		for segment in exec_segments:
 			pythonified_exec_segment = self.pythonify(segment)
@@ -250,14 +291,31 @@ class TemplateInfo(object):
 		return self.exec_sections
 
 	def pythonify(self, string_to_exec):
-		# TODO no use for now
+		"""This method takes the raw frame executable segments and 
+		updates it in such a way that the string become error-free
+		Python code
+		
+		Parameter
+		---------
+		string_to_exec : string
+			this string represents one executable segment in the frame string
+
+		Returns
+		-------
+		string_to_exec : string
+			this method returns a syntax error-free Python code for 
+			that segment
+		"""
 		string_to_exec = self.pythonifyVars(string_to_exec)
 		string_to_exec = self.printVars(string_to_exec)
 		return string_to_exec
 
 	def pythonifyVars(self, string_to_exec):
-		"""
-		there are two types of variables that can be declared
+		"""This method updates the executable segments is such a way that
+		frame variables are converted to error-free python variable codes.
+	
+		there are two types of variables that can be declared in a frame 
+		string. They are mentioned below -
 
 		1. local to frame string but global to segment - accessible 
 		   within a frame string
@@ -271,12 +329,36 @@ class TemplateInfo(object):
 		   i.e. __global__name
 		   __global__name should be replaced by self.name and will 
 		   never be deleted
+
+		Parameter
+		---------
+		string_to_exec : string
+			this string represent a executable segment inside a frame string
+			this string contains modified or unmodified frame string segment.
+
+		Returns
+		-------
+		string_to_exec : string
+			this string is modifed version of the original frame string.
+			the local and global frame vars will be converted to become
+			python variables so that the executable segments contains only
+			syntax error free python variable sections in segment.
+
+		Note
+		----
+			Remember, the returned string may not be totally python error-free
+			code yet. This method only takes care of the correct conversion
+			of frame vars to Python variables
 		"""
 		string_to_exec = re.sub("__local__", "self.", string_to_exec)
 		string_to_exec = re.sub("__global__", "self.", string_to_exec)
 		return string_to_exec
 
 	def printVars(self, string_to_exec):
+		"""this method only replaces special text with predefined code
+		sothat when this string is executed, it properly copies all text
+		from the frame string(both executable/non-executable segments) to 
+		the original output files"""
 		string_to_exec = re.sub("__print__==", "self.txt += ", string_to_exec)
 		return string_to_exec
 
