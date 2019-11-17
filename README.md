@@ -57,6 +57,11 @@ Use pytest-3 to run all the tests. Run the following command from the project di
 pytest-3 .
 ```
 
+### Test Status
+```
+76/76 Tests Passing
+```
+
 ## Author
 
 * **Shakerin Ahmed** 
