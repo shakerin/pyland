@@ -1,0 +1,7 @@
+this is a simple file to check
+frame variables are working properly
+
+25
+35
+I am text now==I am another text
+I am just a variable
