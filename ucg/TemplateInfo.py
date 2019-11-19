@@ -110,10 +110,7 @@ class TemplateInfo(object):
 		self.original = templateCode
 		self.templateIns()
 		self.keyWords()
-		self.exec_sections, self.modified_string = self.execSections(self.original)
-		self.exec_var_local, self.exec_var_global= [], []
-		self.analyzeExecVars(self.exec_sections)
-		self.pythonifyExecSections(self.exec_sections)
+		self.execSections(self.original)
 		
 	def keyWords(self):
 		"""Extracts keywords from frame string and stores in 'key_words'"""
@@ -163,7 +160,8 @@ class TemplateInfo(object):
 				print("TemplateInfo.py : getGeneratedCode :: " + self.name + ":: key not defined ::" + key_word)
 				key_value_pairs_dict_checked[key_word] = self.key_word_defaults[i]
 		generated_code = self.template.substitute(key_value_pairs_dict_checked)
-		return generated_code
+		self.last_generated_code = generated_code
+		return self.last_generated_code
 
 	def runGeneratedCode(self, key_value_pairs):
 		"""Executes the generated text based on key_value_pairs as python
@@ -232,9 +230,13 @@ class TemplateInfo(object):
 					start_found = True
 				else:
 					modified_string += line
-		return (extracted_exec_segments, modified_string)
+		self.exec_sections = extracted_exec_segments
+		self.modified_string = modified_string
+		self.analyzeExecVars()
+		self.pythonifyExecSections()
+		return (self.exec_sections, self.modified_string)
 
-	def analyzeExecVars(self, exec_segments):
+	def analyzeExecVars(self):
 		"""This method collects all local and global frame variables from
 		all executable segments and stores them in object variables for
 		easier access through objects
@@ -252,7 +254,7 @@ class TemplateInfo(object):
 			frameand second element is global varaibles of the frames
 		"""
 		exec_var_local_list, exec_var_global_list = [], []
-		for segment in exec_segments:
+		for segment in self.exec_sections:
 			exec_var_basic = re.findall(r"__var__\w+", segment)
 			exec_var_local = re.findall(r"__local__\w+", segment)
 			exec_var_global = re.findall(r"__global__\w+", segment)
@@ -266,7 +268,7 @@ class TemplateInfo(object):
 		self.exec_var_global = exec_var_global_list
 		return (self.exec_var_local, self.exec_var_global)
 	
-	def pythonifyExecSections(self, exec_segments):
+	def pythonifyExecSections(self):
 		"""This method converts all the executable segments of this frame
 		string into error-free Python code
 		
@@ -284,7 +286,7 @@ class TemplateInfo(object):
 			object of this frame.
 		"""
 		pythonified_exec_segments = []
-		for segment in exec_segments:
+		for segment in self.exec_sections:
 			pythonified_exec_segment = self.pythonify(segment)
 			pythonified_exec_segments.append(pythonified_exec_segment)
 		self.exec_sections = pythonified_exec_segments
@@ -359,7 +361,7 @@ class TemplateInfo(object):
 		sothat when this string is executed, it properly copies all text
 		from the frame string(both executable/non-executable segments) to 
 		the original output files"""
-		string_to_exec = re.sub("__print__==", "self.txt += ", string_to_exec)
+		string_to_exec = re.sub(r'__print__==(.*\w+)', r'self.txt += str(\1)', string_to_exec)
 		return string_to_exec
 
 
