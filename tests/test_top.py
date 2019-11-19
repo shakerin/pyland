@@ -345,7 +345,7 @@ class TestTop:
         ins = TI("ins2", frame_string)
         output_list = [
                         " self.this is a cmd line \n self.line 2 \n", 
-                        " this __var__is a cmd self.line \n self.txt += self.line \n"
+                        " this __var__is a cmd self.line \n self.txt += str(self.line) \n"
                       ]
         assert sorted(ins.exec_sections) == sorted(output_list)
 
