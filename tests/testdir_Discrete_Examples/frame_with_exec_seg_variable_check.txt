@@ -1,21 +1,23 @@
-Name: $name
-Anything: $anything : it can be any word
-Programming language: $language
-
-This is one $name class.
-In this class of $name, we are going to 
-check if internal frames work within $name.
-
-we can keep executable segments below.
-The arrows below represents code segment. 
-Anything type between them will be executed 
-in python.
+this is a simple file to check
+frame variables are working properly
 
 <<<
-self.txt = "I am a txt generated from $name class"
+__local__var1 = 5
+for k in range(10):
+    __local__var1 += 2
+__print__==__local__var1
 >>>
-
-for now, there is a predefined variable that must
-be used for returning any value.
-
-You can create $anything using valid $language code
+<<<
+__local__var1 += 10
+__print__==__local__var1
+>>>
+<<<
+__global__var1 = "I am text now"
+__print__==__global__var1
+__local__var1 = "==I am another text"
+__print__==__local__var1
+>>>
+<<<
+var = "I am just a variable"
+__print__==var
+>>>
