@@ -369,6 +369,9 @@ class TemplateLibrary(object):
 		"""
 		generated_code = frame_name.getGeneratedCode(key_value_pairs)
 		executable_segments, modified_string = frame_name.execSections(generated_code)
+		# the following line of code should not be removed
+		# because, it is necessary to execute all frame exec sections
+		# from this class to make it accessible from any frames, any time
 		post_exec_txt_list = self.runExecSections(executable_segments)
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
 		self.deleteFrameLocalVars(frame_name)
@@ -377,7 +380,7 @@ class TemplateLibrary(object):
 
 	def deleteFrameLocalVars(self, frame_name):
 		local_vars_in_frame = frame_name.exec_var_local
-		cmds_to_del_local_vars = ["del "+local_var for local_var in local_vars_in_frame]
+		cmds_to_del_local_vars = ["del self."+local_var for local_var in local_vars_in_frame]
 		for cmd in cmds_to_del_local_vars:
 			exec(cmd)
 		return
