@@ -59,7 +59,7 @@ pytest-3 .
 
 ### Test Status
 ```
-76/76 Tests Passing
+77/77 Tests Passing
 ```
 
 ## Author
