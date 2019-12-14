@@ -11,7 +11,7 @@ testdir_TemplateLibraryTest = "/mnt/c/work/py-land/pyland/tests/testdir_Template
 testdir_TemplateLibraryTest2 = "/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest2"
 testdir_Discrete_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Discrete_Examples"
 testdir_Expected_Output_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Expected_Output_Examples"
-tests = "/mnt/c/work/py-land/pyland/tests/"
+tests = testdir_Discrete_Examples
 
 class TestTop:
     """test name format : test_{className/methodName}_{unit_for_test}"""
