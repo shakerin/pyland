@@ -11,9 +11,8 @@ from ucg.FileToTemplate import FileToTemplate as FTT
 from ucg.TemplateLibrary import TemplateLibrary as TL
 from ucg.CommandLibrary import CommandLibrary as CL
 
+from tests.path_variables import *
 
-testdir_CommandLibraryTest = "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest"
-testdir_CommandLibraryTest2 = "/mnt/c/work/py-land/pyland/tests/testdir_CommandLibraryTest2"
 
 
 class TestCommandLibrary:

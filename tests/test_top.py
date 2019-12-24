@@ -6,12 +6,8 @@ from docopt import docopt
 import re
 from ucg.TemplateInfo import TemplateInfo as TI
 from ucg.FileToTemplate import FileToTemplate as FTT
+from tests.path_variables import *
 
-testdir_TemplateLibraryTest = "/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest"
-testdir_TemplateLibraryTest2 = "/mnt/c/work/py-land/pyland/tests/testdir_TemplateLibraryTest2"
-testdir_Discrete_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Discrete_Examples"
-testdir_Expected_Output_Examples = "/mnt/c/work/py-land/pyland/tests/testdir_Expected_Output_Examples"
-tests = testdir_Discrete_Examples
 
 class TestTop:
     """test name format : test_{className/methodName}_{unit_for_test}"""
@@ -158,13 +154,13 @@ class TestTop:
 
     def test_FileToTemplate_file_path(self):
         """check if the file_path variable is stored properly"""
-        filepath = tests + "/test_frame_file_1.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
         ins1 = FTT("instance1", filepath)
         assert ins1.file_path == filepath
 
     def test_FileToTemplate_original(self):
         """internal variable original value check"""
-        filepath = tests + "/test_frame_file_1.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
         ins = FTT("instance1", filepath)
         frame_string = ""
         with open(filepath, 'r') as f:
@@ -173,14 +169,14 @@ class TestTop:
 
     def test_FileToTemplate_key_words(self):
         """internal variable key_words value check"""
-        filepath = tests + "/test_frame_file_1.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
         ins = FTT("instance1", filepath)
         assert sorted(ins.key_words) == sorted(['something', 'mood'])
 
     def test_FileToTemplate_Generated_code(self):
         """check generated code is okay"""
-        filepath = tests + "/test_frame_file_1.txt"
-        genfilepath = tests + "/test_frame_file_1_gc.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
+        genfilepath = testdir_Discrete_Examples + "/test_frame_file_1_gc.txt"
         ins = FTT("instance1", filepath)
         generated_string = ""
         with open(genfilepath, 'r') as f:
@@ -193,14 +189,14 @@ class TestTop:
 
     def test_FileToTemplate_name(self):
         """check if the name variable is stored properly"""
-        filepath = tests + "/test_frame_file_1.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
         ins1 = FTT("drStrange", filepath)
         assert ins1.name == "drStrange"
 
     def test_FileToTemplate_Generated_code_DefaultValueOfKeyWords(self):
         """check generated code is okay when argument is missing for frames"""
-        filepath = tests + "/test_frame_file_1.txt"
-        genfilepath = tests + "/test_frame_file_1_gc.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
+        genfilepath = testdir_Discrete_Examples + "/test_frame_file_1_gc.txt"
         ins2 = FTT("instance1", filepath)
         generated_string = ""
         with open(genfilepath, 'r') as f:
@@ -213,8 +209,8 @@ class TestTop:
 
     def test_FileToTemplate_Generated_code_DefaultValueOfExtraKeyWordsAndMissingKeyword(self):
         """check generated code is okay when extra inputs provided for frame object"""
-        filepath = tests + "/test_frame_file_1.txt"
-        genfilepath = tests + "/test_frame_file_1_gc.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
+        genfilepath = testdir_Discrete_Examples + "/test_frame_file_1_gc.txt"
         ins2 = FTT("instance1", filepath)
         generated_string = ""
         with open(genfilepath, 'r') as f:
@@ -228,8 +224,8 @@ class TestTop:
 
     def test_FileToTemplate_Generated_code_DefaultValueOfExtraKeyWords(self):
         """check generated code is okay when extra inputs provided for frame object"""
-        filepath = tests + "/test_frame_file_1.txt"
-        genfilepath = tests + "/test_frame_file_1_gc.txt"
+        filepath = testdir_Discrete_Examples + "/test_frame_file_1.txt"
+        genfilepath = testdir_Discrete_Examples + "/test_frame_file_1_gc.txt"
         ins2 = FTT("instance1", filepath)
         generated_string = ""
         with open(genfilepath, 'r') as f:
