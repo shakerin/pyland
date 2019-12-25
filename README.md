@@ -62,6 +62,9 @@ pytest-3 .
 77/77 Tests Passing
 ```
 
+### Project Status and Future Plan
+See the [Project Status and Plan](https://github.com/shakerin/pyland/blob/master/Project%20Status%20and%20Plan.md)
+
 ## Author
 
 * **Shakerin Ahmed** 
