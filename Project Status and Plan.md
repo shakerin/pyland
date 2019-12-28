@@ -10,6 +10,34 @@
 * Finalize a structure that can be used for generating texts and execute commands easily from users perspective,
 * Plan the directory structure development as well where TemplateLibrary instance has to be used for automation
 
+## Common Terms
+
+### frame string
+This is a string that contains (i) all text that has to be generated, (ii) scripts that
+has to be executed when object of this frame string is used.
+An automator, that uses Pyland structure, can have as many frame strings as required.
+*frame string concept already delevoped in Pyland*
+
+### frame file
+This is the file that contains frame strings. A frame string class is named after the
+name of the frame file name.
+*frame file concept already delevoped in Pyland*
+
+### frame object
+It is also called frame string object. It is an instance that is created based on a 
+frame string class.
+*frame object concept already delevoped in Pyland*
+
+### frame dir
+This file contains information about directory structure and frameObj associated
+with individual files.
+*frame dir concept is not developed in pyland yet*
+
+### frame cmd
+This is a mechanism that will allow users to create/execute any frameObj from terminal.
+It is only for making Pyland user friendly.
+*frame cmd concept is not developed in pyland yet*
+
 
 ## Structure to generate some code
 
