@@ -31,25 +31,6 @@ pytest-3
 
 As per today, it is *not installable*.
 
-### Common Terms
-
-#### frame string
-This is a string that contains (i) all text that has to be generated, (ii) scripts that
-has to be executed when object of this frame string is used.
-An automator, that uses Pyland structure, can have as many frame strings as required.
-*frame string concept already delevoped in Pyland*
-
-#### frame file
-This is the file that contains frame strings. A frame string class is named after the
-name of the frame file name.
-*frame file concept already delevoped in Pyland*
-
-#### frame object
-It is also called frame string object. It is an instance that is created based on a 
-frame string class.
-*frame object concept already delevoped in Pyland*
-
-
 ## Running The Tests
 
 Use pytest-3 to run all the tests. Run the following command from the project directory.
