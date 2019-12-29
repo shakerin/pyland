@@ -9,6 +9,7 @@ Function List:
 
 """
 
+import os
 
 # prints items of list one by one
 def printList(user_list):
@@ -27,5 +28,35 @@ def printDict(user_dict):
 	for key,val in user_dict.items():
 		print(str(key)+"=>"+str(val))
 	return
+
+
+def createDirIfNotPresent(dir_path):
+	"""create directory if doesn't exist already"""
+	
+	if os.path.isdir(dir_path):
+		pass
+	else:
+		os.mkdir(dir_path)
+	return
+
+def createFileIfNotPresent(file_path):
+	"""create file if doesn't exist already"""
+
+	if os.path.isfile(dir_path):
+		pass
+	else:
+		with open(file_path, "w+") as f:
+			f.write("")
+	return
+
+def createNewFile(file_path):
+	"""create a new file by removing old file"""
+
+	with open(file_path, "w+") as f:
+		f.write("")
+	pass
+
+
+
 
 
