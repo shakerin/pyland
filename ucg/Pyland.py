@@ -38,7 +38,6 @@ class Pyland(object):
 	"""
 	- This class is the top most level of class in Pyland project.
 	- Every high level or user-end methods will be defined in this class.
-	- This class will keep the TemplateLibrary object for frameObj reference.
 	- It will have methods to automate Structure and Frames.
 	- Automating structure means, creating all files and directories based on
 	  structure file
@@ -48,11 +47,9 @@ class Pyland(object):
 	def __init__(self):
 		pass
 	
-	def createTemplateLibrary(self):
-		self.TL1 = TL(frame_dir)
 
 	def automateStructure(self):
-		self.St1 = Structure(struct_file)
+		self.St1 = Structure(STRUCT_FILE)
 		self.St1.automate()
 		
 	def automateFrame(self):
