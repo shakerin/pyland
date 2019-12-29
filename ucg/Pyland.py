@@ -27,8 +27,9 @@ from .TemplateInfo import TemplateInfo as TI
 from .TemplateLibrary import TemplateLibrary as TL
 from .FileToTemplate import FileToTemplate as FTT
 from .Structure import Structure
+from .global_vars import *
 
-frame_dir = []
+
 
 
 

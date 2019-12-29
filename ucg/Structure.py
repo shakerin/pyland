@@ -26,7 +26,7 @@ from os.path import join, isfile
 from .TemplateInfo import TemplateInfo as TI
 from .TemplateLibrary import TemplateLibrary as TL
 from .FileToTemplate import FileToTemplate as FTT
-
+from .global_vars import *
 
 
 
@@ -39,7 +39,12 @@ class Structure(object):
 	execute texts from frames
 	"""
 
+	TL_ins = TL()
+
     def __init__(self, struct_file):
+		self.directory_sign = "//"
+		self.file_sign = ",,"
+
         pass
 
 	def createDir(self, dir_path):

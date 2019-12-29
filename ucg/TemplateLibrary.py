@@ -27,7 +27,7 @@ from os.path import join, isfile
 
 from .TemplateInfo import TemplateInfo as TI
 from .FileToTemplate import FileToTemplate as FTT
-
+from .global_vars import *
 
 
 

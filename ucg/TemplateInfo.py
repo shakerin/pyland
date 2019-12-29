@@ -22,7 +22,7 @@ from .common_func import *
 from string import Template
 from docopt import docopt
 import re
-
+from .global_vars import *
 
 class TemplateInfo(object):
 	"""A class used for converting frame string into a template.
