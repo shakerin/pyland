@@ -39,21 +39,13 @@ class Structure(object):
 	execute texts from frames
 	"""
 
-	TL_ins = TL()
 
     def __init__(self, struct_file):
+		self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
+		self.TL_ins = TL(self.frame_dir_list)
 		self.directory_sign = "//"
 		self.file_sign = ",,"
-
         pass
-
-	def createDir(self, dir_path):
-		"""create directory if doesn't exist already"""
-		pass
-
-	def createFile(self, file_path):
-		"""create file if doesn't exist already"""
-		pass
 
 	def executeFrameObj(self, frameObj):
 		"""this will execute the frame object"""
