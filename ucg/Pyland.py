@@ -31,9 +31,6 @@ from .global_vars import *
 
 
 
-
-
-
 class Pyland(object):
 	"""
 	- This class is the top most level of class in Pyland project.
