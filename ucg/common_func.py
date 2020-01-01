@@ -10,6 +10,8 @@ Function List:
 """
 
 import os
+import shutil
+
 
 # prints items of list one by one
 def printList(user_list):
@@ -32,12 +34,12 @@ def printDict(user_dict):
 
 def createDirIfNotPresent(dir_path):
 	"""create directory if doesn't exist already"""
-	
+	dir_already_present = False
 	if os.path.isdir(dir_path):
-		pass
+		dir_already_present = True
 	else:
 		os.mkdir(dir_path)
-	return
+	return dir_already_present
 
 def createFileIfNotPresent(file_path):
 	"""create file if doesn't exist already"""
@@ -51,7 +53,6 @@ def createFileIfNotPresent(file_path):
 
 def createNewFile(file_path):
 	"""create a new file by removing old file"""
-
 	with open(file_path, "w+") as f:
 		f.write("")
 	pass
