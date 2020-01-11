@@ -87,7 +87,13 @@ It is only for making Pyland user friendly.
 
 ### step 1
     User needs to generate+execute something, does frame command exist?
-    if yes, step 2 else step 6.
+    if yes, step 2 else step 1_1.
+
+### step 1_1
+    create new frame file/s and/or frameDir file/s based on requirement,
+    place the new files in frame directory so that TemplateLibrary
+    can find out the place,
+    go to step 2.
 
 ### step 2
     Use that frame to generate+execute text.
@@ -103,11 +109,6 @@ It is only for making Pyland user friendly.
 ### step 5
     done.
 
-### step 6
-    create new frame file/s and/or frameDir file/s based on requirement,
-    place the new files in frame directory so that TemplateLibrary
-    can find out the place,
-    go to step 5.
 
 
 
