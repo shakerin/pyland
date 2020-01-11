@@ -8,4 +8,12 @@ testdir_Expected_Output_Examples = PROJECT_DIR + "pyland/tests/test_examples/tes
 tests = PROJECT_DIR + "pyland/tests/test_examples/"
 testdir_CommandLibraryTest = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest"
 testdir_CommandLibraryTest2 = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest2"
+# following directory name should be used in testcases, when test
+# developer wants the directory to be deleted just after method
+# execution. this is currently only cleanable by clean script
+delete_after_method_dir = "to_be_deleted"
+# following directory name should be used in testcases, when test
+# developer wants the directory to be deleted after running clean
+# script. this is currently implemented on the system
+delete_by_clean_dir = "to_be_deleted"
 
