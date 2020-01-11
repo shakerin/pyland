@@ -33,14 +33,19 @@ As per today, it is *not installable*.
 
 ## Running The Tests
 
-Use pytest-3 to run all the tests. Run the following command from the project directory.
+Use pytest-3 to run all the tests,
+Run the following commands from the project directory,
+make sure to change the PROJECT_DIR variable to appropriate path based on your system,
+PROJECT_DIR is defined inside pyland/tests/path_variables.py file.
+
 ```
+./clean
 pytest-3 .
 ```
 
 ### Test Status
 ```
-77/77 Tests Passing
+78/78 Tests Passing
 ```
 
 ### Project Status and Future Plan
