@@ -33,12 +33,25 @@ class TestCommonFunc:
         return
 
 
-
+    
     def test_createFileIfNotPresent(self):
         dir_path = PV_testdir_common_func + "/" + PV_delete_by_clean_dir
+        createDirIfNotPresent(dir_path)
+        file_path = dir_path + "/createFileIfNotPresentTest.txt"
+        # checks if file already present
+        file_initially_present = os.path.isfile(file_path)
+        createFileIfNotPresent(file_path)
+        file_created = os.path.isfile(file_path)
+        # trying to re-create file
+        file_already_present = createFileIfNotPresent(file_path)
+        assert (file_initially_present==False) and \
+                (file_created==True) and \
+                (file_already_present==True)
+        if file_already_present:
+            os.remove(file_path)
 
         return
-        
+      
 
 
         
