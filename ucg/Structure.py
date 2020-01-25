@@ -47,6 +47,22 @@ class Structure(object):
 		self.file_sign = ",,"
         pass
 
+
+	def directoryPaths(self):
+		"""This method will be used for extracting all directory paths
+		that has to be created for given directory structure
+		"""
+		return
+
+	def filePaths(self):
+		"""This method will be used for extracting all file paths that
+		has to be created for given directory structure
+		"""
+		return
+
+
+
+
 	def executeFrameObj(self, frameObj):
 		"""this will execute the frame object"""
 		pass
