@@ -185,9 +185,6 @@ class TemplateLibrary(object):
 
 
 
-
-
-
 	def loadFrameFilesFromDir(self, dir_path):
 		"""Read the directory and read all frame files to create
 		templates when the script is run"""
