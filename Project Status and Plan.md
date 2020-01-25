@@ -8,7 +8,7 @@
 
 ## Next Step
 * Finalize a structure that can be used for generating texts and execute commands easily from users perspective,
-* Plan the directory structure development as well where TemplateLibrary instance has to be used for automation
+
 
 ## Common Terms
 
@@ -83,7 +83,7 @@ It is only for making Pyland user friendly.
        using either frame commands or frameDir files
 
 
-## Steps of operation
+## Steps of operation (frames)
 
 ### step 1
     User needs to generate+execute something, does frame command exist?
@@ -108,6 +108,20 @@ It is only for making Pyland user friendly.
 
 ### step 5
     done.
+    
+
+## Steps of operation (frame dirs)
+
+### step 1
+    User provides a frame dir file that contains all information about
+    the directory structure, file names, frame objects associated with
+    files including parameters (for now)
+    
+### step 2
+    All directories and files will be created based on the units
+    
+### More
+    Further details will be added after initial coding is complete.
 
 
 
