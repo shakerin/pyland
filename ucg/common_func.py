@@ -32,8 +32,29 @@ def printDict(user_dict):
 	return
 
 
+def createNewFile(file_path):
+	"""This method will create the path first and then create new file
+	It doesn't care if the file is already present or not"""
+	file_name = file_path.split("/")[-1]
+	dir_path = file_path.replace(file_name, "")
+	createDirIfNotPresent(dir_path)
+	with open(file_path, "w+") as f:
+		f.write("")
+	return
+
 def createDirIfNotPresent(dir_path):
-	"""create directory if doesn't exist already"""
+	"""create directory if doesn't exist already.
+	
+	This method will create the whole dir_path if doesn't exist.
+	Example:
+	--------
+	dir_path = /home/usr/nightmare/project
+	
+	(1) if project/ doesn't exist in /home/usr/nightmare/, 
+		this method will create it.
+	(2) if nightmare/ doesn't exist in /home/usr/,
+		this method will create nightmare/ and then project/ inside it. 
+	"""
 	dir_already_present = False
 	if os.path.isdir(dir_path):
 		dir_already_present = True
@@ -42,21 +63,24 @@ def createDirIfNotPresent(dir_path):
 	return dir_already_present
 
 def createFileIfNotPresent(file_path):
-	"""create file if doesn't exist already"""
+	"""create file if doesn't exist already.
+
+	This method will create the whole file_path if doesn't exist.
+	Example:
+	--------
+	file_path = /home/usr/nightmare/project.txt
+	
+	(1) if project.txt doesn't exist in /home/usr/nightmare/, 
+		this method will create it.
+	(2) if nightmare/ doesn't exist in /home/usr/,
+		this method will create nightmare/ and then project.txt inside it. 	
+	"""
 	file_already_present = False
 	if os.path.isfile(file_path):
 			file_already_present = True
 	else:
-		with open(file_path, "w+") as f:
-			f.write("")
+		createNewFile(file_path)
 	return file_already_present
-
-def createNewFile(file_path):
-	"""create a new file by removing old file"""
-	with open(file_path, "w+") as f:
-		f.write("")
-	pass
-
 
 
 
