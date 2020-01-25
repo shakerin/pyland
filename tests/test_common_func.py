@@ -35,8 +35,14 @@ class TestCommonFunc:
 
     
     def test_createFileIfNotPresent(self):
+        """check if createFileIfNotPresent method is working
+        properly in this environment.
+        
+        This test checks two features of the task-
+        (i)  file is created when not present
+        (ii) file is not created if already present
+        """
         dir_path = PV_testdir_common_func + "/" + PV_delete_by_clean_dir
-        createDirIfNotPresent(dir_path)
         file_path = dir_path + "/createFileIfNotPresentTest.txt"
         # checks if file already present
         file_initially_present = os.path.isfile(file_path)
@@ -49,7 +55,6 @@ class TestCommonFunc:
                 (file_already_present==True)
         if file_already_present:
             os.remove(file_path)
-
         return
       
 
