@@ -11,7 +11,7 @@ Function List:
 
 import os
 import shutil
-
+from pathlib import Path
 
 # prints items of list one by one
 def printList(user_list):
@@ -38,18 +38,18 @@ def createDirIfNotPresent(dir_path):
 	if os.path.isdir(dir_path):
 		dir_already_present = True
 	else:
-		os.mkdir(dir_path)
+		Path(dir_path).mkdir(parents=True, exist_ok=False)
 	return dir_already_present
 
 def createFileIfNotPresent(file_path):
 	"""create file if doesn't exist already"""
-
-	if os.path.isfile(dir_path):
-		pass
+	file_already_present = False
+	if os.path.isfile(file_path):
+			file_already_present = True
 	else:
 		with open(file_path, "w+") as f:
 			f.write("")
-	return
+	return file_already_present
 
 def createNewFile(file_path):
 	"""create a new file by removing old file"""
