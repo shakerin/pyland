@@ -30,7 +30,6 @@ from .Structure import Structure
 from .global_vars import *
 
 
-
 class Pyland(object):
 	"""
 	- This class is the top most level of class in Pyland project.
@@ -42,11 +41,12 @@ class Pyland(object):
 	  frame cmd.
 	"""
 	def __init__(self):
+		self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
 		pass
 	
 
 	def automateStructure(self):
-		self.St1 = Structure(STRUCT_FILE)
+		self.St1 = Structure(STRUCT_FILE, self.frame_dir_list)
 		self.St1.automate()
 		
 	def automateFrame(self):
