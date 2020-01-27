@@ -8,6 +8,11 @@ PV_testdir_Expected_Output_Examples = PROJECT_DIR + "pyland/tests/test_examples/
 PV_tests = PROJECT_DIR + "pyland/tests/test_examples/"
 PV_testdir_CommandLibraryTest = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest"
 PV_testdir_CommandLibraryTest2 = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest2"
+PV_testdir_Structure = PROJECT_DIR + "pyland/tests/test_examples/testdir_Structure_example"
+PV_testdir_Frames = PROJECT_DIR + "pyland/tests/test_examples/FrameDir"
+
+
+
 # following directory name should be used in testcases, when test
 # developer wants the directory to be deleted just after method
 # execution. this is currently only cleanable by clean script
