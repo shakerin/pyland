@@ -73,6 +73,7 @@ class Structure(object):
 		self.getOriginalStructureInList()
 		self.extractDirNames()
 		self.createAbsDirPaths()
+		#self.createAbsFilePaths()
 		return
 
 
@@ -83,8 +84,8 @@ class Structure(object):
 		return
 
 	def extractDirNames(self):
-		dir_names = []
-		no_of_preceding_spaces = []
+		dir_names, file_n_dir_names = [], []
+		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
 			if "//" in line:
 				dir_name = line.replace("//", "").strip()
@@ -92,29 +93,27 @@ class Structure(object):
 				dir_name_segment = line.split("//")[0]
 				no_of_preceding_space = len(dir_name_segment) - len(dir_name_segment.strip())
 				no_of_preceding_spaces.append(no_of_preceding_space)
+				file_n_dir_name = line.replace(",,", "").replace("//", "").strip()
+				file_n_dir_names.append(file_n_dir_name)
+				file_n_dir_name_segment = line.split(",,")[0]
+				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
+				no_of_preceding_spaces_all.append(no_of_preceding_space_all)				
+			elif ",," in line:
+				file_n_dir_name = line.replace(",,", "").strip()
+				file_n_dir_names.append(file_n_dir_name)
+				file_n_dir_name_segment = line.split(",,")[0]
+				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
+				no_of_preceding_spaces_all.append(no_of_preceding_space_all)				
 		self.dir_names = dir_names
 		self.no_of_preceding_spaces = no_of_preceding_spaces
+		self.file_n_dir_names = file_n_dir_names
+		self.no_of_preceding_spaces_all = no_of_preceding_spaces_all
 		return
 
 	def createAbsDirPaths(self):
 		dir_names = self.dir_names
 		positions = self.no_of_preceding_spaces
-		paths_no = []
-		# [1, 2, 7, 3]
-		for i, position in enumerate(positions):#[1, 2, 7]
-			segment = list(reversed(positions[:i+1]))#[2, 1], [7, 2, 1], [3, 7, 2, 1]
-			a1 = segment[0]
-			path = [i]
-			for j, pos in enumerate(segment[:-1]):
-				#path = [j]#path ==> [0]
-				if len(segment) < 2:
-					pass
-				else:
-					a2 = segment[j+1]# j+1==> 1, 2, 3 
-					if a1>a2:
-						a1 = a2
-						path.append(j+1)# path ==> [0, 2, 3]
-			paths_no.append(path)
+		paths_no = self.formPathsFromPosition(positions)
 		abs_paths = []
 		for path in paths_no:
 			abs_path = ""
@@ -123,6 +122,48 @@ class Structure(object):
 			abs_paths.append(abs_path)
 		self.abs_paths = abs_paths
 		return
+
+	def createAbsFilePaths(self):
+		file_n_dir_names = self.file_n_dir_names
+		positions = self.no_of_preceding_spaces_all
+		paths_no = self.formPathsFromPosition(positions)
+		abs_paths = []
+		for path in paths_no:
+			abs_path = ""
+			for i in path:
+				abs_path += file_n_dir_names[i]+"/"
+			abs_path = abs_path[:-1]
+			abs_paths.append(abs_path)
+		#print(abs_paths)
+		#print(self.abs_paths)
+		self.abs_filepaths = [set(abs_paths) - set(self.abs_paths)]
+		return
+
+
+	def formPathsFromPosition(self, positions):
+		#print(positions)
+		paths_no = []
+		for i, position in enumerate(positions):#[1, 2, 7]
+			segment = list(reversed(positions[:i+1]))#[2, 1], [7, 2, 1], [3, 7, 2, 1]
+			a1 = segment[0]
+			path = []
+			for j, pos in enumerate(segment[1:]):
+				#path = [j]#path ==> [0]
+				if len(segment) < 2:
+					pass
+				else:
+					a2 = pos# segment[j]# j+1==> 1, 2, 3 
+					#print("1> (", len(segment),")", i, j, a1, a2)
+					if a1>a2:
+						a1 = a2
+						#print("2> (", len(segment),")", i, j, a1, a2)
+						path.append(len(segment[1:])-1-j)# path ==> [0, 2, 3]
+			path = list(reversed(path))
+			path.append(i)
+			#print(path)
+			paths_no.append(path)
+		#print(paths_no)
+		return paths_no
 
 
 
