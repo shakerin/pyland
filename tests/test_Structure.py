@@ -19,9 +19,25 @@ class TestStructure:
         structure_file_path = PV_testdir_Structure + "/structure_1.struct"
         structure_1 = Structure(structure_file_path, PV_testdir_Frames)
         assert sorted(structure_1.abs_paths) == sorted( \
-                                                        ['test1/',
-                                                        'test2/test2/',
-                                                        'test4/test2/test4/',
-                                                        'test5/test5/',
+                                                        [
+                                                        'test1/',
+                                                        'test1/test2/',
+                                                        'test1/test2/test4/',
+                                                        'test1/test5/',
                                                         'test3/',
                                                         'test88/'])
+    """
+    def test_Structure_FilePaths(self):
+        structure_file_path = PV_testdir_Structure + "/structure_1.struct"
+        structure_1 = Structure(structure_file_path, PV_testdir_Frames)
+        assert sorted(structure_1.abs_filepaths) == sorted( \
+                                                        [
+                                                        'test1/file1.txt',
+                                                        'test1/file2.txt',
+                                                        'test1/file3.txt',
+                                                        'test1/test2/file1.txt',
+                                                        'test1/test2/file2.txt',
+                                                        'test1/test2/file3.txt'
+                                                        ])
+    """
+
