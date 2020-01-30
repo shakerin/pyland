@@ -26,7 +26,7 @@ class TestStructure:
                                                         'test1/test5/',
                                                         'test3/',
                                                         'test88/'])
-    """
+    
     def test_Structure_FilePaths(self):
         structure_file_path = PV_testdir_Structure + "/structure_1.struct"
         structure_1 = Structure(structure_file_path, PV_testdir_Frames)
@@ -39,5 +39,5 @@ class TestStructure:
                                                         'test1/test2/file2.txt',
                                                         'test1/test2/file3.txt'
                                                         ])
-    """
+    
 
