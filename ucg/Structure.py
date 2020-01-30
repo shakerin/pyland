@@ -73,7 +73,7 @@ class Structure(object):
 		self.getOriginalStructureInList()
 		self.extractDirNames()
 		self.createAbsDirPaths()
-		#self.createAbsFilePaths()
+		self.createAbsFilePaths()
 		return
 
 
@@ -84,7 +84,7 @@ class Structure(object):
 		return
 
 	def extractDirNames(self):
-		dir_names, file_n_dir_names = [], []
+		dir_names, file_names, file_n_dir_names = [], [], []
 		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
 			if "//" in line:
@@ -103,7 +103,10 @@ class Structure(object):
 				file_n_dir_names.append(file_n_dir_name)
 				file_n_dir_name_segment = line.split(",,")[0]
 				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
-				no_of_preceding_spaces_all.append(no_of_preceding_space_all)				
+				no_of_preceding_spaces_all.append(no_of_preceding_space_all)	
+				file_name = line.replace(",,", "").strip()
+				file_names.append(file_name)
+		self.file_names = file_names			
 		self.dir_names = dir_names
 		self.no_of_preceding_spaces = no_of_preceding_spaces
 		self.file_n_dir_names = file_n_dir_names
@@ -127,42 +130,50 @@ class Structure(object):
 		file_n_dir_names = self.file_n_dir_names
 		positions = self.no_of_preceding_spaces_all
 		paths_no = self.formPathsFromPosition(positions)
-		abs_paths = []
+		abs_file_paths = []
 		for path in paths_no:
 			abs_path = ""
 			for i in path:
 				abs_path += file_n_dir_names[i]+"/"
 			abs_path = abs_path[:-1]
-			abs_paths.append(abs_path)
-		#print(abs_paths)
-		#print(self.abs_paths)
-		self.abs_filepaths = [set(abs_paths) - set(self.abs_paths)]
+			abs_file_paths.append(abs_path)
+		abs_file_paths = self.getOnlyFilePaths(abs_file_paths, self.file_names)
+		abs_file_paths = list(set(abs_file_paths) - set(self.abs_paths))
+		self.abs_filepaths = [f[:-1] for f in abs_file_paths]
 		return
 
 
+	def getOnlyFilePaths(self, abs_file_paths, file_names):
+		clean_abs_file_paths = []
+		file_names = list(set(file_names))
+		file_name_regex = "/|".join(file_names)
+		file_name_regex = file_name_regex+"/" if file_name_regex != "" else "XXXXXXXXXXXXXXXXX"
+		print(file_name_regex)
+		for abs_file_path in abs_file_paths:
+			print(abs_file_path)
+			clean_file_name = ""
+			clean_file_name = re.sub(file_name_regex, '', abs_file_path) + "/"
+			clean_abs_file_paths.append(clean_file_name)
+		print(clean_abs_file_paths)
+		return clean_abs_file_paths
+
 	def formPathsFromPosition(self, positions):
-		#print(positions)
 		paths_no = []
-		for i, position in enumerate(positions):#[1, 2, 7]
-			segment = list(reversed(positions[:i+1]))#[2, 1], [7, 2, 1], [3, 7, 2, 1]
+		for i, position in enumerate(positions):
+			segment = list(reversed(positions[:i+1]))
 			a1 = segment[0]
 			path = []
 			for j, pos in enumerate(segment[1:]):
-				#path = [j]#path ==> [0]
 				if len(segment) < 2:
 					pass
 				else:
-					a2 = pos# segment[j]# j+1==> 1, 2, 3 
-					#print("1> (", len(segment),")", i, j, a1, a2)
+					a2 = pos
 					if a1>a2:
 						a1 = a2
-						#print("2> (", len(segment),")", i, j, a1, a2)
 						path.append(len(segment[1:])-1-j)# path ==> [0, 2, 3]
 			path = list(reversed(path))
 			path.append(i)
-			#print(path)
 			paths_no.append(path)
-		#print(paths_no)
 		return paths_no
 
 
