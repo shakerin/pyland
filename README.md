@@ -45,7 +45,7 @@ pytest-3 .
 
 ### Test Status
 ```
-80/80 Tests Passing
+81/81 Tests Passing
 ```
 
 ### Project Status and Future Plan
