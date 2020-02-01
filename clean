@@ -1,4 +1,4 @@
 #!/bin/bash
 find . -type d -name '.cache*' -exec rm -rf {} +
 find . -type d -name '*pyc*' -exec rm -rf {} +
-find . -type d -name 'to_be_deleted' -exec rm -rf {} +
+find . -type d -name 'to_be_deleted*' -exec rm -rf {} +
