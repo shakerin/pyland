@@ -74,6 +74,27 @@ class Structure(object):
 		self.extractDirNames()
 		self.createAbsDirPaths()
 		self.createAbsFilePaths()
+		self.createDirectoryAndFiles()
+		return
+
+
+	def createDirectoryAndFiles(self):
+		self.createDirs()
+		self.createFiles()
+		return
+
+	def createDirs(self):
+		"""self.abs_paths"""
+		self.no_issue = True
+		for path in self.abs_paths:
+			self.no_issue &= createDirIfNotPresent(path)
+		return
+
+	def createFiles(self):
+		"""self.abs_filepaths"""
+		self.no_fileissue = True
+		for path in self.abs_filepaths:
+			self.no_fileissue &= createFileIfNotPresent(path)
 		return
 
 
@@ -114,6 +135,7 @@ class Structure(object):
 		return
 
 	def createAbsDirPaths(self):
+		"""self.abs_paths contains all directory paths"""
 		dir_names = self.dir_names
 		positions = self.no_of_preceding_spaces
 		paths_no = self.formPathsFromPosition(positions)
@@ -127,6 +149,7 @@ class Structure(object):
 		return
 
 	def createAbsFilePaths(self):
+		"""self.abs_filepaths contains all file paths"""
 		file_n_dir_names = self.file_n_dir_names
 		positions = self.no_of_preceding_spaces_all
 		paths_no = self.formPathsFromPosition(positions)
@@ -148,13 +171,10 @@ class Structure(object):
 		file_names = list(set(file_names))
 		file_name_regex = "/|".join(file_names)
 		file_name_regex = file_name_regex+"/" if file_name_regex != "" else "XXXXXXXXXXXXXXXXX"
-		print(file_name_regex)
 		for abs_file_path in abs_file_paths:
-			print(abs_file_path)
 			clean_file_name = ""
 			clean_file_name = re.sub(file_name_regex, '', abs_file_path) + "/"
 			clean_abs_file_paths.append(clean_file_name)
-		print(clean_abs_file_paths)
 		return clean_abs_file_paths
 
 	def formPathsFromPosition(self, positions):
