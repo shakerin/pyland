@@ -94,6 +94,7 @@ class Structure(object):
 		"""self.abs_filepaths"""
 		self.no_fileissue = True
 		for path in self.abs_filepaths:
+			print("path: ", path)
 			self.no_fileissue &= createFileIfNotPresent(path)
 		return
 
@@ -109,20 +110,17 @@ class Structure(object):
 		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
 			if "//" in line:
-				dir_name = line.replace("//", "").strip()
+				dir_name = line.strip().split("//")[0]
 				dir_names.append(dir_name)
-				dir_name_segment = line.split("//")[0]
+				dir_name_segment = line.split("//")[0]# no strip in line
 				no_of_preceding_space = len(dir_name_segment) - len(dir_name_segment.strip())
 				no_of_preceding_spaces.append(no_of_preceding_space)
-				file_n_dir_name = line.replace(",,", "").replace("//", "").strip()
-				file_n_dir_names.append(file_n_dir_name)
-				file_n_dir_name_segment = line.split(",,")[0]
-				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
-				no_of_preceding_spaces_all.append(no_of_preceding_space_all)				
+				file_n_dir_names.append(dir_name)
+				no_of_preceding_spaces_all.append(no_of_preceding_space)				
 			elif ",," in line:
-				file_n_dir_name = line.replace(",,", "").strip()
+				file_n_dir_name = line.strip().split(",,")[0]
 				file_n_dir_names.append(file_n_dir_name)
-				file_n_dir_name_segment = line.split(",,")[0]
+				file_n_dir_name_segment = line.split(",,")[0]# no strip in line
 				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
 				no_of_preceding_spaces_all.append(no_of_preceding_space_all)	
 				file_name = line.replace(",,", "").strip()
@@ -146,6 +144,7 @@ class Structure(object):
 				abs_path += dir_names[i]+"/"
 			abs_paths.append(abs_path)
 		self.abs_paths = abs_paths
+		print(self.abs_paths)
 		return
 
 	def createAbsFilePaths(self):
