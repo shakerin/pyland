@@ -14,11 +14,91 @@ from tests.path_variables import *
 
 
 class TestStructure:
+
     
+    structure_file_path_main = PV_testdir_Structure + "/structure_1.struct"
+    structure_main = Structure(structure_file_path_main, PV_testdir_Frames)
+    
+    
+    def test_Structure_OriginalList(self):
+        with open(TestStructure.structure_file_path_main, 'r') as f:
+            read_lines = f.readlines()
+        read_lines = list(filter(None, read_lines))
+        assert sorted(TestStructure.structure_main.original_list) == sorted(read_lines)
+
+
+
+
+    def test_Structure_Filenames(self):
+        assert sorted(TestStructure.structure_main.file_names) == sorted([
+                                                                        "file1.txt",
+                                                                        "file2.txt",
+                                                                        "file3.txt",
+                                                                        "file1.txt",
+                                                                        "file2.txt",
+                                                                        "file3.txt",
+                                                                        ])
+
+    def test_Structure_Dirnames(self):
+        assert sorted(TestStructure.structure_main.dir_names) ==  sorted([
+                                                                        "to_be_deleted_test1",
+                                                                        "test2",
+                                                                        "test4",
+                                                                        "test5",
+                                                                        "to_be_deleted_test3",
+                                                                        "to_be_deleted_test88",
+                                                                        ])
+
+    def test_Structure_FileNDirnames(self):
+        assert sorted(TestStructure.structure_main.file_n_dir_names) ==  sorted([
+                                                                                "to_be_deleted_test1",
+                                                                                "test2",
+                                                                                "test4",
+                                                                                "test5",
+                                                                                "to_be_deleted_test3",
+                                                                                "to_be_deleted_test88",
+                                                                                "file1.txt",
+                                                                                "file2.txt",
+                                                                                "file3.txt",
+                                                                                "file1.txt",
+                                                                                "file2.txt",
+                                                                                "file3.txt",
+                                                                                ])
+
+
+
+    def test_Structure_No_Of_Preceding_Spaces(self):
+        assert TestStructure.structure_main.no_of_preceding_spaces == [
+                                                                        0,
+                                                                            4,
+                                                                                8,
+                                                                            4,
+                                                                        0,
+                                                                        0,
+                                                                        ]
+
+
+    def test_Structure_No_Of_Preceding_Spaces(self):
+        assert TestStructure.structure_main.no_of_preceding_spaces_all == [
+                                                                            0,
+                                                                                4,
+                                                                                4,
+                                                                                4,
+                                                                                4,
+                                                                                    8,
+                                                                                    8,
+                                                                                    8,
+                                                                                    8,
+                                                                                4,
+                                                                            0,
+                                                                            0,
+                                                                            ]
+
+
+
+
     def test_Structure_directoryPaths(self):
-        structure_file_path = PV_testdir_Structure + "/structure_1.struct"
-        structure_1 = Structure(structure_file_path, PV_testdir_Frames)
-        assert sorted(structure_1.abs_paths) == sorted( \
+        assert sorted(TestStructure.structure_main.abs_paths) == sorted( \
                                                         [
                                                         'to_be_deleted_test1/',
                                                         'to_be_deleted_test1/test2/',
@@ -28,9 +108,7 @@ class TestStructure:
                                                         'to_be_deleted_test88/'])
     
     def test_Structure_FilePaths(self):
-        structure_file_path = PV_testdir_Structure + "/structure_1.struct"
-        structure_1 = Structure(structure_file_path, PV_testdir_Frames)
-        assert sorted(structure_1.abs_filepaths) == sorted( \
+        assert sorted(TestStructure.structure_main.abs_filepaths) == sorted( \
                                                         [
                                                         'to_be_deleted_test1/file1.txt',
                                                         'to_be_deleted_test1/file2.txt',
@@ -40,10 +118,8 @@ class TestStructure:
                                                         'to_be_deleted_test1/test2/file3.txt'
                                                         ])
     
-
+    
     def test_Structure_DirCreation_Check(self):
-        structure_file_path = PV_testdir_Structure + "/structure_1.struct"
-        structure_1 = Structure(structure_file_path, PV_testdir_Frames)
         root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
         created_dirs = ["to_be_deleted_test1/", "to_be_deleted_test3/", "to_be_deleted_test88/"]
         for root_dir in root_dirs:
@@ -52,13 +128,9 @@ class TestStructure:
                     for dir_name in dirs:
                         dirpath = os.path.join(root, dir_name) + "/"
                         created_dirs.append(dirpath)
-        print (structure_1.abs_paths)
-        print(created_dirs)
-        assert sorted(structure_1.abs_paths) == sorted(created_dirs)
-
+        assert sorted(TestStructure.structure_main.abs_paths) == sorted(created_dirs)
+    
     def test_Structure_FileCreation_Check(self):
-        structure_file_path = PV_testdir_Structure + "/structure_1.struct"
-        structure_1 = Structure(structure_file_path, PV_testdir_Frames)
         root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
         created_files = []
         for root_dir in root_dirs:
@@ -67,9 +139,7 @@ class TestStructure:
                     for file_name in files:
                         filepath = os.path.join(root, file_name)
                         created_files.append(filepath)
-        print (structure_1.abs_filepaths)
-        print(created_files)
-        assert sorted(structure_1.abs_filepaths) == sorted(created_files)
-
+        assert sorted(TestStructure.structure_main.abs_filepaths) == sorted(created_files)
+    
 
 
