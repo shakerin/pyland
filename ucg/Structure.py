@@ -71,10 +71,14 @@ class Structure(object):
 
 	def extractStructFile(self):
 		self.getOriginalStructureInList()
-		self.extractDirNames()
+		self.extractDirFileCmdNames()
+		self.createAbsPaths()
+		self.createDirectoryAndFiles()
+		return
+
+	def createAbsPaths(self):
 		self.createAbsDirPaths()
 		self.createAbsFilePaths()
-		self.createDirectoryAndFiles()
 		return
 
 
@@ -85,46 +89,46 @@ class Structure(object):
 
 	def createDirs(self):
 		"""self.abs_paths"""
-		self.no_issue = True
 		for path in self.abs_paths:
-			self.no_issue &= createDirIfNotPresent(path)
+			createDirIfNotPresent(path)
 		return
 
 	def createFiles(self):
 		"""self.abs_filepaths"""
-		self.no_fileissue = True
 		for path in self.abs_filepaths:
-			print("path: ", path)
-			self.no_fileissue &= createFileIfNotPresent(path)
+			createFileIfNotPresent(path)
 		return
 
 
 	def getOriginalStructureInList(self):
 		with open(self.struct_file_path, 'r') as f:
-			self.original_list = f.readlines()
-		self.original_list = filter(None, self.original_list)
+			original_list = f.readlines()
+		self.original_list = list(filter(None, original_list))
 		return
 
-	def extractDirNames(self):
+
+	def extractDirFileNameCmd(self, str_to_parse, separator):
+		dir_file_cmd_name = str_to_parse.strip().split(separator)[0]
+		dir_file_cmd_name_raw = str_to_parse.split(separator)[0]
+		dir_file_cmd_name_raw_clean = dir_file_cmd_name_raw.strip()
+		dir_file_cmd_name_pos = len(dir_file_cmd_name_raw)-len(dir_file_cmd_name_raw_clean)
+		return (dir_file_cmd_name, dir_file_cmd_name_pos)
+
+	def extractDirFileCmdNames(self):
 		dir_names, file_names, file_n_dir_names = [], [], []
 		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
-			if "//" in line:
-				dir_name = line.strip().split("//")[0]
+			if self.directory_sign in line:
+				dir_name, no_of_preceding_space = self.extractDirFileNameCmd(line, self.directory_sign)
 				dir_names.append(dir_name)
-				dir_name_segment = line.split("//")[0]# no strip in line
-				no_of_preceding_space = len(dir_name_segment) - len(dir_name_segment.strip())
 				no_of_preceding_spaces.append(no_of_preceding_space)
 				file_n_dir_names.append(dir_name)
 				no_of_preceding_spaces_all.append(no_of_preceding_space)				
-			elif ",," in line:
-				file_n_dir_name = line.strip().split(",,")[0]
-				file_n_dir_names.append(file_n_dir_name)
-				file_n_dir_name_segment = line.split(",,")[0]# no strip in line
-				no_of_preceding_space_all = len(file_n_dir_name_segment) - len(file_n_dir_name_segment.strip())
+			elif self.file_sign in line:
+				file_n_dir_name, no_of_preceding_space_all = self.extractDirFileNameCmd(line, self.file_sign)
 				no_of_preceding_spaces_all.append(no_of_preceding_space_all)	
-				file_name = line.replace(",,", "").strip()
-				file_names.append(file_name)
+				file_n_dir_names.append(file_n_dir_name)
+				file_names.append(file_n_dir_name)
 		self.file_names = file_names			
 		self.dir_names = dir_names
 		self.no_of_preceding_spaces = no_of_preceding_spaces
@@ -132,34 +136,31 @@ class Structure(object):
 		self.no_of_preceding_spaces_all = no_of_preceding_spaces_all
 		return
 
-	def createAbsDirPaths(self):
-		"""self.abs_paths contains all directory paths"""
-		dir_names = self.dir_names
-		positions = self.no_of_preceding_spaces
-		paths_no = self.formPathsFromPosition(positions)
+
+	def getAbsPaths(self, paths_no, path_names, assume_path_is_file=False):
 		abs_paths = []
 		for path in paths_no:
 			abs_path = ""
 			for i in path:
-				abs_path += dir_names[i]+"/"
+				abs_path += path_names[i]+"/"
+			if assume_path_is_file:
+				abs_path = abs_path[:-1]
 			abs_paths.append(abs_path)
-		self.abs_paths = abs_paths
-		print(self.abs_paths)
+		if assume_path_is_file:
+			abs_paths = self.getOnlyFilePaths(abs_paths, self.file_names)
+		return abs_paths
+
+
+	def createAbsDirPaths(self):
+		"""self.abs_paths contains all directory paths"""
+		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces)
+		self.abs_paths = self.getAbsPaths(paths_no, self.dir_names)
 		return
 
 	def createAbsFilePaths(self):
 		"""self.abs_filepaths contains all file paths"""
-		file_n_dir_names = self.file_n_dir_names
-		positions = self.no_of_preceding_spaces_all
-		paths_no = self.formPathsFromPosition(positions)
-		abs_file_paths = []
-		for path in paths_no:
-			abs_path = ""
-			for i in path:
-				abs_path += file_n_dir_names[i]+"/"
-			abs_path = abs_path[:-1]
-			abs_file_paths.append(abs_path)
-		abs_file_paths = self.getOnlyFilePaths(abs_file_paths, self.file_names)
+		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces_all)
+		abs_file_paths = self.getAbsPaths(paths_no, self.file_n_dir_names, True)
 		abs_file_paths = list(set(abs_file_paths) - set(self.abs_paths))
 		self.abs_filepaths = [f[:-1] for f in abs_file_paths]
 		return
