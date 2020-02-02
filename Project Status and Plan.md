@@ -5,9 +5,10 @@
 * FileToTemplate class is same as TemplateInfo except, it reads the frame string from a file,
 * TemplateLibrary class is the place where frame objects are created for all frame strings,
 * frame objects from TemplateLibrary class can be utilized to generate text or execute accessible system commands,
+* Finalize a structure that can be used for generating texts
 
 ## Next Step
-* Finalize a structure that can be used for generating texts and execute commands easily from users perspective,
+* execute commands easily from users perspective,
 
 
 ## Common Terms
@@ -31,7 +32,7 @@ frame string class.
 ### frame dir
 This file contains information about directory structure and frameObj associated
 with individual files.
-*frame dir concept is not developed in pyland yet*
+*frame dir concept is being developed in pyland now(Feb 2, 2020)*
 
 ### frame cmd
 This is a mechanism that will allow users to create/execute any frameObj from terminal.
@@ -62,19 +63,19 @@ It is only for making Pyland user friendly.
     
 
 
-## FrameDir File Example
+## FrameDir File Example (aka 'Structure File')
 
     dir1//
-        file11<frameObj(<dict argument>)>,,
-        file12<frameObj(<dict argument>)>,,
+        file11,,<frameObj(<dict argument>)>
+        file12,,<frameObj(<dict argument>)>
     dir2//
-        file21<frameObj(<dict argument>)>,,
+        file21,,<frameObj(<dict argument>)>
         dir21//
             file211,,
-            file212<frameObj(<dict argument>)>,,
-            dir211//,,
-    file1<frameObj(<dict argument>)>,,
-    file2<frameObj(<dict argument>)>,,
+            file212,,<frameObj(<dict argument>)>
+            dir211//
+    file1,,<frameObj(<dict argument>)>
+    file2,,<frameObj(<dict argument>)>
 
 
 ## Basic Frame Commands
