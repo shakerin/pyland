@@ -55,20 +55,6 @@ class Structure(object):
 		return
 
 
-
-	def directoryPaths(self):
-		"""This method will be used for extracting all directory paths
-		that has to be created for given directory structure
-		"""
-		return
-
-	def filePaths(self):
-		"""This method will be used for extracting all file paths that
-		has to be created for given directory structure
-		"""
-		return
-
-
 	def extractStructFile(self):
 		self.getOriginalStructureInList()
 		self.extractDirFileCmdNames()
@@ -147,7 +133,7 @@ class Structure(object):
 				abs_path = abs_path[:-1]
 			abs_paths.append(abs_path)
 		if assume_path_is_file:
-			abs_paths = self.getOnlyFilePaths(abs_paths, self.file_names)
+			abs_paths = self.getCorrectPaths(abs_paths, self.file_names)
 		return abs_paths
 
 
@@ -166,7 +152,31 @@ class Structure(object):
 		return
 
 
-	def getOnlyFilePaths(self, abs_file_paths, file_names):
+	def getCorrectPaths(self, abs_file_paths, file_names):
+		"""this method returns only the correct paths from a list of 
+		extracted paths
+
+		it searches for 'filename'+'/' in each item of abs_file_paths and 
+		replaces the string with ''.
+
+		Parameters
+		----------
+		abs_file_paths : a list of strings
+			each string in the list represents a path (directory or file)
+			i.e. ['/home/user/filename.txt', '/home/user/']
+
+		file_names : a list of strings
+			each string in the list represents a file name
+			i.e. ['filename.txt']
+
+		Returns
+		-------
+		clean_abs_file_paths : a list of strings
+			each string in the list represent a clean file path
+		Note
+		----
+		the returned list may contain duplicate item
+		"""
 		clean_abs_file_paths = []
 		file_names = list(set(file_names))
 		file_name_regex = "/|".join(file_names)
@@ -178,6 +188,45 @@ class Structure(object):
 		return clean_abs_file_paths
 
 	def formPathsFromPosition(self, positions):
+		"""returns list of paths from a list of positions
+
+		Parameters
+		----------
+		positions : a list of integers
+			each integer in the list represents position of a path in
+			structure file. i.e. [0, 2, 4, 0]
+
+		Return
+		------
+		paths_no : a list of integer lists
+			each list in this list represent a path.
+
+		Example
+		-------
+		Let say, a structure file looks like this:
+		############## structure.txt #############
+		dir1//
+			file1.txt,,
+			dir2//
+		dir3//
+		############## structure.txt #############
+		Then, positions = [0, 4, 4, 0] where,
+						   0 ---------> position of dir1 in the file
+							  4 ---------> position of file1.txt in the file
+							  4 ---------> position of dir2 in the file
+						   0 ---------> position of dir3 in the file
+		paths_no = [
+					[0],  ---------> represents position of dir1 in 
+									 the list positions that is [0]
+					[0,1],---------> represents position of [dir1, file1.txt]
+									 in the list positions that is [0,1]
+					[0,2],---------> position of [dir1, dir2] in positions
+					[3]   ---------> position of [dir3] in positions
+					]
+		If users keep the directory and filenames in a list such as:
+				['dir1', 'file1.txt', 'dir2', 'dir3'], 
+				they can easily create the paths from paths_no
+		"""
 		paths_no = []
 		for i, position in enumerate(positions):
 			segment = list(reversed(positions[:i+1]))
