@@ -208,11 +208,30 @@ class Structure(object):
 
 
 	def getAbsPaths(self, paths_no, path_names, assume_path_is_file=False):
-		"""
+		"""This method returns list of real paths created based on the index
+		numbers(paths_no) and dir or file+dir list(path_names) 
 
 		Parameters
 		----------
-		paths_no
+		paths_no : a list of integers
+			each integer in the list represent the index of a dir/file name
+			depending on the situation
+		path_names: a list of strings
+			each string in the list represents a file name or dir name
+		assume_path_is_file : boolean
+			if this boolean value is True,
+				the last character of the path will be removed,
+				it is done to accomodate special case in file path extraction,
+				file names end with '/' just like a dir name, so, '/' at
+				the end of the file path is removed based on this boolean
+			else
+				nothing will happen
+
+		Returns
+		-------
+		abs_paths : list of strings
+			each string represents a dir or file path,
+			this list may contain duplicate items
 		"""
 		abs_paths = []
 		for path in paths_no:
@@ -228,7 +247,7 @@ class Structure(object):
 
 
 	def createAbsDirPaths(self):
-		"""
+		"""Forms all paths to dir based on self.abs_paths
 		
 		self.abs_paths contains all directory paths"""
 		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces)
@@ -236,7 +255,9 @@ class Structure(object):
 		return
 
 	def createAbsFilePaths(self):
-		"""self.abs_filepaths contains all file paths"""
+		"""Forms all paths to dir based on self.abs_filepaths
+		
+		self.abs_filepaths contains all file paths"""
 		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces_all)
 		abs_file_paths = self.getAbsPaths(paths_no, self.file_n_dir_names, True)
 		abs_file_paths = list(set(abs_file_paths) - set(self.abs_paths))
