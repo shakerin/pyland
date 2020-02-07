@@ -147,19 +147,20 @@ class Structure(object):
 
 		Returns
 		-------
-		(dir_file_cmd_name, dir_file_cmd_name_pos) : a tuple
-			dir_file_cmd_name is the string that represents the dir or 
+		(dir_file_name, dir_file_name_pos) : a tuple
+			dir_file_name is the string that represents the dir or 
 			file name,
-			dir_file_cmd_name_pos is the integer that represents the
+			dir_file_name_pos is the integer that represents the
 			position of the dir or file string. In other words, this 
 			number indicated number of spaces preceding that dir or file
 			name in that particular line in the stucture file
 		"""
-		dir_file_cmd_name = str_to_parse.strip().split(separator)[0]
-		dir_file_cmd_name_raw = str_to_parse.split(separator)[0]
-		dir_file_cmd_name_raw_clean = dir_file_cmd_name_raw.strip()
-		dir_file_cmd_name_pos = len(dir_file_cmd_name_raw)-len(dir_file_cmd_name_raw_clean)
-		return (dir_file_cmd_name, dir_file_cmd_name_pos)
+		dir_file_name = str_to_parse.strip().split(separator)[0]
+		cmd_name = str_to_parse.strip().split(separator)[1]
+		dir_file_name_raw = str_to_parse.split(separator)[0]
+		dir_file_name_raw_clean = dir_file_name_raw.strip()
+		dir_file_name_pos = len(dir_file_name_raw)-len(dir_file_name_raw_clean)
+		return (dir_file_name, dir_file_name_pos, cmd_name)
 
 	def extractDirFileCmdNames(self):
 		"""this method separates directory, file and command strings in 
@@ -185,20 +186,23 @@ class Structure(object):
 				structure file,
 				len(no_of_preceding_spaces_all)==len(file_n_dir_names)
 		"""
-		dir_names, file_names, file_n_dir_names = [], [], []
+		dir_names, file_names, file_n_dir_names, cmd_names = [], [], [], []
 		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
 			if self.directory_sign in line:
-				dir_name, no_of_preceding_space = self.extractDirFileNameCmd(line, self.directory_sign)
+				dir_name, no_of_preceding_space, cmd_name = self.extractDirFileNameCmd(line, self.directory_sign)
 				dir_names.append(dir_name)
 				no_of_preceding_spaces.append(no_of_preceding_space)
 				file_n_dir_names.append(dir_name)
-				no_of_preceding_spaces_all.append(no_of_preceding_space)				
+				no_of_preceding_spaces_all.append(no_of_preceding_space)
+				cmd_names.append(cmd_name)				
 			elif self.file_sign in line:
-				file_n_dir_name, no_of_preceding_space_all = self.extractDirFileNameCmd(line, self.file_sign)
+				file_n_dir_name, no_of_preceding_space_all, cmd_name = self.extractDirFileNameCmd(line, self.file_sign)
 				no_of_preceding_spaces_all.append(no_of_preceding_space_all)	
 				file_n_dir_names.append(file_n_dir_name)
 				file_names.append(file_n_dir_name)
+				cmd_names.append(cmd_name)
+		self.cmd_names = cmd_names
 		self.file_names = file_names			
 		self.dir_names = dir_names
 		self.no_of_preceding_spaces = no_of_preceding_spaces
