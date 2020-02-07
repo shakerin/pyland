@@ -57,12 +57,14 @@ class FileToTemplate(TemplateInfo):
 			this is the path to the frame file
 		"""
 		self.file_path = file_path
-		self.fileToText()
-		super().__init__(name, self.text) 
+		text = self.fileToText()
+		super().__init__(name, text) 
 		#TODO self.text is redundant -> remove it and don't use it
 
 
 	def fileToText(self):
 		"""Reads the frame file and stores as a string in 'text'"""
+		text = ""
 		with open(self.file_path, 'r') as f:
-			self.text = f.read()
+			text = f.read()
+		return text
