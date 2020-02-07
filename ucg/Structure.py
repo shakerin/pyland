@@ -56,6 +56,26 @@ class Structure(object):
 
 
 	def extractStructFile(self):
+		"""This is the one method that will do all extraction work
+		for any given structure file
+
+		it calls -
+			getOriginalStructureInList method,
+				read structure file as a list of non-empty strings
+			extractDirFileCmdNames method,
+				extarct lists of dir names and file names and there
+				positions in the structure to be able to generate
+				the paths for individual dir and file
+			createAbsPaths method,
+				based on the extracted information in the last method,
+				this method will create the actual dir paths and file
+				paths that needs to be created based on the structure
+				file
+			createDirectoryAndFiles,
+				finally, this methods will create the dirs and files
+				based on the formed dir and file paths
+
+		"""
 		self.getOriginalStructureInList()
 		self.extractDirFileCmdNames()
 		self.createAbsPaths()
@@ -63,30 +83,44 @@ class Structure(object):
 		return
 
 	def createAbsPaths(self):
+		"""this method, forms the file paths and dir paths based on the
+			information that is extracted from structure file by
+			using extractDirFileCmdNames method
+		"""
 		self.createAbsDirPaths()
 		self.createAbsFilePaths()
 		return
 
 
 	def createDirectoryAndFiles(self):
+		"""this method will create all directories and files if not already
+		created"""
 		self.createDirs()
 		self.createFiles()
 		return
 
 	def createDirs(self):
-		"""self.abs_paths"""
+		"""create all directories present in self.abs_paths list if the 
+		directories are not already created"""
 		for path in self.abs_paths:
 			createDirIfNotPresent(path)
 		return
 
 	def createFiles(self):
-		"""self.abs_filepaths"""
+		"""create all files present in self.abs_filepaths list if the
+		files are not already created"""
 		for path in self.abs_filepaths:
 			createFileIfNotPresent(path)
 		return
 
 
 	def getOriginalStructureInList(self):
+		"""this method reads the structure file as a list of strings
+
+		the returned list after reading the structure file is saved in 
+		an object attribute named 'original_list',
+		this list doesn't contain any empty item.
+		"""
 		with open(self.struct_file_path, 'r') as f:
 			original_list = f.readlines()
 		self.original_list = list(filter(None, original_list))
@@ -94,6 +128,33 @@ class Structure(object):
 
 
 	def extractDirFileNameCmd(self, str_to_parse, separator):
+		"""this method is created to extract dir or file name and
+		position
+
+		Parameter
+		---------
+		str_to_parse: a string
+			this string represents any string in the structure file
+			that contains either dir name or file name
+		separator: a string
+			it is the indicator string that identifies preceding text
+			is a dir name or file
+			i.e. by default, in this class, 
+				separator for dir name is       //
+				separator for file name is      ,,
+				dir1// means, dir1 is a dir name
+				file1,, means, file1 is a file name
+
+		Returns
+		-------
+		(dir_file_cmd_name, dir_file_cmd_name_pos) : a tuple
+			dir_file_cmd_name is the string that represents the dir or 
+			file name,
+			dir_file_cmd_name_pos is the integer that represents the
+			position of the dir or file string. In other words, this 
+			number indicated number of spaces preceding that dir or file
+			name in that particular line in the stucture file
+		"""
 		dir_file_cmd_name = str_to_parse.strip().split(separator)[0]
 		dir_file_cmd_name_raw = str_to_parse.split(separator)[0]
 		dir_file_cmd_name_raw_clean = dir_file_cmd_name_raw.strip()
@@ -101,6 +162,29 @@ class Structure(object):
 		return (dir_file_cmd_name, dir_file_cmd_name_pos)
 
 	def extractDirFileCmdNames(self):
+		"""this method separates directory, file and command strings in 
+		different lists
+
+		Following attributes are created based on the structure file,
+			1.  <file_names>
+			    it is a list of strings where each string is a filename,
+			    not file path
+			2.  <dir_names>
+				a list of strings where each string is a dirname,
+				not a dir path
+			3.  <file_n_dir_names>
+				a list of strings where each string is a file or dir name,
+				not file/dir path
+			4.  <no_of_preceding_spaces>
+				a list of integers where each integer is the number of 
+				spaces present before the dir name in structure file,
+				len(no_of_preceding_spaces)==len(dir_names)
+			5.  <no_of_preceding_spaces_all>
+				a list of integers where each integer is the number of 
+				spaces present before the dir name or file name in a 
+				structure file,
+				len(no_of_preceding_spaces_all)==len(file_n_dir_names)
+		"""
 		dir_names, file_names, file_n_dir_names = [], [], []
 		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
 		for line in self.original_list:
@@ -124,6 +208,12 @@ class Structure(object):
 
 
 	def getAbsPaths(self, paths_no, path_names, assume_path_is_file=False):
+		"""
+
+		Parameters
+		----------
+		paths_no
+		"""
 		abs_paths = []
 		for path in paths_no:
 			abs_path = ""
@@ -138,7 +228,9 @@ class Structure(object):
 
 
 	def createAbsDirPaths(self):
-		"""self.abs_paths contains all directory paths"""
+		"""
+		
+		self.abs_paths contains all directory paths"""
 		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces)
 		self.abs_paths = self.getAbsPaths(paths_no, self.dir_names)
 		return
