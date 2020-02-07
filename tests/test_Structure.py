@@ -65,6 +65,21 @@ class TestStructure:
                                                                                 "file3.txt",
                                                                                 ])
 
+    def test_Structure_CMDnames(self):
+        assert (TestStructure.structure_main.cmd_names) ==  ([
+                                                                "abc",
+                                                                "frameObj()",
+                                                                "newObj()",
+                                                                "newObj()",
+                                                                "",
+                                                                "newObj()",
+                                                                "newObj()",
+                                                                "newObj()",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                ])
 
 
     def test_Structure_No_Of_Preceding_Spaces(self):
@@ -98,7 +113,7 @@ class TestStructure:
 
 
     def test_Structure_directoryPaths(self):
-        assert sorted(TestStructure.structure_main.abs_paths) == sorted( \
+        assert (TestStructure.structure_main.abs_paths) == ( \
                                                         [
                                                         'to_be_deleted_test1/',
                                                         'to_be_deleted_test1/test2/',
@@ -108,6 +123,7 @@ class TestStructure:
                                                         'to_be_deleted_test88/'])
     
     def test_Structure_FilePaths(self):
+        #TODO https://github.com/shakerin/pyland/issues/48
         assert sorted(TestStructure.structure_main.abs_filepaths) == sorted( \
                                                         [
                                                         'to_be_deleted_test1/file1.txt',
