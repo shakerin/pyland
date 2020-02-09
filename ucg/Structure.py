@@ -263,8 +263,10 @@ class Structure(object):
 		
 		self.abs_filepaths contains all file paths"""
 		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces_all)
+		print(paths_no)
 		abs_file_paths = self.getAbsPaths(paths_no, self.file_n_dir_names, True)
-		abs_file_paths = list(set(abs_file_paths) - set(self.abs_paths))
+		abs_file_paths = getUniqueOrderedList(abs_file_paths)
+		abs_file_paths = getOnlyUniqueItems(abs_file_paths, self.abs_paths)
 		self.abs_filepaths = [f[:-1] for f in abs_file_paths]
 		return
 
