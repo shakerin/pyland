@@ -123,8 +123,7 @@ class TestStructure:
                                                         'to_be_deleted_test88/'])
     
     def test_Structure_FilePaths(self):
-        #TODO https://github.com/shakerin/pyland/issues/48
-        assert sorted(TestStructure.structure_main.abs_filepaths) == sorted( \
+        assert (TestStructure.structure_main.abs_filepaths) == ( \
                                                         [
                                                         'to_be_deleted_test1/file1.txt',
                                                         'to_be_deleted_test1/file2.txt',
