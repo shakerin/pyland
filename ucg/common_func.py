@@ -83,5 +83,26 @@ def createFileIfNotPresent(file_path):
 	return file_already_present
 
 
+def getUniqueOrderedList(any_list):
+	"""This method will take any list and return a list 
+	with unique data, but ordered unline built-in set method
+	TODO: https://github.com/shakerin/pyland/issues/49
+	"""
+	return list(dict.fromkeys(any_list))
+
+def getOnlyUniqueItems(list1, list2):
+	"""This method takes two lists of data and if both of the
+	lists are non-empty, it will return only the unique items
+	present in list1
+	TODO: https://github.com/shakerin/pyland/issues/49
+	"""
+	unique_list1 = []
+	if len(list1)>0 and len(list2)>0:
+		for item in list1:
+			if item not in list2:
+				unique_list1.append(item)
+	else:
+		unique_list1 = list1
+	return unique_list1
 
 
