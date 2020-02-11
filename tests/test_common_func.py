@@ -59,5 +59,31 @@ class TestCommonFunc:
       
 
 
+    def test_getUniqueOrderedList(self):
+        """checking getUniqueOrderedList method by providing
+        different types of lists
+        """
+        assert_check = True
+        assert_check &= getUniqueOrderedList([1, 2, 5, 10]) == [1, 2, 5, 10]
+        assert_check &= getUniqueOrderedList([1, 2, 1, 10]) == [1, 2, 10]
+        assert_check &= getUniqueOrderedList([1, 2, 5, 1]) == [1, 2, 5]
+        assert_check &= getUniqueOrderedList([1, 2, 5, "a"]) == [1, 2, 5, "a"]
+        assert_check &= getUniqueOrderedList(["a", 2, 5, "a"]) == ["a", 2, 5]
+        assert assert_check == True
+
+
+    def test_getOnlyUniqueItems(self):
+        """ checking getOnlyUniqueItems method by providing
+        different type of lists as argument
+        """
+        assert_check = True
+        assert_check &= getOnlyUniqueItems([1, 2], [2, 3])==[1]
+        assert_check &= getOnlyUniqueItems([1, 1], [2, 3])==[1, 1]
+        assert_check &= getOnlyUniqueItems([2, 3], [1, 2])==[3]
+        assert_check &= getOnlyUniqueItems([1, "1"], ["2", 3, "1"])==[1]
+        assert assert_check == True
+
+
+
         
         
