@@ -32,12 +32,105 @@ from .common_func import *
 
 
 class Structure(object):
-	"""
-	Purpose of this class is to extract a FrameDir file,
-	create directories,
-	create files,
-	generate frame texts inside files,
-	execute texts from frames
+	"""A class used for creating directories and files based on 
+	structure file.
+
+	This class has got some attributes and methods for extracting
+	necessary information from the structure file.
+
+	Class Attributes
+	----------------
+	Attributes
+	----------
+	directory_sign : str
+		any line in structure file that has got directory_sign, the portion
+		before that string is considered a directory name
+	file_sign : str
+		any line in structure file that has got file_sign, the portion
+		before that string is considered a file name
+	struct_file_path : str
+		this is the structure file path that is providing while creating 
+		object of this class
+	frame_dir_list : list of str
+		this is the directory list for frame files, currently not used in
+		this class. need to check if required TODO
+	TL_ins : TemplateLibrary object
+		this is a TemplateLibrary object that will be created based on 
+		frame_dir_list TODO
+	abs_paths : a list of str
+		each str in the list represents a directory path and each str 
+		ends with '/'
+	abs_filepaths : a list of str
+		each str in the list represents a file path and each str should
+		never end with '/' as it is file path
+	original_list : a list of str
+		the structure file is read as list of strings and all empty lines
+		are deleted. so, original_list is the structure file as a list of
+		non-empty strings
+	cmd_names : a list of str
+		each str in the list represents command section that is associated
+		with directory name or file name
+	file_names : a list of str
+		each str is a file name - not path, just the name
+	dir_names : a list of str
+		each str is a directory name - not path, just the name
+	no_of_preceding_spaces : a list of integers
+		each integer is the number of space preceding the dir name
+	no_of_preceding_spaces_all : a list of integers
+		each integer is the number of space preceding the dir name or
+		file name
+
+	Methods
+	-------
+	extractStructFile()
+		This is the one method that will do all extraction work
+		for any given structure file
+	createAbsPaths()
+		this method, forms the file paths and dir paths based on the
+		information that is extracted from structure file by
+		using extractDirFileCmdNames method
+	createDirectoryAndFiles()
+		this method will create all directories and files if not already
+		created
+	createDirs()
+		create all directories present in self.abs_paths list if the 
+		directories are not already created
+	createFiles()
+		create all files present in self.abs_filepaths list if the
+		files are not already created
+	getOriginalStructureInList()
+		this method reads the structure file as a list of strings
+	extractDirFileNameCmd(str_to_parse, separator)
+		this method is created to extract dir or file name,
+		position and cmd section
+	extractDirFileCmdNames()
+		this method separates directory, file and command strings in 
+		different lists
+	getAbsPaths(paths_no, path_names, assume_path_is_file=False)
+		This method returns list of real paths created based on the index
+		numbers(paths_no) and dir or file+dir list(path_names)
+	createAbsDirPaths()
+		Forms all paths to dir based on self.abs_paths
+	createAbsFilePaths()
+		Forms all paths to dir based on self.abs_filepaths
+	getCorrectPaths(abs_file_paths, file_names)
+		this method returns only the correct paths from a list of 
+		extracted paths
+	formPathsFromPosition(positions)
+		returns list of paths from a list of positions
+	executeFrameObj(frameObj)
+		TODO
+	automate()
+		TODO
+	setupTemplateLibrary()
+		TODO
+
+	Open Issues
+	-----------
+		https://github.com/shakerin/pyland/issues/39
+		https://github.com/shakerin/pyland/issues/43
+		https://github.com/shakerin/pyland/issues/45
+		https://github.com/shakerin/pyland/issues/52
 	"""
 
 
@@ -84,8 +177,8 @@ class Structure(object):
 
 	def createAbsPaths(self):
 		"""this method, forms the file paths and dir paths based on the
-			information that is extracted from structure file by
-			using extractDirFileCmdNames method
+		   information that is extracted from structure file by
+		   using extractDirFileCmdNames method
 		"""
 		self.createAbsDirPaths()
 		self.createAbsFilePaths()
@@ -128,8 +221,8 @@ class Structure(object):
 
 
 	def extractDirFileNameCmd(self, str_to_parse, separator):
-		"""this method is created to extract dir or file name and
-		position
+		"""this method is created to extract dir or file name,
+		position and cmd section
 
 		Parameter
 		---------
@@ -147,13 +240,15 @@ class Structure(object):
 
 		Returns
 		-------
-		(dir_file_name, dir_file_name_pos) : a tuple
+		(dir_file_name, dir_file_name_pos, cmd_name) : a tuple
 			dir_file_name is the string that represents the dir or 
 			file name,
 			dir_file_name_pos is the integer that represents the
 			position of the dir or file string. In other words, this 
 			number indicated number of spaces preceding that dir or file
-			name in that particular line in the stucture file
+			name in that particular line in the stucture file,
+			cmd_name is the string that represents the portion in
+			string that contains command information
 		"""
 		dir_file_name = str_to_parse.strip().split(separator)[0]
 		cmd_name = str_to_parse.strip().split(separator)[1]
