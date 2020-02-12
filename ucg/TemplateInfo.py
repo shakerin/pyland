@@ -88,7 +88,7 @@ class TemplateInfo(object):
 	Open Issues
 	-------------
 		https://github.com/shakerin/pyland/issues/4
-		https://github.com/shakerin/pyland/issues/10
+	
 	"""
 
 
