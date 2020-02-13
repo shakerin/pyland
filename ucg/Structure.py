@@ -118,19 +118,14 @@ class Structure(object):
 		extracted paths
 	formPathsFromPosition(positions)
 		returns list of paths from a list of positions
-	executeFrameObj(frameObj)
-		TODO
-	automate()
-		TODO
-	setupTemplateLibrary()
-		TODO
+
 
 	Open Issues
 	-----------
 		https://github.com/shakerin/pyland/issues/39
 		https://github.com/shakerin/pyland/issues/43
 		https://github.com/shakerin/pyland/issues/45
-		https://github.com/shakerin/pyland/issues/52
+
 	"""
 
 
@@ -142,10 +137,6 @@ class Structure(object):
 		self.frame_dir_list = frame_dir_list
 		return
 
-
-	def setupTemplateLibrary(self):
-		self.TL_ins = TL(self.frame_dir_list)
-		return
 
 
 	def extractStructFile(self):
@@ -459,12 +450,3 @@ class Structure(object):
 			paths_no.append(path)
 		return paths_no
 
-
-
-	def executeFrameObj(self, frameObj):
-		"""this will execute the frame object"""
-		pass
-
-	
-	def automate(self):
-		pass
