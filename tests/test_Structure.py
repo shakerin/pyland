@@ -82,8 +82,8 @@ class TestStructure:
                                                                 ])
 
 
-    def test_Structure_No_Of_Preceding_Spaces(self):
-        assert TestStructure.structure_main.no_of_preceding_spaces == [
+    def test_Structure_positions_dir_only(self):
+        assert TestStructure.structure_main.positions_dir_only == [
                                                                         0,
                                                                             4,
                                                                                 8,
@@ -93,8 +93,8 @@ class TestStructure:
                                                                         ]
 
 
-    def test_Structure_No_Of_Preceding_Spaces(self):
-        assert TestStructure.structure_main.no_of_preceding_spaces_all == [
+    def test_Structure_positions_dir_only(self):
+        assert TestStructure.structure_main.positions == [
                                                                             0,
                                                                                 4,
                                                                                 4,

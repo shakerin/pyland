@@ -74,9 +74,9 @@ class Structure(object):
 		each str is a file name - not path, just the name
 	dir_names : a list of str
 		each str is a directory name - not path, just the name
-	no_of_preceding_spaces : a list of integers
+	positions_dir_only : a list of integers
 		each integer is the number of space preceding the dir name
-	no_of_preceding_spaces_all : a list of integers
+	positions : a list of integers
 		each integer is the number of space preceding the dir name or
 		file name
 
@@ -262,38 +262,38 @@ class Structure(object):
 			3.  <file_n_dir_names>
 				a list of strings where each string is a file or dir name,
 				not file/dir path
-			4.  <no_of_preceding_spaces>
+			4.  <positions_dir_only>
 				a list of integers where each integer is the number of 
 				spaces present before the dir name in structure file,
-				len(no_of_preceding_spaces)==len(dir_names)
-			5.  <no_of_preceding_spaces_all>
+				len(positions_dir_only)==len(dir_names)
+			5.  <positions>
 				a list of integers where each integer is the number of 
 				spaces present before the dir name or file name in a 
 				structure file,
-				len(no_of_preceding_spaces_all)==len(file_n_dir_names)
+				len(positions)==len(file_n_dir_names)
 		"""
 		dir_names, file_names, file_n_dir_names, cmd_names = [], [], [], []
-		no_of_preceding_spaces, no_of_preceding_spaces_all = [], []
+		positions_dir_only, positions = [], []
 		for line in self.original_list:
 			if self.directory_sign in line:
 				dir_name, no_of_preceding_space, cmd_name = self.extractDirFileNameCmd(line, self.directory_sign)
 				dir_names.append(dir_name)
-				no_of_preceding_spaces.append(no_of_preceding_space)
+				positions_dir_only.append(no_of_preceding_space)
 				file_n_dir_names.append(dir_name)
-				no_of_preceding_spaces_all.append(no_of_preceding_space)
+				positions.append(no_of_preceding_space)
 				cmd_names.append(cmd_name)				
 			elif self.file_sign in line:
 				file_n_dir_name, no_of_preceding_space_all, cmd_name = self.extractDirFileNameCmd(line, self.file_sign)
-				no_of_preceding_spaces_all.append(no_of_preceding_space_all)	
+				positions.append(no_of_preceding_space_all)	
 				file_n_dir_names.append(file_n_dir_name)
 				file_names.append(file_n_dir_name)
 				cmd_names.append(cmd_name)
 		self.cmd_names = cmd_names
 		self.file_names = file_names			
 		self.dir_names = dir_names
-		self.no_of_preceding_spaces = no_of_preceding_spaces
+		self.positions_dir_only = positions_dir_only
 		self.file_n_dir_names = file_n_dir_names
-		self.no_of_preceding_spaces_all = no_of_preceding_spaces_all
+		self.positions = positions
 		return
 
 
@@ -340,7 +340,7 @@ class Structure(object):
 		"""Forms all paths to dir based on self.abs_paths
 		
 		self.abs_paths contains all directory paths"""
-		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces)
+		paths_no = self.formPathsFromPosition(self.positions_dir_only)
 		self.abs_paths = self.getAbsPaths(paths_no, self.dir_names)
 		return
 
@@ -348,7 +348,7 @@ class Structure(object):
 		"""Forms all paths to dir based on self.abs_filepaths
 		
 		self.abs_filepaths contains all file paths"""
-		paths_no = self.formPathsFromPosition(self.no_of_preceding_spaces_all)
+		paths_no = self.formPathsFromPosition(self.positions)
 		print(paths_no)
 		abs_file_paths = self.getAbsPaths(paths_no, self.file_n_dir_names, True)
 		abs_file_paths = getUniqueOrderedList(abs_file_paths)
