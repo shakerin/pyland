@@ -51,16 +51,10 @@ class Structure(object):
 	struct_file_path : str
 		this is the structure file path that is providing while creating 
 		object of this class
-	frame_dir_list : list of str
-		this is the directory list for frame files, currently not used in
-		this class. need to check if required TODO
-	TL_ins : TemplateLibrary object
-		this is a TemplateLibrary object that will be created based on 
-		frame_dir_list TODO
-	abs_paths : a list of str
+	dir_paths : a list of str
 		each str in the list represents a directory path and each str 
 		ends with '/'
-	abs_filepaths : a list of str
+	file_paths : a list of str
 		each str in the list represents a file path and each str should
 		never end with '/' as it is file path
 	original_list : a list of str
@@ -82,38 +76,38 @@ class Structure(object):
 
 	Methods
 	-------
-	extractStructFile()
+	run()
 		This is the one method that will do all extraction work
 		for any given structure file
-	createAbsPaths()
+	formPaths()
 		this method, forms the file paths and dir paths based on the
 		information that is extracted from structure file by
 		using extractDirFileCmdNames method
-	createDirectoryAndFiles()
+	createDirsAndFiles()
 		this method will create all directories and files if not already
 		created
 	createDirs()
-		create all directories present in self.abs_paths list if the 
+		create all directories present in self.dir_paths list if the 
 		directories are not already created
 	createFiles()
-		create all files present in self.abs_filepaths list if the
+		create all files present in self.file_paths list if the
 		files are not already created
 	getOriginalStructureInList()
 		this method reads the structure file as a list of strings
-	extractDirFileNameCmd(str_to_parse, separator)
+	extractDirFileCmdName(str_to_parse, separator)
 		this method is created to extract dir or file name,
 		position and cmd section
 	extractDirFileCmdNames()
 		this method separates directory, file and command strings in 
 		different lists
-	getAbsPaths(paths_no, path_names, assume_path_is_file=False)
+	createPathFromPosition(paths_no, path_names, assume_path_is_file=False)
 		This method returns list of real paths created based on the index
 		numbers(paths_no) and dir or file+dir list(path_names)
-	createAbsDirPaths()
-		Forms all paths to dir based on self.abs_paths
-	createAbsFilePaths()
-		Forms all paths to dir based on self.abs_filepaths
-	getCorrectPaths(abs_file_paths, file_names)
+	formDirPaths()
+		Forms all paths to dir based on self.dir_paths
+	formFilePaths()
+		Forms all paths to dir based on self.file_paths
+	cleanPaths(abs_file_paths, file_names)
 		this method returns only the correct paths from a list of 
 		extracted paths
 	formPathsFromPosition(positions)
@@ -129,17 +123,16 @@ class Structure(object):
 	"""
 
 
-	def __init__(self, struct_file, frame_dir_list):
+	def __init__(self, struct_file):
 		self.directory_sign = "//"
 		self.file_sign = ",,"
 		self.struct_file_path = struct_file
-		self.extractStructFile()
-		self.frame_dir_list = frame_dir_list
+		self.run()
 		return
 
 
 
-	def extractStructFile(self):
+	def run(self):
 		"""This is the one method that will do all extraction work
 		for any given structure file
 
@@ -150,33 +143,33 @@ class Structure(object):
 				extarct lists of dir names and file names and there
 				positions in the structure to be able to generate
 				the paths for individual dir and file
-			createAbsPaths method,
+			formPaths method,
 				based on the extracted information in the last method,
 				this method will create the actual dir paths and file
 				paths that needs to be created based on the structure
 				file
-			createDirectoryAndFiles,
+			createDirsAndFiles,
 				finally, this methods will create the dirs and files
 				based on the formed dir and file paths
 
 		"""
 		self.getOriginalStructureInList()
 		self.extractDirFileCmdNames()
-		self.createAbsPaths()
-		self.createDirectoryAndFiles()
+		self.formPaths()
+		self.createDirsAndFiles()
 		return
 
-	def createAbsPaths(self):
+	def formPaths(self):
 		"""this method, forms the file paths and dir paths based on the
 		   information that is extracted from structure file by
 		   using extractDirFileCmdNames method
 		"""
-		self.createAbsDirPaths()
-		self.createAbsFilePaths()
+		self.formDirPaths()
+		self.formFilePaths()
 		return
 
 
-	def createDirectoryAndFiles(self):
+	def createDirsAndFiles(self):
 		"""this method will create all directories and files if not already
 		created"""
 		self.createDirs()
@@ -184,16 +177,16 @@ class Structure(object):
 		return
 
 	def createDirs(self):
-		"""create all directories present in self.abs_paths list if the 
+		"""create all directories present in self.dir_paths list if the 
 		directories are not already created"""
-		for path in self.abs_paths:
+		for path in self.dir_paths:
 			createDirIfNotPresent(path)
 		return
 
 	def createFiles(self):
-		"""create all files present in self.abs_filepaths list if the
+		"""create all files present in self.file_paths list if the
 		files are not already created"""
-		for path in self.abs_filepaths:
+		for path in self.file_paths:
 			createFileIfNotPresent(path)
 		return
 
@@ -211,7 +204,7 @@ class Structure(object):
 		return
 
 
-	def extractDirFileNameCmd(self, str_to_parse, separator):
+	def extractDirFileCmdName(self, str_to_parse, separator):
 		"""this method is created to extract dir or file name,
 		position and cmd section
 
@@ -276,14 +269,14 @@ class Structure(object):
 		positions_dir_only, positions = [], []
 		for line in self.original_list:
 			if self.directory_sign in line:
-				dir_name, no_of_preceding_space, cmd_name = self.extractDirFileNameCmd(line, self.directory_sign)
+				dir_name, no_of_preceding_space, cmd_name = self.extractDirFileCmdName(line, self.directory_sign)
 				dir_names.append(dir_name)
 				positions_dir_only.append(no_of_preceding_space)
 				file_n_dir_names.append(dir_name)
 				positions.append(no_of_preceding_space)
 				cmd_names.append(cmd_name)				
 			elif self.file_sign in line:
-				file_n_dir_name, no_of_preceding_space_all, cmd_name = self.extractDirFileNameCmd(line, self.file_sign)
+				file_n_dir_name, no_of_preceding_space_all, cmd_name = self.extractDirFileCmdName(line, self.file_sign)
 				positions.append(no_of_preceding_space_all)	
 				file_n_dir_names.append(file_n_dir_name)
 				file_names.append(file_n_dir_name)
@@ -297,7 +290,7 @@ class Structure(object):
 		return
 
 
-	def getAbsPaths(self, paths_no, path_names, assume_path_is_file=False):
+	def createPathFromPosition(self, paths_no, path_names, assume_path_is_file=False):
 		"""This method returns list of real paths created based on the index
 		numbers(paths_no) and dir or file+dir list(path_names) 
 
@@ -319,45 +312,45 @@ class Structure(object):
 
 		Returns
 		-------
-		abs_paths : list of strings
+		dir_paths : list of strings
 			each string represents a dir or file path,
 			this list may contain duplicate items
 		"""
-		abs_paths = []
+		dir_paths = []
 		for path in paths_no:
 			abs_path = ""
 			for i in path:
 				abs_path += path_names[i]+"/"
 			if assume_path_is_file:
 				abs_path = abs_path[:-1]
-			abs_paths.append(abs_path)
+			dir_paths.append(abs_path)
 		if assume_path_is_file:
-			abs_paths = self.getCorrectPaths(abs_paths, self.file_names)
-		return abs_paths
+			dir_paths = self.cleanPaths(dir_paths, self.file_names)
+		return dir_paths
 
 
-	def createAbsDirPaths(self):
-		"""Forms all paths to dir based on self.abs_paths
+	def formDirPaths(self):
+		"""Forms all paths to dir based on self.dir_paths
 		
-		self.abs_paths contains all directory paths"""
+		self.dir_paths contains all directory paths"""
 		paths_no = self.formPathsFromPosition(self.positions_dir_only)
-		self.abs_paths = self.getAbsPaths(paths_no, self.dir_names)
+		self.dir_paths = self.createPathFromPosition(paths_no, self.dir_names)
 		return
 
-	def createAbsFilePaths(self):
-		"""Forms all paths to dir based on self.abs_filepaths
+	def formFilePaths(self):
+		"""Forms all paths to dir based on self.file_paths
 		
-		self.abs_filepaths contains all file paths"""
+		self.file_paths contains all file paths"""
 		paths_no = self.formPathsFromPosition(self.positions)
 		print(paths_no)
-		abs_file_paths = self.getAbsPaths(paths_no, self.file_n_dir_names, True)
+		abs_file_paths = self.createPathFromPosition(paths_no, self.file_n_dir_names, True)
 		abs_file_paths = getUniqueOrderedList(abs_file_paths)
-		abs_file_paths = getOnlyUniqueItems(abs_file_paths, self.abs_paths)
-		self.abs_filepaths = [f[:-1] for f in abs_file_paths]
+		abs_file_paths = getOnlyUniqueItems(abs_file_paths, self.dir_paths)
+		self.file_paths = [f[:-1] for f in abs_file_paths]
 		return
 
 
-	def getCorrectPaths(self, abs_file_paths, file_names):
+	def cleanPaths(self, abs_file_paths, file_names):
 		"""this method returns only the correct paths from a list of 
 		extracted paths
 
