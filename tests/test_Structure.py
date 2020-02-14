@@ -109,6 +109,21 @@ class TestStructure:
                                                                             0,
                                                                             ]
 
+    def test_Structure_cmd_types(self):
+        assert TestStructure.structure_main.cmd_types == [
+                                                                            "DIR",
+                                                                                "FILE",
+                                                                                "FILE",
+                                                                                "FILE",
+                                                                                "DIR",
+                                                                                    "FILE",
+                                                                                    "FILE",
+                                                                                    "FILE",
+                                                                                    "DIR",
+                                                                                "DIR",
+                                                                            "DIR",
+                                                                            "DIR",
+                                                                            ]
 
 
 
@@ -132,6 +147,24 @@ class TestStructure:
                                                         'to_be_deleted_test1/test2/file2.txt',
                                                         'to_be_deleted_test1/test2/file3.txt'
                                                         ])
+
+    def test_Structure_Commands(self):
+        assert (TestStructure.structure_main.commands) == ( \
+                                                        [
+                                                        ('DIR', 'to_be_deleted_test1/', 'abc'),
+                                                        ('DIR', 'to_be_deleted_test1/test2/', ''),
+                                                        ('DIR', 'to_be_deleted_test1/test2/test4/', ''),
+                                                        ('DIR', 'to_be_deleted_test1/test5/', ''),
+                                                        ('DIR', 'to_be_deleted_test3/', ''),
+                                                        ('DIR', 'to_be_deleted_test88/', ''),
+                                                        ('FILE', 'to_be_deleted_test1/file1.txt', 'frameObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/file2.txt', 'newObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/file3.txt', 'newObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file1.txt', 'newObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file2.txt', 'newObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file3.txt', 'newObj()'),
+                                                        ])
+ 
     
     
     def test_Structure_DirCreation_Check(self):
