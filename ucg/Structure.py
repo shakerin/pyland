@@ -157,6 +157,7 @@ class Structure(object):
 		self.extractDirFileCmdNames()
 		self.formPaths()
 		self.createDirsAndFiles()
+		self.cleanCmds()
 		return
 
 	def formPaths(self):
@@ -189,6 +190,33 @@ class Structure(object):
 		for path in self.file_paths:
 			createFileIfNotPresent(path)
 		return
+
+	def cleanCmds(self):
+		all_commands = []
+		clean_dir_cmds, clean_file_cmds = self.separate_dir_n_filecmd()
+		for i, cmd in enumerate(clean_dir_cmds):
+			command = ("DIR", self.dir_paths[i], cmd.strip())
+			all_commands.append(command)
+		for i, cmd in enumerate(clean_file_cmds):
+			command = ("FILE", self.file_paths[i], cmd.strip())
+			all_commands.append(command)
+		self.commands = all_commands
+		return
+
+	def separate_dir_n_filecmd(self):
+		"""This method is going to be used for returning file and
+		dir commands separately
+		"""
+		clean_dir_cmds = []
+		clean_file_cmds = []
+		for i, cmd in enumerate(self.cmd_names):
+			if self.cmd_types[i] == "DIR":
+				clean_dir_cmds.append(cmd)
+			elif self.cmd_types[i] == "FILE":
+				clean_file_cmds.append(cmd)
+			else:
+				pass
+		return (clean_dir_cmds, clean_file_cmds)
 
 
 	def getOriginalStructureInList(self):
@@ -265,7 +293,7 @@ class Structure(object):
 				structure file,
 				len(positions)==len(file_n_dir_names)
 		"""
-		dir_names, file_names, file_n_dir_names, cmd_names = [], [], [], []
+		dir_names, file_names, file_n_dir_names, cmd_names, cmd_types = [], [], [], [], []
 		positions_dir_only, positions = [], []
 		for line in self.original_list:
 			if self.directory_sign in line:
@@ -274,13 +302,16 @@ class Structure(object):
 				positions_dir_only.append(no_of_preceding_space)
 				file_n_dir_names.append(dir_name)
 				positions.append(no_of_preceding_space)
+				cmd_types.append("DIR")
 				cmd_names.append(cmd_name)				
 			elif self.file_sign in line:
 				file_n_dir_name, no_of_preceding_space_all, cmd_name = self.extractDirFileCmdName(line, self.file_sign)
 				positions.append(no_of_preceding_space_all)	
 				file_n_dir_names.append(file_n_dir_name)
 				file_names.append(file_n_dir_name)
+				cmd_types.append("FILE")
 				cmd_names.append(cmd_name)
+		self.cmd_types = cmd_types
 		self.cmd_names = cmd_names
 		self.file_names = file_names			
 		self.dir_names = dir_names
@@ -342,7 +373,6 @@ class Structure(object):
 		
 		self.file_paths contains all file paths"""
 		paths_no = self.formPathsFromPosition(self.positions)
-		print(paths_no)
 		abs_file_paths = self.createPathFromPosition(paths_no, self.file_n_dir_names, True)
 		abs_file_paths = getUniqueOrderedList(abs_file_paths)
 		abs_file_paths = getOnlyUniqueItems(abs_file_paths, self.dir_paths)
