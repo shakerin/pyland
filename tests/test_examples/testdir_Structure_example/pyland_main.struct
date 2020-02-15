@@ -1,0 +1,12 @@
+to_be_deleted_test1//abc
+    file1.txt,,frameObj()
+    file2.txt,,newObj()
+    file3.txt,,newObj()
+    test2//
+        file1.txt,,newObj()
+        file2.txt,,newObj()
+        file3.txt,,newObj()
+        test4//
+    test5//
+to_be_deleted_test3//
+to_be_deleted_test88//
