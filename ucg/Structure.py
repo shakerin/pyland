@@ -156,8 +156,8 @@ class Structure(object):
 		self.getOriginalStructureInList()
 		self.extractDirFileCmdNames()
 		self.formPaths()
-		self.createDirsAndFiles()
 		self.cleanCmds()
+		#self.createDirsAndFiles()
 		return
 
 	def formPaths(self):
@@ -169,27 +169,6 @@ class Structure(object):
 		self.formFilePaths()
 		return
 
-
-	def createDirsAndFiles(self):
-		"""this method will create all directories and files if not already
-		created"""
-		self.createDirs()
-		self.createFiles()
-		return
-
-	def createDirs(self):
-		"""create all directories present in self.dir_paths list if the 
-		directories are not already created"""
-		for path in self.dir_paths:
-			createDirIfNotPresent(path)
-		return
-
-	def createFiles(self):
-		"""create all files present in self.file_paths list if the
-		files are not already created"""
-		for path in self.file_paths:
-			createFileIfNotPresent(path)
-		return
 
 	def cleanCmds(self):
 		all_commands = []
