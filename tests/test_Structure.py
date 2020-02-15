@@ -165,29 +165,6 @@ class TestStructure:
                                                         ('FILE', 'to_be_deleted_test1/test2/file3.txt', 'newObj()'),
                                                         ])
  
-    
-    
-    def test_Structure_DirCreation_Check(self):
-        root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
-        created_dirs = ["to_be_deleted_test1/", "to_be_deleted_test3/", "to_be_deleted_test88/"]
-        for root_dir in root_dirs:
-            for root, dirs, files in os.walk(root_dir):
-                if len(dirs)>0:
-                    for dir_name in dirs:
-                        dirpath = os.path.join(root, dir_name) + "/"
-                        created_dirs.append(dirpath)
-        assert sorted(TestStructure.structure_main.dir_paths) == sorted(created_dirs)
-    
-    def test_Structure_FileCreation_Check(self):
-        root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
-        created_files = []
-        for root_dir in root_dirs:
-            for root, dirs, files in os.walk(root_dir):
-                if len(files)>0:
-                    for file_name in files:
-                        filepath = os.path.join(root, file_name)
-                        created_files.append(filepath)
-        assert sorted(TestStructure.structure_main.file_paths) == sorted(created_files)
-    
+
 
 
