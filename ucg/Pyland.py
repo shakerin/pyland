@@ -28,6 +28,8 @@ from .TemplateLibrary import TemplateLibrary as TL
 from .FileToTemplate import FileToTemplate as FTT
 from .Structure import Structure
 from .global_vars import *
+from .common_func import *
+
 
 
 class Pyland(object):
@@ -40,17 +42,43 @@ class Pyland(object):
 	- Automating frame means, executing frameObj. This can also be called 
 	  frame cmd.
 	"""
-	def __init__(self):
-		self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
+	def __init__(self, struct_file):
+		#self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
+		self.automateStructure(struct_file)
 		pass
 	
 
-	def automateStructure(self):
-		self.St1 = Structure(STRUCT_FILE, self.frame_dir_list)
-		self.St1.automate()
+	def automateStructure(self, struct_file):
+		self.ST1 = Structure(struct_file)
+		self.automate()
 		
-	def automateFrame(self):
+	def automate(self):
+		self.createDirsAndFiles()
 		pass
+
+	
+	
+	def createDirsAndFiles(self):
+		"""this method will create all directories and files if not already
+		created"""
+		self.createDirs()
+		self.createFiles()
+		return
+
+	def createDirs(self):
+		"""create all directories present in self.dir_paths list if the 
+		directories are not already created"""
+		for path in self.ST1.dir_paths:
+			createDirIfNotPresent(path)
+		return
+
+	def createFiles(self):
+		"""create all files present in self.file_paths list if the
+		files are not already created"""
+		for path in self.ST1.file_paths:
+			createFileIfNotPresent(path)
+		return
+
 
 
 
