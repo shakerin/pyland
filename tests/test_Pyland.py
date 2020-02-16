@@ -18,8 +18,9 @@ class TestPyland:
 
     
     structure_file_path_main = PV_testdir_Structure + "/pyland_main.struct"
-    pyland_main = Pyland(structure_file_path_main)
-    
+    frame_dirs = [PV_testdir_Frames]
+    pyland_main = Pyland(structure_file_path_main, frame_dirs)
+
     
     def test_Pyland_DirCreation_Check(self):
         root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
@@ -87,22 +88,6 @@ class TestPyland:
                                                                                 "file2.txt",
                                                                                 "file3.txt",
                                                                                 ])
-
-    def test_Pyland_CMDnames(self):
-        assert (TestPyland.pyland_main.ST1.cmd_names) ==  ([
-                                                                "abc",
-                                                                "justText{''}",
-                                                                "newObj()",
-                                                                "newObj()",
-                                                                "",
-                                                                "newObj()",
-                                                                "newObj()",
-                                                                "newObj()",
-                                                                "",
-                                                                "",
-                                                                "",
-                                                                "",
-                                                                ])
 
 
     def test_Pyland_positions_dir_only(self):
@@ -180,11 +165,44 @@ class TestPyland:
                                                         ('DIR', 'to_be_deleted_test1/test5/', ''),
                                                         ('DIR', 'to_be_deleted_test3/', ''),
                                                         ('DIR', 'to_be_deleted_test88/', ''),
-                                                        ('FILE', 'to_be_deleted_test1/file1.txt', "justText{''}"),
-                                                        ('FILE', 'to_be_deleted_test1/file2.txt', 'newObj()'),
-                                                        ('FILE', 'to_be_deleted_test1/file3.txt', 'newObj()'),
-                                                        ('FILE', 'to_be_deleted_test1/test2/file1.txt', 'newObj()'),
-                                                        ('FILE', 'to_be_deleted_test1/test2/file2.txt', 'newObj()'),
-                                                        ('FILE', 'to_be_deleted_test1/test2/file3.txt', 'newObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/file1.txt', "justText('arg':'FILE1_FROM_TEST1')"),
+                                                        ('FILE', 'to_be_deleted_test1/file2.txt', "justText('arg':'FILE2_FROM_TEST1')"),
+                                                        ('FILE', 'to_be_deleted_test1/file3.txt', "justText('arg':'FILE3_FROM_TEST1')"),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file1.txt', "justText('arg':'FILE1_FROM_TEST1/TEST2')"),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file2.txt', "justText('arg':'FILE2_FROM_TEST1/TEST2')"),
+                                                        ('FILE', 'to_be_deleted_test1/test2/file3.txt', "justText('arg':'FILE3_FROM_TEST1/TEST2')"),
                                                         ])
 
+
+    def test_Pyland_CMDnames(self):
+        assert (TestPyland.pyland_main.ST1.cmd_names) ==  ([
+                                                                "abc",
+                                                                "justText('arg':'FILE1_FROM_TEST1')",
+                                                                "justText('arg':'FILE2_FROM_TEST1')",
+                                                                "justText('arg':'FILE3_FROM_TEST1')",
+                                                                "",
+                                                                "justText('arg':'FILE1_FROM_TEST1/TEST2')",
+                                                                "justText('arg':'FILE2_FROM_TEST1/TEST2')",
+                                                                "justText('arg':'FILE3_FROM_TEST1/TEST2')",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                ])
+
+
+    def test_Pyland_CommadExec(self):
+        read_data = []
+        for file_path in TestPyland.pyland_main.ST1.file_paths:
+            with open(file_path) as f:
+                data = f.read()
+                read_data.append(data)
+        assert read_data == [
+                            "This is just Text\nArgument from Struct file is : FILE1_FROM_TEST1",
+                            "This is just Text\nArgument from Struct file is : FILE2_FROM_TEST1",
+                            "This is just Text\nArgument from Struct file is : FILE3_FROM_TEST1",
+                            "This is just Text\nArgument from Struct file is : FILE1_FROM_TEST1/TEST2",
+                            "This is just Text\nArgument from Struct file is : FILE2_FROM_TEST1/TEST2",
+                            "This is just Text\nArgument from Struct file is : FILE3_FROM_TEST1/TEST2",
+                            ]
+        
