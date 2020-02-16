@@ -158,6 +158,8 @@ class TemplateInfo(object):
 				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
 			else:
 				print("TemplateInfo.py : getGeneratedCode :: " + self.name + ":: key not defined ::" + key_word)
+				print(self.key_words)
+				print(key_value_pairs)
 				key_value_pairs_dict_checked[key_word] = self.key_word_defaults[i]
 		generated_code = self.template.substitute(key_value_pairs_dict_checked)
 		self.last_generated_code = generated_code
