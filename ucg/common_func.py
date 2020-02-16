@@ -32,14 +32,14 @@ def printDict(user_dict):
 	return
 
 
-def createNewFile(file_path):
+def createNewFile(file_path, text=""):
 	"""This method will create the path first and then create new file
 	It doesn't care if the file is already present or not"""
 	file_name = file_path.split("/")[-1]
 	dir_path = file_path.replace(file_name, "")
 	createDirIfNotPresent(dir_path)
 	with open(file_path, "w+") as f:
-		f.write("")
+		f.write(text)
 	return
 
 def createDirIfNotPresent(dir_path):
@@ -62,7 +62,7 @@ def createDirIfNotPresent(dir_path):
 		Path(dir_path).mkdir(parents=True, exist_ok=False)
 	return dir_already_present
 
-def createFileIfNotPresent(file_path):
+def createFileIfNotPresent(file_path, data=""):
 	"""create file if doesn't exist already.
 
 	This method will create the whole file_path if doesn't exist.
@@ -79,14 +79,13 @@ def createFileIfNotPresent(file_path):
 	if os.path.isfile(file_path):
 			file_already_present = True
 	else:
-		createNewFile(file_path)
+		createNewFile(file_path, data)
 	return file_already_present
 
 
 def getUniqueOrderedList(any_list):
 	"""This method will take any list and return a list 
 	with unique data, but ordered unline built-in set method
-	TODO: https://github.com/shakerin/pyland/issues/49
 	"""
 	return list(dict.fromkeys(any_list))
 
@@ -94,7 +93,6 @@ def getOnlyUniqueItems(list1, list2):
 	"""This method takes two lists of data and if both of the
 	lists are non-empty, it will return only the unique items
 	present in list1
-	TODO: https://github.com/shakerin/pyland/issues/49
 	"""
 	unique_list1 = []
 	if len(list1)>0 and len(list2)>0:
