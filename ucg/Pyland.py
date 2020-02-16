@@ -42,18 +42,19 @@ class Pyland(object):
 	- Automating frame means, executing frameObj. This can also be called 
 	  frame cmd.
 	"""
-	def __init__(self, struct_file):
-		self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
-		self.automateStructure(struct_file)
+	def __init__(self, struct_file, frame_dirs=[]):
+		self.automateStructure(struct_file, frame_dirs)
 		pass
 	
 
-	def automateStructure(self, struct_file):
+	def automateStructure(self, struct_file, frame_dirs):
+		self.TL1 = TL(frame_dirs)
 		self.ST1 = Structure(struct_file)
 		self.automate()
 		
 	def automate(self):
 		self.createDirsAndFiles()
+		self.execCmds()
 		pass
 
 	
@@ -62,7 +63,7 @@ class Pyland(object):
 		"""this method will create all directories and files if not already
 		created"""
 		self.createDirs()
-		self.createFiles()
+		#self.createFiles()
 		return
 
 	def createDirs(self):
@@ -81,21 +82,27 @@ class Pyland(object):
 
 
 	def execCmds(self):
-		"""
-		ins_14= TL([PV_testdir_Discrete_Examples])
-        generated_code = ins_14.getAll(ins_14.frame_with_exec_seg_assign_var_version2,
-                                      {
-                                        'name':'EXAMPLE',
-                                        'anything':'FILE',
-                                        'language':'PYTHON'
-                                       })
-		"""
-		pass
+		for cmd_tuple in self.ST1.commands:
+			cmd_type, path, cmd = cmd_tuple
+			if cmd_type == "FILE":
+				"""justText('')"""
+				self.execFileCmd(path, cmd)
+			else:
+				pass
+
+	def execFileCmd(self, path, cmd):
+		frame_name, frame_args = self.cleanFileCmd(cmd)
+		generated_code_cmd = self.TL1.getAll(eval(frame_name), eval(frame_args))
+		createFileIfNotPresent(path, generated_code_cmd)
+		return
 
 
-
-
-
+	def cleanFileCmd(self, cmd):
+		frame_name = cmd.split("(")[0]
+		frame_args = cmd.split("(")[1].replace(")", "")
+		cmd_frame_name = "self.TL1." + frame_name
+		cmd_frame_args = "{" + frame_args + "}"
+		return (cmd_frame_name, cmd_frame_args)
 
 
 
