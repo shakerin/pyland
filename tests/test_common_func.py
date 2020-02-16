@@ -57,6 +57,33 @@ class TestCommonFunc:
             os.remove(file_path)
         return
       
+    def test_createFile_withTextIfNotPresent(self):
+        """check if createFileIfNotPresent method is working
+        properly in this environment.
+        
+        This test checks three features of the task-
+        (i)  file is created when not present
+        (ii) file is not created if already present
+        (iii) data written in file is as expected
+        """
+        dir_path = PV_testdir_common_func + "/" + PV_delete_by_clean_dir
+        file_path = dir_path + "/createFileIfNotPresentTest.txt"
+        # checks if file already present
+        file_initially_present = os.path.isfile(file_path)
+        data = "This is text"
+        createFileIfNotPresent(file_path, data)
+        file_created = os.path.isfile(file_path)
+        # trying to re-create file
+        file_already_present = createFileIfNotPresent(file_path)
+        with open(file_path, 'r') as f:
+            read_data = f.read()
+        assert (file_initially_present==False) and \
+                (file_created==True) and \
+                (file_already_present==True) and \
+                (data == read_data)
+        if file_already_present:
+            os.remove(file_path)
+        return      
 
 
     def test_getUniqueOrderedList(self):
