@@ -43,7 +43,7 @@ class Pyland(object):
 	  frame cmd.
 	"""
 	def __init__(self, struct_file):
-		#self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
+		self.frame_dir_list = DEFAULT_FRAME_DIR_LIST + USER_FRAME_DIR_LIST
 		self.automateStructure(struct_file)
 		pass
 	
@@ -80,8 +80,17 @@ class Pyland(object):
 		return
 
 
-
-
+	def execCmds(self):
+		"""
+		ins_14= TL([PV_testdir_Discrete_Examples])
+        generated_code = ins_14.getAll(ins_14.frame_with_exec_seg_assign_var_version2,
+                                      {
+                                        'name':'EXAMPLE',
+                                        'anything':'FILE',
+                                        'language':'PYTHON'
+                                       })
+		"""
+		pass
 
 
 
