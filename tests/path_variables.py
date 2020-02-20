@@ -12,6 +12,9 @@ PV_testdir_Structure = PROJECT_DIR + "pyland/tests/test_examples/testdir_Structu
 PV_testdir_Frames = PROJECT_DIR + "pyland/tests/test_examples/FrameDir"
 
 
+PV_testdir_FilesToTemplate_FrameFiles = PROJECT_DIR + "pyland/tests/test_examples/testdir_FileToTemplate/FrameFiles"
+PV_testdir_FilesToTemplate_FrameFilesOutput = PROJECT_DIR + "pyland/tests/test_examples/testdir_FileToTemplate/FrameFilesOutput"
+
 
 # following directory name should be used in testcases, when test
 # developer wants the directory to be deleted just after method
