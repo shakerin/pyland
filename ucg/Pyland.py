@@ -98,8 +98,8 @@ class Pyland(object):
 
 
 	def cleanFileCmd(self, cmd):
-		frame_name = cmd.split("(")[0]
-		frame_args = cmd.split("(")[1].replace(")", "")
+		frame_name = cmd.split("{")[0]
+		frame_args = cmd.split("{")[1].replace("}", "")
 		cmd_frame_name = "self.TL1." + frame_name
 		cmd_frame_args = "{" + frame_args + "}"
 		return (cmd_frame_name, cmd_frame_args)
