@@ -1,0 +1,1 @@
+this is single $word framefile just to $check
