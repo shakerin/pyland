@@ -19,7 +19,7 @@ class TestPyland:
     
     structure_file_path_main = PV_testdir_Structure + "/pyland_main.struct"
     frame_dirs = [PV_testdir_Frames]
-    pyland_main = Pyland(structure_file_path_main, frame_dirs)
+    pyland_main = Pyland(frame_dirs, structure_file_path_main)
 
     
     def test_Pyland_DirCreation_Check(self):
@@ -191,7 +191,7 @@ class TestPyland:
                                                                 ])
 
 
-    def test_Pyland_CommadExec(self):
+    def test_Pyland_Structure_CommadExec(self):
         read_data = []
         for file_path in TestPyland.pyland_main.ST1.file_paths:
             with open(file_path) as f:
@@ -205,4 +205,31 @@ class TestPyland:
                             "This is just Text\nArgument from Struct file is : FILE2_FROM_TEST1/TEST2",
                             "This is just Text\nArgument from Struct file is : FILE3_FROM_TEST1/TEST2",
                             ]
+
+    def test_Pyland_Frame_CommadExec(self):
+        frame_cmd = "justText{'arg':'FILE1_FROM_TEST1/TEST2'}"
+        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd)
+        assert pyland_ins.frame_generated_code == "This is just Text\nArgument from Struct file is : FILE1_FROM_TEST1/TEST2"
         
+    def test_Pyland_Frame_CommadExec_with_outputfile(self):
+        frame_cmd = "justText{'arg':'FILE1_FROM_TEST1/TEST2'}"
+        outputfilepath = PV_testdir_Structure + "/to_be_deleted/to_be_deleted_test1.txt"
+        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd, outputfilepath)
+        with open(outputfilepath) as f:
+            output = f.read()
+        assert pyland_ins.frame_generated_code == output
+
+    def test_Pyland_Frame_WrongCommadExec(self):
+        frame_cmd = "justTextFILE1_FROM_TEST1/TEST2'}"
+        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd)
+        expected_output = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
+        assert pyland_ins.frame_generated_code == expected_output
+
+    def test_Pyland_Frame_WrongCommadExec_with_outputfile(self):
+        frame_cmd = "justTextFILE1_FROM_TEST1/TEST2'}"
+        expected_output = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
+        outputfilepath = PV_testdir_Structure + "/to_be_deleted/to_be_deleted_test1.txt"
+        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd, outputfilepath)
+        with open(outputfilepath) as f:
+            output = f.read()
+        assert expected_output == output
