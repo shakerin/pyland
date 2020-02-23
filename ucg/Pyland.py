@@ -42,15 +42,34 @@ class Pyland(object):
 	- Automating frame means, executing frameObj. This can also be called 
 	  frame cmd.
 	"""
-	def __init__(self, struct_file, frame_dirs=[]):
-		self.automateStructure(struct_file, frame_dirs)
-		pass
+	def __init__(self, frame_dirs, filepath_or_frame, output_file=""):
+		self.frame_dirs = frame_dirs
+		self.TL1 = TL(self.frame_dirs)
+		if self.isStruct(filepath_or_frame):
+			structfilepath = filepath_or_frame
+			self.automateStructure(structfilepath)
+		else:
+			frame_cmd = filepath_or_frame
+			self.automateFrame(frame_cmd, output_file)
+		return
 	
 
-	def automateStructure(self, struct_file, frame_dirs):
-		self.TL1 = TL(frame_dirs)
+	def isStruct(self, file_path):
+		is_struct = False
+		if isfile(file_path):
+			is_struct = True
+		return is_struct
+
+
+
+	def automateStructure(self, struct_file):
 		self.ST1 = Structure(struct_file)
 		self.automate()
+
+	def automateFrame(self, frame_cmd, output_file=""):
+		generated_code = self.execFileCmd(frame_cmd, output_file)
+		self.frame_generated_code = generated_code
+		
 		
 	def automate(self):
 		self.createDirsAndFiles()
@@ -86,22 +105,31 @@ class Pyland(object):
 			cmd_type, path, cmd = cmd_tuple
 			if cmd_type == "FILE":
 				"""justText('')"""
-				self.execFileCmd(path, cmd)
+				self.execFileCmd(cmd, path)
 			else:
 				pass
 
-	def execFileCmd(self, path, cmd):
-		frame_name, frame_args = self.cleanFileCmd(cmd)
-		generated_code_cmd = self.TL1.getAll(eval(frame_name), eval(frame_args))
-		createFileIfNotPresent(path, generated_code_cmd)
-		return
+	def execFileCmd(self, cmd, path=""):
+		frame_ins_name, frame_args = self.cleanFileCmd(cmd)
+		frame_name = frame_ins_name.replace("self.TL1.", "")
+		if frame_name in self.TL1.frame_names:
+			generated_code_cmd = self.TL1.getAll(eval(frame_ins_name), eval(frame_args))
+		else:
+			generated_code_cmd = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + cmd
+		if path != "":
+			createNewFile(path, generated_code_cmd)
+		return generated_code_cmd
 
 
 	def cleanFileCmd(self, cmd):
-		frame_name = cmd.split("{")[0]
-		frame_args = cmd.split("{")[1].replace("}", "")
-		cmd_frame_name = "self.TL1." + frame_name
-		cmd_frame_args = "{" + frame_args + "}"
+		if "{" in cmd:
+			frame_name = cmd.split("{")[0]
+			frame_args = cmd.split("{")[1].replace("}", "")
+			cmd_frame_name = "self.TL1." + frame_name
+			cmd_frame_args = "{" + frame_args + "}"
+		else:
+			cmd_frame_name = cmd
+			cmd_frame_args = {}
 		return (cmd_frame_name, cmd_frame_args)
 
 
