@@ -132,11 +132,19 @@ class TemplateLibrary(object):
 	def __init__(self, frame_dirs=[]):
 		"""Loads templates that are inside frame_dirs
 		"""
+
 		self.frame_names = []
+		
 		self.frame_files = []
+		
 		self.frame_dirs = frame_dirs
+		
 		self.loadAllTemplates()
+		
 		pass
+
+
+
 
 
 	def addFrameDirs(self, frame_dirs=[]):
@@ -148,17 +156,27 @@ class TemplateLibrary(object):
 		frame_dirs : list of str
 			each string in list represent path to a new frame_dir
 		"""
+
+
 		self.frame_dirs += frame_dirs
+		
 		self.frame_dirs = list(set(self.frame_dirs))
+		
 		self.loadAllTemplates()
+		
 		return
 
+	
+	
 	def addFrameFromString(self, frame_name, frame_string):
 		#TODO evaluate necessity
 		#TODO this should also register path as 'Dynamically Created'
 		#TODO not necessary (October 20, 2019)
 		pass
 
+	
+	
+	
 	def addFrameFromFile(self, frame_file):
 		"""this method lets user add single frame object by providing
 		path to the frame file
@@ -168,38 +186,65 @@ class TemplateLibrary(object):
 		frame_file : str
 			this string represents the path to a frame file
 		"""
+	
+	
 		if isfile(frame_file):
+	
 		  frame_name = frame_file.split(".")[0]
-		  if frame_name not in self.frame_names:
-			  self.frame_names.append(frame_name)
+	
+		  if frame_name not in self.frame_names:	
+			  self.frame_names.append(frame_name)	
 			  self.frame_files.append(frame_file)
+	
+
 		else:
+
 			print(str(frame_file) + "doesn't exist")
+
+		return
+
+
+
 
 
 	def loadAllTemplates(self):
 		"""main task that will be called to create all frame objects"""
+
 		for frame_dir in self.frame_dirs:
 			self.loadFrameFilesFromDir(frame_dir)
+
 		self.createFrameObjects()
+
+		return
+
+
+
 
 
 
 	def loadFrameFilesFromDir(self, dir_path):
 		"""Read the directory and read all frame files to create
 		templates when the script is run"""
+
+
 		frame_file_names = []
-		for (directory_path, dir_names, file_names) in walk(dir_path):
-			frame_file_names.extend(file_names)
+		
+		for (directory_path, dir_names, file_names) in walk(dir_path):		
+			frame_file_names.extend(file_names)		
 			break
+		
 		raw_frame_names = [name.split(".")[0] for name in frame_file_names]
 		raw_frame_files = [join(dir_path, file) for file in frame_file_names]
+		
 		for i, raw_frame_name in enumerate(raw_frame_names):
+		
 			if raw_frame_name not in self.frame_names:
 				self.frame_names.append(raw_frame_name)
 				self.frame_files.append(raw_frame_files[i])
+		
 			else:
 				print("[" + raw_frame_name + "] already defined: New Definition Ignored")
+		
 		return
 
 
@@ -207,10 +252,15 @@ class TemplateLibrary(object):
 	def createFrameObjects(self):
 		"""based on the 'frame_names' and 'frame_files' generates instances
 		of 'FTT' to utilize those object for generating text"""
+		
+
 		for i, frame_name in enumerate(self.frame_names):
 			cmd = "self." + frame_name + "=" + "FTT(\"" + frame_name + "\", \"" + self.frame_files[i] + "\")"
 			exec(cmd)
-		
+
+
+
+
 
 	def findFrame(self, frame_name):
 		"""this method returns the frame file path for a particular string if the 
@@ -222,11 +272,15 @@ class TemplateLibrary(object):
 			A string that may or may not a frame iin that particular 
 			object of this class"""
 
+
 		path = "Frame Not Found"
+
 		for i,name in enumerate(self.frame_names):
+
 			if name == frame_name:
 				path = self.frame_files[i]
 				break
+
 		return path
 
 	# key_value_pair is a list of tuples (search, replace)
@@ -256,38 +310,67 @@ class TemplateLibrary(object):
 		--------- 
 			https://github.com/shakerin/pyland/issues/24
 		"""
+
+
 		key_value_pairs_dict_checked = {}
+
 		for i, key_word in enumerate(frame_name.key_words):
+
 			if key_word in key_value_pairs:
 				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
+
 			else:
 				print("TemplateLibrary.py : getGeneratedCode :: " + frame_name.name + ":: key not defined ::" + key_word)
 				key_value_pairs_dict_checked[key_word] = frame_name.key_word_defaults[i]
+
 		generated_code = frame_name.template.substitute(key_value_pairs_dict_checked)
+
 		return generated_code
 
 
 	def runExecSections(self, list_of_strings_to_exec):
 		"""this method will be called to execute all the executable 
 		sections one after another"""
+
+
 		post_exec_txt_list = []
+
 		for string_to_exec in list_of_strings_to_exec:
 			post_exec_txt_list.append(self.runExecSection(string_to_exec))
+
 		return post_exec_txt_list
+
+
+
+
 
 	def runExecSection(self, string_to_exec):
 		"""this method will be called to execute only one section.
 		so, this will be called from runExecSections()"""
+
+
 		self.txt = ""
+
 		exec(string_to_exec)
+
 		return self.txt
+
+
 
 
 	def printHere(self, string_to_exec):
 		"TODO will be removed in future"
+
+
 		exec_cmd = "self.txt += \"" + string_to_exec + "\\n\""
+
 		exec(exec_cmd)
+
 		return
+
+
+
+
 
 	def getAllCode(self, frame_name, string, list_of_post_exec_strings):
 		"""this method replaces replacements of the executable segments with 
@@ -326,14 +409,22 @@ class TemplateLibrary(object):
 			will be empty if that particular executable segment do not 
 			generate any text to be copied in its place.
 		"""
+
+
 		string_to_use = string
 		no_exec_segment = 0
+
 		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
 			no_exec_segment += 1
 			start, end = frame_name.block_identifier
 			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end
 			string_to_use = re.sub(exec_segment_replacement, list_of_post_exec_strings[i], string_to_use)
+
 		return string_to_use
+
+
+
+
 
 	def getAll(self, frame_name, key_value_pairs):
 		"""this method will call both generatedCOde method and
@@ -364,6 +455,8 @@ class TemplateLibrary(object):
 			this is required for generating the text from frame string
 			properly
 		"""
+
+
 		generated_code = frame_name.getGeneratedCode(key_value_pairs)
 		executable_segments, modified_string = frame_name.execSections(generated_code)
 		# the following line of code should not be removed
@@ -372,14 +465,22 @@ class TemplateLibrary(object):
 		post_exec_txt_list = self.runExecSections(executable_segments)
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
 		self.deleteFrameLocalVars(frame_name)
+
 		return final_code
 
 
+
+
+
 	def deleteFrameLocalVars(self, frame_name):
+
+
 		local_vars_in_frame = frame_name.exec_var_local
 		cmds_to_del_local_vars = ["del self."+local_var for local_var in local_vars_in_frame]
+
 		for cmd in cmds_to_del_local_vars:
 			exec(cmd)
+
 		return
 
 
