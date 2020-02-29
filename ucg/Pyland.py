@@ -32,6 +32,16 @@ from .common_func import *
 
 
 
+
+
+
+
+
+
+
+
+
+
 class Pyland(object):
 	"""Top level class for this tool. This class can be utilized
 	to generate code based on frame command and automate directory
@@ -65,17 +75,55 @@ class Pyland(object):
 		executing the frame file
 
 	"""
+
+
+
+
+
+
 	def __init__(self, frame_dirs, filepath_or_frame, output_file=""):
+
+
 		self.frame_dirs = frame_dirs
+		
 		self.TL1 = TL(self.frame_dirs)
+		
+		
 		if self.isStruct(filepath_or_frame):
+		
 			structfilepath = filepath_or_frame
+		
 			self.automateStructure(structfilepath)
+		
+		
 		else:
+		
 			frame_cmd = filepath_or_frame
+		
 			self.automateFrame(frame_cmd, output_file)
+		
+
+		
 		return
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def isStruct(self, file_path):
 		"""checking if the input provided is a structure file path or
@@ -93,10 +141,32 @@ class Pyland(object):
 			True if file_path is an actual file path,
 			False if file_path is not a file path
 		"""
+
+
 		is_struct = False
+
 		if isfile(file_path):
+
 			is_struct = True
+
+
 		return is_struct
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,8 +179,28 @@ class Pyland(object):
 		struct_file : string
 			this string represents path to the structure file
 		"""
+
+
 		self.ST1 = Structure(struct_file)
+
 		self.automate()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def automateFrame(self, frame_cmd, output_file=""):
 		"""This method executes the frame command provided as an 
@@ -125,62 +215,173 @@ class Pyland(object):
 			if not empty, output of the executed frame command
 			will be copied in this file
 		"""
+
+
 		generated_code = self.execFileCmd(frame_cmd, output_file)
+
 		self.frame_generated_code = generated_code
+
+
+
+
+
+
+
+
+
+
+
 		
-		
+
+
 	def automate(self):
 		"""This method creates directories based on the structure 
 		file and based on associated commands, all files will be
 		created.
 		"""
+
+
 		self.createDirs()
+
 		self.execCmds()
-		pass
+
+
+
+
+
+
+
+
+
+
+
 
 	
 	def createDirs(self):
 		"""create all directories present in self.dir_paths list if the 
 		directories are not already created"""
+
+
 		for path in self.ST1.dir_paths:
+
 			createDirIfNotPresent(path)
+
+
 		return
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	def execCmds(self):
 		"""Executes only the FILE type commands based on the structure file"""
+
 		for cmd_tuple in self.ST1.commands:
+
 			cmd_type, path, cmd = cmd_tuple
+
+
 			if cmd_type == "FILE":
+
 				self.execFileCmd(cmd, path)
+
+
+
 		return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def execFileCmd(self, cmd, path=""):
 		"""Executes cmd and writes output from executed command to path
 		if path is not empty"""
+
+
 		frame_ins_name, frame_args = self.cleanFileCmd(cmd)
 		frame_name = frame_ins_name.replace("self.TL1.", "")
+
+
 		if frame_name in self.TL1.frame_names:
+
 			generated_code_cmd = self.TL1.getAll(eval(frame_ins_name), eval(frame_args))
+
+
 		else:
+
 			generated_code_cmd = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + cmd
+
+
+
+
 		if path != "":
+
 			createNewFile(path, generated_code_cmd)
+
+
+
 		return generated_code_cmd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	def cleanFileCmd(self, cmd):
 		"""Cleans command and returns frame name and arguments in
 		a way that will be evaluated in execFileCmd method
 		"""
+
+
 		if "{" in cmd:
+
 			frame_name = cmd.split("{")[0]
 			frame_args = cmd.split("{")[1].replace("}", "")
+
 			cmd_frame_name = "self.TL1." + frame_name
 			cmd_frame_args = "{" + frame_args + "}"
+
+
 		else:
+
 			cmd_frame_name = cmd
 			cmd_frame_args = {}
+
+
+
+
 		return (cmd_frame_name, cmd_frame_args)
 
 

@@ -48,6 +48,11 @@ class FileToTemplate(TemplateInfo):
 		to parent class 'TemplateInfo'. Currently, unmodified text
 	"""
 
+
+
+
+
+
 	def __init__(self, name, file_path):
 		"""Reads the frame file and sends frame string to parent class
 
@@ -56,15 +61,44 @@ class FileToTemplate(TemplateInfo):
 		file_path : str
 			this is the path to the frame file
 		"""
+
+
 		self.file_path = file_path
+
 		text = self.fileToText()
+
 		super().__init__(name, text) 
-		#TODO self.text is redundant -> remove it and don't use it
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	def fileToText(self):
 		"""Reads the frame file and stores as a string in 'text'"""
+
 		text = ""
+
 		with open(self.file_path, 'r') as f:
+
 			text = f.read()
+
+
+
 		return text
+
+
+
+
+
+
