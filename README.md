@@ -51,6 +51,16 @@ pytest-3 .
 ### Project Status and Future Plan
 See the [Project Status and Plan](https://github.com/shakerin/pyland/blob/master/Project%20Status%20and%20Plan.md)
 
+#### Detailed Docs
+[Pyland Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/PYLAND.md)
+[Structure Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/STRUCTURE.md)
+[TemplateLibrary Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/TEMPLATE_LIBRARY.md)
+[TemplateInfo Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/TEMPLATE_INFO.md)
+[FileToTemplate Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/FILE_TO_TEMPLATE.md)
+
+
+
+
 ## Author
 
 * **Shakerin Ahmed** 
