@@ -6,6 +6,8 @@ from docopt import docopt
 import re
 from os.path import join
 import os
+import filecmp
+
 from ucg.TemplateInfo import TemplateInfo as TI
 from ucg.FileToTemplate import FileToTemplate as FTT
 from ucg.TemplateLibrary import TemplateLibrary as TL
@@ -14,12 +16,14 @@ from ucg.Pyland import Pyland
 from tests.path_variables import *
 
 
+
 class TestPyland:
 
     
     structure_file_path_main = PV_testdir_Structure + "/pyland_main.struct"
     frame_dirs = [PV_testdir_Frames]
     pyland_main = Pyland(frame_dirs, structure_file_path_main)
+
 
     
     def test_Pyland_DirCreation_Check(self):
@@ -233,3 +237,35 @@ class TestPyland:
         with open(outputfilepath) as f:
             output = f.read()
         assert expected_output == output
+
+
+
+
+
+    def test_auto_structure_test(self):
+        # create Pyland instance for frame_dirs and struct file
+        autotest_frame = PV_testdir_Structure + "/Autotest_frame_files"
+        autotest_frame_dirs = [autotest_frame]
+
+        autotest_struct = PV_testdir_Structure + "/Autotest_struct_files/check_all_frames.struct"
+
+        autotest_struct_output = PV_testdir_Structure + "/Autotest_struct_output_files"
+
+
+        # Pyland instance creation
+        pyland_auto_frame_test = Pyland(autotest_frame_dirs, autotest_struct)
+        created_file_paths = pyland_auto_frame_test.ST1.file_paths
+
+        output_file_paths = [autotest_struct_output+"/"+filepath.split('/')[-1]  for filepath in created_file_paths]
+
+        # read the struct file to collect file locations and names
+        matched = True
+        for created_file, output_file in zip(created_file_paths, output_file_paths):
+            matched &= filecmp.cmp(created_file, output_file)
+            if not matched:
+                print(created_file.split('/')[-1])
+                break
+        assert matched == True
+
+
+
