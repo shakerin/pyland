@@ -1,0 +1,3 @@
+to_be_deleted_auto_test//
+    test_frame_1.txt,,simple_one_key{'structname':'check_all_frames'}
+    test_frame_2.txt,,simple_two_key{'pronoun':'your', 'adj':'evil'}
