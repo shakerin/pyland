@@ -376,7 +376,8 @@ class Pyland(object):
 
 		else:
 
-			cmd_frame_name = cmd
+			#TODO check code
+			cmd_frame_name = "self.TL1." + cmd
 			cmd_frame_args = {}
 
 
