@@ -1,0 +1,4 @@
+I am $name
+<<<
+self.txt = "I am $name. But it is from executable segment"
+>>>
