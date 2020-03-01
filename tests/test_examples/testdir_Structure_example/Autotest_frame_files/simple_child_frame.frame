@@ -1,0 +1,6 @@
+This is an example of child frame.
+<<<
+self.txt = self.getAll(self.simple_one_key,{
+    'structname': "$name"
+})
+>>>

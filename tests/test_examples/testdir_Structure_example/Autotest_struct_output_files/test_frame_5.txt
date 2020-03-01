@@ -1,0 +1,3 @@
+This is an example of child frame.
+this text is from SMART_CHILD_FRAME
+Who developed SMART_CHILD_FRAME?

@@ -1,0 +1,4 @@
+This is an example of child frame.
+<<<
+self.txt = __frame__simple_one_key{'structname': "$name"}
+>>>

@@ -1,0 +1,3 @@
+This is an example of child frame.
+this text is from SIMPLE_CHILD_FRAME
+Who developed SIMPLE_CHILD_FRAME?
