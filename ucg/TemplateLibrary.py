@@ -351,9 +351,53 @@ class TemplateLibrary(object):
 
 		self.txt = ""
 
+		string_to_exec = self.cleanStringToExec(string_to_exec)
+		
 		exec(string_to_exec)
 
 		return self.txt
+
+
+	
+	def cleanStringToExec(self, string_to_exec):
+
+		clean_string_to_exec = ""
+
+
+		if "__frame__" in string_to_exec:
+
+
+			text_before_frame = string_to_exec.split('__frame__')[0]
+			text_after_frame = string_to_exec.split('__frame__')[1]
+			line_wo_prefix = text_after_frame
+
+			if "{" in line_wo_prefix:
+
+				frame_name = line_wo_prefix.split("{")[0]
+				frame_args = line_wo_prefix.split("{")[1].replace("}", "")
+
+				cmd_frame_name = "self." + frame_name
+				cmd_frame_args = "{" + frame_args + "}"
+
+
+			else:
+
+				frame_name = line_wo_prefix
+				cmd_frame_name = "self." + frame_name
+				cmd_frame_args = {}
+
+
+			if frame_name in self.frame_names:
+
+				generated_code_cmd = "self.getAll(" + cmd_frame_name + ", " + cmd_frame_args + ")"
+				clean_string_to_exec = text_before_frame + generated_code_cmd + "\n"
+					
+
+		else:
+
+			clean_string_to_exec = string_to_exec
+
+		return clean_string_to_exec
 
 
 
