@@ -263,6 +263,8 @@ class TestPyland:
         for created_file, output_file in zip(created_file_paths, output_file_paths):
             matched &= filecmp.cmp(created_file, output_file)
             if not matched:
+                with open(created_file) as f:
+                    print(f.read())
                 print(created_file.split('/')[-1])
                 break
         assert matched == True
