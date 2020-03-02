@@ -2,3 +2,6 @@ This is an example of child frame.
 <<<
 __frame__simple_one_key{'structname': "$name"}
 >>>
+<<<
+__frame__simple_two_key{'pronoun':'$pro', 'adj':'$adj'}
+>>>

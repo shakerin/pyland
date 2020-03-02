@@ -4,3 +4,4 @@ to_be_deleted_auto_test//
     test_frame_3.txt,,simple_executable{'name':'Nightmare'}
     test_frame_4.txt,,simple_child_frame{'name':'SIMPLE_CHILD_FRAME'}
     test_frame_5.txt,,smart_child_frame{'name':'SMART_CHILD_FRAME'}
+    test_frame_6.txt,,smart_multi_child_single_seg{'name':'SMART_CHILD_FRAME', 'pro':'YOUR', 'adj':'EVIL!'}
