@@ -389,8 +389,8 @@ class TemplateLibrary(object):
 
 			if frame_name in self.frame_names:
 
-				generated_code_cmd = "self.getAll(" + cmd_frame_name + ", " + cmd_frame_args + ")"
-				clean_string_to_exec = text_before_frame + generated_code_cmd + "\n"
+				generated_code_cmd = "self.txt += self.getAll(" + cmd_frame_name + ", " + cmd_frame_args + ")"
+				clean_string_to_exec = generated_code_cmd + "\n"
 					
 
 		else:
