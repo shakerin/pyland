@@ -391,8 +391,12 @@ class TemplateInfo(object):
 			pythonified_exec_segment = self.pythonify(segment)
 			pythonified_exec_segments.append(pythonified_exec_segment)
 
+		#print(self.exec_sections)
 		self.exec_sections = pythonified_exec_segments
-
+		print("$$$$$$$$")
+		print(self.original)
+		print(self.modified_string)
+		print("$$$$$$$$")
 		return self.exec_sections
 
 

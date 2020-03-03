@@ -352,6 +352,8 @@ class TemplateLibrary(object):
 		self.txt = ""
 
 		string_to_exec = self.cleanStringToExec(string_to_exec)
+
+		#print(string_to_exec)
 		
 		exec(string_to_exec)
 
@@ -507,6 +509,7 @@ class TemplateLibrary(object):
 		# because, it is necessary to execute all frame exec sections
 		# from this class to make it accessible from any frames, any time
 		post_exec_txt_list = self.runExecSections(executable_segments)
+		print(modified_string)
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
 		self.deleteFrameLocalVars(frame_name)
 
