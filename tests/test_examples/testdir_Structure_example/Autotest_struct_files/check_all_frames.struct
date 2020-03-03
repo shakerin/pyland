@@ -5,3 +5,4 @@ to_be_deleted_auto_test//
     test_frame_4.txt,,simple_child_frame{'name':'SIMPLE_CHILD_FRAME'}
     test_frame_5.txt,,smart_child_frame{'name':'SMART_CHILD_FRAME'}
     test_frame_6.txt,,smart_multi_child_single_seg{'name':'SMART_CHILD_FRAME', 'pro':'YOUR', 'adj':'EVIL!'}
+    test_frame_7.txt,,simple_for_loop{'name':'AUTO_TEST', 'n':'15'}

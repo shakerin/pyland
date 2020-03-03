@@ -1,0 +1,4 @@
+<<<
+for i in range($n):
+    self.txt += "I am a txt generated from $name " + str(i+1) + "\n"
+>>>
