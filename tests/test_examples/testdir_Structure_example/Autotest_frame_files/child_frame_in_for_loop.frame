@@ -1,0 +1,5 @@
+<<<
+for name in $names[:-1]:
+    self.txt += __frame__simple_one_key{'structname': name} + "\n"
+self.txt += __frame__simple_one_key{'structname': $names[-1]}
+>>>
