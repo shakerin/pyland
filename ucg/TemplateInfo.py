@@ -393,10 +393,10 @@ class TemplateInfo(object):
 
 		#print(self.exec_sections)
 		self.exec_sections = pythonified_exec_segments
-		print("$$$$$$$$")
-		print(self.original)
-		print(self.modified_string)
-		print("$$$$$$$$")
+		#print("$$$$$$$$")
+		#print(self.original)
+		#print(self.modified_string)
+		#print("$$$$$$$$")
 		return self.exec_sections
 
 
@@ -485,6 +485,7 @@ class TemplateInfo(object):
 
 		string_to_exec = re.sub("__local__", "self.", string_to_exec)
 		string_to_exec = re.sub("__global__", "self.", string_to_exec)
+		string_to_exec = re.sub(r'(.*)__frame__(.*)\{(.*)\}(.*)', '\\1self.getAll(self.\\2,{\\3})\\4', string_to_exec)
 
 		return string_to_exec
 
