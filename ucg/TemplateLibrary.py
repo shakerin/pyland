@@ -167,12 +167,12 @@ class TemplateLibrary(object):
 		return
 
 	
-	
-	def addFrameFromString(self, frame_name, frame_string):
-		#TODO evaluate necessity
-		#TODO this should also register path as 'Dynamically Created'
-		#TODO not necessary (October 20, 2019)
-		pass
+
+
+
+
+
+
 
 	
 	
@@ -207,6 +207,11 @@ class TemplateLibrary(object):
 
 
 
+
+
+
+
+
 	def loadAllTemplates(self):
 		"""main task that will be called to create all frame objects"""
 
@@ -216,6 +221,10 @@ class TemplateLibrary(object):
 		self.createFrameObjects()
 
 		return
+
+
+
+
 
 
 
@@ -249,6 +258,16 @@ class TemplateLibrary(object):
 
 
 
+
+
+
+
+
+
+
+
+
+
 	def createFrameObjects(self):
 		"""based on the 'frame_names' and 'frame_files' generates instances
 		of 'FTT' to utilize those object for generating text"""
@@ -257,6 +276,13 @@ class TemplateLibrary(object):
 		for i, frame_name in enumerate(self.frame_names):
 			cmd = "self." + frame_name + "=" + "FTT(\"" + frame_name + "\", \"" + self.frame_files[i] + "\")"
 			exec(cmd)
+
+
+		return
+
+
+
+
 
 
 
@@ -273,7 +299,9 @@ class TemplateLibrary(object):
 			object of this class"""
 
 
+
 		path = "Frame Not Found"
+
 
 		for i,name in enumerate(self.frame_names):
 
@@ -281,7 +309,14 @@ class TemplateLibrary(object):
 				path = self.frame_files[i]
 				break
 
+
 		return path
+
+
+
+
+
+
 
 	# key_value_pair is a list of tuples (search, replace)
 	def getGeneratedCode(self, frame_name, key_value_pairs):
@@ -312,20 +347,38 @@ class TemplateLibrary(object):
 		"""
 
 
+
+
 		key_value_pairs_dict_checked = {}
+
 
 		for i, key_word in enumerate(frame_name.key_words):
 
+
 			if key_word in key_value_pairs:
 				key_value_pairs_dict_checked[key_word] = key_value_pairs[key_word]
+
 
 			else:
 				print("TemplateLibrary.py : getGeneratedCode :: " + frame_name.name + ":: key not defined ::" + key_word)
 				key_value_pairs_dict_checked[key_word] = frame_name.key_word_defaults[i]
 
+
+
 		generated_code = frame_name.template.substitute(key_value_pairs_dict_checked)
 
 		return generated_code
+
+
+
+
+
+
+
+
+
+
+
 
 
 	def runExecSections(self, list_of_strings_to_exec):
@@ -333,12 +386,22 @@ class TemplateLibrary(object):
 		sections one after another"""
 
 
+
 		post_exec_txt_list = []
 
+
 		for string_to_exec in list_of_strings_to_exec:
+
 			post_exec_txt_list.append(self.runExecSection(string_to_exec))
 
+
+
 		return post_exec_txt_list
+
+
+
+
+
 
 
 
@@ -359,6 +422,11 @@ class TemplateLibrary(object):
 
 
 
+
+
+
+
+
 	def printHere(self, string_to_exec):
 		"TODO will be removed in future"
 
@@ -368,6 +436,12 @@ class TemplateLibrary(object):
 		exec(exec_cmd)
 
 		return
+
+
+
+
+
+
 
 
 
@@ -412,16 +486,31 @@ class TemplateLibrary(object):
 		"""
 
 
+
+
+
 		string_to_use = string
 		no_exec_segment = 0
 
+
+
 		for i, post_exec_strings in enumerate(list_of_post_exec_strings):
+
 			no_exec_segment += 1
+
 			start, end = frame_name.block_identifier
+
 			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end
+
 			string_to_use = re.sub(exec_segment_replacement, list_of_post_exec_strings[i], string_to_use)
 
+
 		return string_to_use
+
+
+
+
+
 
 
 
@@ -458,17 +547,32 @@ class TemplateLibrary(object):
 		"""
 
 
+
+
 		generated_code = frame_name.getGeneratedCode(key_value_pairs)
+
 		executable_segments, modified_string = frame_name.execSections(generated_code)
+
+
 		# the following line of code should not be removed
 		# because, it is necessary to execute all frame exec sections
 		# from this class to make it accessible from any frames, any time
 		post_exec_txt_list = self.runExecSections(executable_segments)
 		#print(modified_string)
+
 		final_code = self.getAllCode(frame_name, modified_string, post_exec_txt_list)
+
 		self.deleteFrameLocalVars(frame_name)
 
 		return final_code
+
+
+
+
+
+
+
+
 
 
 
@@ -481,7 +585,9 @@ class TemplateLibrary(object):
 		cmds_to_del_local_vars = ["del self."+local_var for local_var in local_vars_in_frame]
 
 		for cmd in cmds_to_del_local_vars:
+
 			exec(cmd)
+
 
 		return
 
