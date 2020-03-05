@@ -7,3 +7,4 @@ to_be_deleted_auto_test//
     test_frame_6.txt,,    smart_multi_child_single_seg{'name':'SMART_CHILD_FRAME', 'pro':'YOUR', 'adj':'EVIL!'}
     test_frame_7.txt,,    simple_for_loop{'name':'AUTO_TEST', 'n':'15'}
     test_frame_8.txt,,    child_frame_in_for_loop{'names':'["AUOTEST_1", "AUOTEST_2"]'}
+    test_frame_9.txt,,    child_frame_in_for_loop{'names':'["AUOTEST_3"]'}

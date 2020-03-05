@@ -1,5 +1,7 @@
 <<<
-for name in $names[:-1]:
-    self.txt += __frame__simple_one_key{'structname': name} + "\n"
-self.txt += __frame__simple_one_key{'structname': $names[-1]}
+if len($names)>1:
+    for name in $names[:-1]:
+        self.txt += __frame__simple_one_key{'structname': name} + "\n"
+    self.txt += __frame__simple_one_key{'structname': $names[-1]} + "\n"
+__copy____frame__simple_one_key{'structname': $names[0]}
 >>>
