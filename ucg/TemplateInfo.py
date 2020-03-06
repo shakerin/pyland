@@ -281,15 +281,26 @@ class TemplateInfo(object):
 		start_found = False
 		exec_segment = ""
 
+
+		before_start_of_exec_segment, after_end_of_exec_segment = "", ""
 		for line in list_of_lines:
+
+			#print(">>", line)
 
 			if start_found:
 
 				if (self.isStrPresent(line, end_of_exec_segment)):
+					#print("end found == ", line)
+					after_end_of_exec_segment = line.split(end_of_exec_segment)[-1].strip()
 					start_found = False
 					no_exec_segment += 1
 					extracted_exec_segments.append(exec_segment)
-					exec_segment_replacement = start_of_exec_segment + " " + str(no_exec_segment) + " " + end_of_exec_segment
+					exec_segment_replacement = before_start_of_exec_segment \
+											   + start_of_exec_segment + " " \
+											   + str(no_exec_segment) + " " \
+											   + end_of_exec_segment \
+											   + after_end_of_exec_segment
+					
 					modified_string += exec_segment_replacement
 
 					if "\n" in line:
@@ -303,6 +314,9 @@ class TemplateInfo(object):
 			else:
 
 				if (self.isStrPresent(line, start_of_exec_segment)):
+					#print("start found ==", line)
+					before_start_of_exec_segment = line.split(start_of_exec_segment)[0]
+					#print(before_start_of_exec_segment)
 					start_found = True
 
 				else:
