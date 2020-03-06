@@ -267,6 +267,9 @@ class TestPyland:
                 with open(created_file) as f:
                     print(f.read())
                 print("*****************************")
+                #with open(output_file) as f:
+                #    print(f.read())
+                #print("*****************************")
                 print(created_file.split('/')[-1])
                 break
         assert matched == True

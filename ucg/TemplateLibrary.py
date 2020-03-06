@@ -414,6 +414,7 @@ class TemplateLibrary(object):
 
 		self.txt = ""
 		
+		#print(string_to_exec)
 		exec(string_to_exec)
 
 		return self.txt
@@ -502,6 +503,8 @@ class TemplateLibrary(object):
 
 			exec_segment_replacement = start + " " + str(no_exec_segment) + " " + end
 
+			#print(exec_segment_replacement)
+			#print(list_of_post_exec_strings[i])
 			string_to_use = re.sub(exec_segment_replacement, list_of_post_exec_strings[i], string_to_use)
 
 
