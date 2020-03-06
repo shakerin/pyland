@@ -1,0 +1,2 @@
+Same Line {MAGIC}this text is from MAGIC
+Who developed MAGIC?

@@ -1,0 +1,3 @@
+Same Line {$name}<<<
+self.txt += __frame__simple_one_key{'structname': '$name'}
+>>>
