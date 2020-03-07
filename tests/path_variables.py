@@ -5,8 +5,6 @@ PV_testdir_common_func = PROJECT_DIR + "pyland/tests/test_examples/common_funcs"
 PV_testdir_Discrete_Examples = PROJECT_DIR + "pyland/tests/test_examples/testdir_Discrete_Examples"
 PV_testdir_Expected_Output_Examples = PROJECT_DIR + "pyland/tests/test_examples/testdir_Expected_Output_Examples"
 PV_tests = PROJECT_DIR + "pyland/tests/test_examples/"
-PV_testdir_CommandLibraryTest = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest"
-PV_testdir_CommandLibraryTest2 = PROJECT_DIR + "pyland/tests/test_examples/testdir_CommandLibraryTest2"
 PV_testdir_Structure = PROJECT_DIR + "pyland/tests/test_examples/testdir_Structure_example"
 PV_testdir_Frames = PROJECT_DIR + "pyland/tests/test_examples/FrameDir"
 
