@@ -6,9 +6,10 @@
 * TemplateLibrary class is the place where frame objects are created for all frame strings,
 * frame objects from TemplateLibrary class can be utilized to generate text or execute accessible system commands,
 * Finalize a structure that can be used for generating texts
+* execute commands easily from users perspective
 
 ## Next Step
-* execute commands easily from users perspective,
+* create package for distribution
 
 
 ## Common Terms
@@ -29,16 +30,16 @@ It is also called frame string object. It is an instance that is created based o
 frame string class.
 *frame object concept already delevoped in Pyland*
 
-### frame dir
-This file contains information about directory structure and frameObj associated
-with individual files.
-*frame dir concept is being developed in pyland now(Feb 2, 2020)*
-
 ### frame cmd
-This is a mechanism that will allow users to create/execute any frameObj from terminal.
-It is only for making Pyland user friendly.
-*frame cmd concept is not developed in pyland yet*
+This is a method where user only provides the frame object name and input argument
+values for code generation and python code execution.
+*frame cmd concept already delevoped in Pyland*
 
+### structure file
+This is a text file containing all directory and file names for creation.
+User can mention the frame object name and provide arguments in proper form
+for text auto generation in that file and also execution of any python code.
+*structure file concept already delevoped in Pyland*
 
 ## Structure to generate some code
 
@@ -56,7 +57,7 @@ It is only for making Pyland user friendly.
 
 
 ### User Friendly Structure In FrameDir Files
-    frame_simple_v2({'something': "$name"})
+    frame_simple_v2{'something': "$name"}
         This will call the frame_simple_v2 frame to generate text and 
         execute python codes based on the arguments provided in the 
         dictionary
@@ -66,16 +67,16 @@ It is only for making Pyland user friendly.
 ## FrameDir File Example (aka 'Structure File')
 
     dir1//
-        file11,,<frameObj(<dict argument>)>
-        file12,,<frameObj(<dict argument>)>
+        file11,,frameObj{<dict argument>}
+        file12,,frameObj{<dict argument>}
     dir2//
-        file21,,<frameObj(<dict argument>)>
+        file21,,frameObj{<dict argument>}
         dir21//
             file211,,
-            file212,,<frameObj(<dict argument>)>
+            file212,,frameObj{<dict argument>}
             dir211//
-    file1,,<frameObj(<dict argument>)>
-    file2,,<frameObj(<dict argument>)>
+    file1,,frameObj{<dict argument>}
+    file2,,frameObj{<dict argument>}
 
 
 ## Basic Frame Commands
@@ -111,7 +112,7 @@ It is only for making Pyland user friendly.
     done.
     
 
-## Steps of operation (frame dirs)
+## Steps of operation (structure file)
 
 ### step 1
     User provides a frame dir file that contains all information about
@@ -119,7 +120,7 @@ It is only for making Pyland user friendly.
     files including parameters (for now)
     
 ### step 2
-    All directories and files will be created based on the units
+    All directories and files will be created based on the inputs
     
 ### More
     Further details will be added after initial coding is complete.
