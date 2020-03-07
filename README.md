@@ -1,4 +1,10 @@
 # Pyland
+
+| Author | Shakerin Ahmed |
+|--------|----------------|
+| Version|1.0.0 (not released)|
+
+
 This project aims to enable anyone to create a text generator+automator for themselves.
 
 * **Text Generator** is something that can generate bunch of text files(with code or any 
