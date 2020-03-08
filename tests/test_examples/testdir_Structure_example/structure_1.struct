@@ -1,5 +1,7 @@
 to_be_deleted_test1//abc
-    file1.txt,,frameObj()
+    file1.txt,,frameObj{
+
+}
     file2.txt,,newObj()
     file3.txt,,newObj()
     test2//
