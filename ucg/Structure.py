@@ -307,9 +307,11 @@ class Structure(object):
 			original_list = f.readlines()
 
 
-		self.original_list = list(filter(None, original_list))
-		self.original = "\n".join(original_list)
-
+		original_list = list(filter(None, original_list))
+				
+		original = "____".join(original_list)
+		self.original = re.sub(r'{.*?}', lambda x:x.group().replace("\n", "").replace("____", ""), original, flags=re.DOTALL)
+		self.original_list = self.original.split("____")
 
 		return
 
