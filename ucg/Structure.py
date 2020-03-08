@@ -308,6 +308,7 @@ class Structure(object):
 
 
 		self.original_list = list(filter(None, original_list))
+		self.original = "\n".join(original_list)
 
 
 		return
@@ -436,6 +437,10 @@ class Structure(object):
 
 				cmd_types.append("FILE")
 				cmd_names.append(cmd_name)
+
+
+			else:
+				pass
 
 
 
