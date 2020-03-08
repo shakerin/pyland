@@ -24,8 +24,13 @@ class TestStructure:
         with open(TestStructure.structure_file_path_main, 'r') as f:
             read_lines = f.readlines()
         read_lines = list(filter(None, read_lines))
+        newline_replaced = "____".join(read_lines)
+        newline_replaced_2 = re.sub(r'{.*?}', 
+                                    lambda x:x.group().replace("\n", "").replace("____", ""), 
+                                    newline_replaced, 
+                                    flags=re.DOTALL)
+        read_lines = newline_replaced_2.split("____")
         assert sorted(TestStructure.structure_main.original_list) == sorted(read_lines)
-
 
 
 
@@ -68,7 +73,7 @@ class TestStructure:
     def test_Structure_CMDnames(self):
         assert (TestStructure.structure_main.cmd_names) ==  ([
                                                                 "abc",
-                                                                "frameObj()",
+                                                                "frameObj{}",
                                                                 "newObj()",
                                                                 "newObj()",
                                                                 "",
@@ -157,7 +162,7 @@ class TestStructure:
                                                         ('DIR', 'to_be_deleted_test1/test5/', ''),
                                                         ('DIR', 'to_be_deleted_test3/', ''),
                                                         ('DIR', 'to_be_deleted_test88/', ''),
-                                                        ('FILE', 'to_be_deleted_test1/file1.txt', 'frameObj()'),
+                                                        ('FILE', 'to_be_deleted_test1/file1.txt', 'frameObj{}'),
                                                         ('FILE', 'to_be_deleted_test1/file2.txt', 'newObj()'),
                                                         ('FILE', 'to_be_deleted_test1/file3.txt', 'newObj()'),
                                                         ('FILE', 'to_be_deleted_test1/test2/file1.txt', 'newObj()'),
