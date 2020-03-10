@@ -91,16 +91,12 @@ class Pyland(object):
 		
 		if self.isStruct(filepath_or_frame):
 		
-			structfilepath = filepath_or_frame
-		
-			self.automateStructure(structfilepath)
+			self.automateStructure(filepath_or_frame)
 		
 		
 		else:
-		
-			frame_cmd = filepath_or_frame
-		
-			self.automateFrame(frame_cmd, output_file)
+				
+			self.automateFrame(filepath_or_frame, output_file)
 		
 
 		
