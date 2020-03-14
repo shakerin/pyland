@@ -12,21 +12,21 @@ from ucg.TemplateInfo import TemplateInfo as TI
 from ucg.FileToTemplate import FileToTemplate as FTT
 from ucg.TemplateLibrary import TemplateLibrary as TL
 from ucg.Structure import Structure
-from ucg.Pyland import Pyland
+from ucg.PylandMaster import PylandMaster
 from tests.path_variables import *
 
 
 
-class TestPyland:
+class TestPylandMaster:
 
     
     structure_file_path_main = PV_testdir_Structure + "/pyland_main.struct"
     frame_dirs = [PV_testdir_Frames]
-    pyland_main = Pyland(frame_dirs, structure_file_path_main)
+    pyland_main = PylandMaster(frame_dirs, structure_file_path_main)
 
 
     
-    def test_Pyland_DirCreation_Check(self):
+    def test_PylandMaster_DirCreation_Check(self):
         root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
         created_dirs = ["to_be_deleted_test1/", "to_be_deleted_test3/", "to_be_deleted_test88/"]
         for root_dir in root_dirs:
@@ -35,7 +35,7 @@ class TestPyland:
                     for dir_name in dirs:
                         dirpath = os.path.join(root, dir_name) + "/"
                         created_dirs.append(dirpath)
-        assert sorted(TestPyland.pyland_main.ST1.dir_paths) == sorted(created_dirs)
+        assert sorted(TestPylandMaster.pyland_main.ST1.dir_paths) == sorted(created_dirs)
     
     def test_Pyland_FileCreation_Check(self):
         root_dirs = ["to_be_deleted_test1", "to_be_deleted_test3", "to_be_deleted_test88"]
@@ -46,19 +46,19 @@ class TestPyland:
                     for file_name in files:
                         filepath = os.path.join(root, file_name)
                         created_files.append(filepath)
-        assert sorted(TestPyland.pyland_main.ST1.file_paths) == sorted(created_files)  
+        assert sorted(TestPylandMaster.pyland_main.ST1.file_paths) == sorted(created_files)  
 
     def test_Pyland_OriginalList(self):
-        with open(TestPyland.structure_file_path_main, 'r') as f:
+        with open(TestPylandMaster.structure_file_path_main, 'r') as f:
             read_lines = f.readlines()
         read_lines = list(filter(None, read_lines))
-        assert sorted(TestPyland.pyland_main.ST1.original_list) == sorted(read_lines)
+        assert sorted(TestPylandMaster.pyland_main.ST1.original_list) == sorted(read_lines)
 
 
 
 
     def test_Pyland_Filenames(self):
-        assert sorted(TestPyland.pyland_main.ST1.file_names) == sorted([
+        assert sorted(TestPylandMaster.pyland_main.ST1.file_names) == sorted([
                                                                         "file1.txt",
                                                                         "file2.txt",
                                                                         "file3.txt",
@@ -68,7 +68,7 @@ class TestPyland:
                                                                         ])
 
     def test_Pyland_Dirnames(self):
-        assert sorted(TestPyland.pyland_main.ST1.dir_names) ==  sorted([
+        assert sorted(TestPylandMaster.pyland_main.ST1.dir_names) ==  sorted([
                                                                         "to_be_deleted_test1",
                                                                         "test2",
                                                                         "test4",
@@ -78,7 +78,7 @@ class TestPyland:
                                                                         ])
 
     def test_Pyland_FileNDirnames(self):
-        assert sorted(TestPyland.pyland_main.ST1.file_n_dir_names) ==  sorted([
+        assert sorted(TestPylandMaster.pyland_main.ST1.file_n_dir_names) ==  sorted([
                                                                                 "to_be_deleted_test1",
                                                                                 "test2",
                                                                                 "test4",
@@ -95,7 +95,7 @@ class TestPyland:
 
 
     def test_Pyland_positions_dir_only(self):
-        assert TestPyland.pyland_main.ST1.positions_dir_only == [
+        assert TestPylandMaster.pyland_main.ST1.positions_dir_only == [
                                                                         0,
                                                                             4,
                                                                                 8,
@@ -106,7 +106,7 @@ class TestPyland:
 
 
     def test_Pyland_positions_dir_only(self):
-        assert TestPyland.pyland_main.ST1.positions == [
+        assert TestPylandMaster.pyland_main.ST1.positions == [
                                                                             0,
                                                                                 4,
                                                                                 4,
@@ -122,7 +122,7 @@ class TestPyland:
                                                                             ]
 
     def test_Pyland_cmd_types(self):
-        assert TestPyland.pyland_main.ST1.cmd_types == [
+        assert TestPylandMaster.pyland_main.ST1.cmd_types == [
                                                                             "DIR",
                                                                                 "FILE",
                                                                                 "FILE",
@@ -140,7 +140,7 @@ class TestPyland:
 
 
     def test_Pyland_directoryPaths(self):
-        assert (TestPyland.pyland_main.ST1.dir_paths) == ( \
+        assert (TestPylandMaster.pyland_main.ST1.dir_paths) == ( \
                                                         [
                                                         'to_be_deleted_test1/',
                                                         'to_be_deleted_test1/test2/',
@@ -150,7 +150,7 @@ class TestPyland:
                                                         'to_be_deleted_test88/'])
     
     def test_Pyland_FilePaths(self):
-        assert (TestPyland.pyland_main.ST1.file_paths) == ( \
+        assert (TestPylandMaster.pyland_main.ST1.file_paths) == ( \
                                                         [
                                                         'to_be_deleted_test1/file1.txt',
                                                         'to_be_deleted_test1/file2.txt',
@@ -161,7 +161,7 @@ class TestPyland:
                                                         ])
 
     def test_Pyland_Commands(self):
-        assert (TestPyland.pyland_main.ST1.commands) == ( \
+        assert (TestPylandMaster.pyland_main.ST1.commands) == ( \
                                                         [
                                                         ('DIR', 'to_be_deleted_test1/', 'abc'),
                                                         ('DIR', 'to_be_deleted_test1/test2/', ''),
@@ -179,7 +179,7 @@ class TestPyland:
 
 
     def test_Pyland_CMDnames(self):
-        assert (TestPyland.pyland_main.ST1.cmd_names) ==  ([
+        assert (TestPylandMaster.pyland_main.ST1.cmd_names) ==  ([
                                                                 "abc",
                                                                 "justText{'arg':'FILE1_FROM_TEST1'}",
                                                                 "justText{'arg':'FILE2_FROM_TEST1'}",
@@ -197,7 +197,7 @@ class TestPyland:
 
     def test_Pyland_Structure_CommadExec(self):
         read_data = []
-        for file_path in TestPyland.pyland_main.ST1.file_paths:
+        for file_path in TestPylandMaster.pyland_main.ST1.file_paths:
             with open(file_path) as f:
                 data = f.read()
                 read_data.append(data)
@@ -212,28 +212,28 @@ class TestPyland:
 
     def test_Pyland_Frame_CommadExec(self):
         frame_cmd = "justText{'arg':'FILE1_FROM_TEST1/TEST2'}"
-        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd)
+        pyland_ins = PylandMaster(TestPylandMaster.frame_dirs, frame_cmd)
         assert pyland_ins.frame_generated_code == "This is just Text\nArgument from Struct file is : FILE1_FROM_TEST1/TEST2"
         
     def test_Pyland_Frame_CommadExec_with_outputfile(self):
         frame_cmd = "justText{'arg':'FILE1_FROM_TEST1/TEST2'}"
         outputfilepath = PV_testdir_Structure + "/to_be_deleted/to_be_deleted_test1.txt"
-        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd, outputfilepath)
+        pyland_ins = PylandMaster(TestPylandMaster.frame_dirs, frame_cmd, outputfilepath)
         with open(outputfilepath) as f:
             output = f.read()
         assert pyland_ins.frame_generated_code == output
 
     def test_Pyland_Frame_WrongCommadExec(self):
         frame_cmd = "justTextFILE1_FROM_TEST1/TEST2'}"
-        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd)
-        expected_output = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
+        pyland_ins = PylandMaster(TestPylandMaster.frame_dirs, frame_cmd)
+        expected_output = "PylandMaster(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
         assert pyland_ins.frame_generated_code == expected_output
 
     def test_Pyland_Frame_WrongCommadExec_with_outputfile(self):
         frame_cmd = "justTextFILE1_FROM_TEST1/TEST2'}"
-        expected_output = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
+        expected_output = "PylandMaster(execFileCmd): FRAME NOT PRESENT : " + frame_cmd
         outputfilepath = PV_testdir_Structure + "/to_be_deleted/to_be_deleted_test1.txt"
-        pyland_ins = Pyland(TestPyland.frame_dirs, frame_cmd, outputfilepath)
+        pyland_ins = PylandMaster(TestPylandMaster.frame_dirs, frame_cmd, outputfilepath)
         with open(outputfilepath) as f:
             output = f.read()
         assert expected_output == output
@@ -243,7 +243,7 @@ class TestPyland:
 
 
     def test_auto_structure_test(self):
-        # create Pyland instance for frame_dirs and struct file
+        # create PylandMaster instance for frame_dirs and struct file
         autotest_frame = PV_testdir_Structure + "/Autotest_frame_files"
         autotest_frame_dirs = [autotest_frame]
 
@@ -252,8 +252,8 @@ class TestPyland:
         autotest_struct_output = PV_testdir_Structure + "/Autotest_struct_output_files"
 
 
-        # Pyland instance creation
-        pyland_auto_frame_test = Pyland(autotest_frame_dirs, autotest_struct)
+        # PylandMaster instance creation
+        pyland_auto_frame_test = PylandMaster(autotest_frame_dirs, autotest_struct)
         created_file_paths = pyland_auto_frame_test.ST1.file_paths
 
         output_file_paths = [autotest_struct_output+"/"+filepath.split('/')[-1]  for filepath in created_file_paths]

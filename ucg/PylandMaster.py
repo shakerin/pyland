@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """
-Pyland:
+PylandMaster:
 
 Usage:
-	Pyland [argv]
-	Script Name: Pyland.py
+	PylandMaster [argv]
+	Script Name: PylandMaster.py
 	Script Details: Universal Code
 """
 
@@ -51,7 +51,7 @@ from .common_func import *
 
 
 
-class Pyland(object):
+class PylandMaster(object):
 	"""Top level class for this tool. This class can be utilized
 	to generate code based on frame command and automate directory
 	structure creation based on structure file.
@@ -335,7 +335,7 @@ class Pyland(object):
 
 		else:
 
-			generated_code_cmd = "PYLAND(execFileCmd): FRAME NOT PRESENT : " + cmd
+			generated_code_cmd = "PylandMaster(execFileCmd): FRAME NOT PRESENT : " + cmd
 
 
 
