@@ -1,15 +1,4 @@
-# Pyland Class
-
-## Class Internal Information
-
-|Attribute|Type|Description
-|---------|----|-----------|
-|frame_dirs|list of strings|each item in list represents a directory that contains frame files|
-|TL1|TemplateLibrary Object|it uses frame_dirs to extract frames as TemplateInfo objects|
-|ST1|Structure Object|it uses structure file to analyse directory structure|
-|frame_generated_code|a string|it represents the generated code from frame cmd|
-
-
+# Pyland
 
 ## Usage
 
