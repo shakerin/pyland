@@ -16,14 +16,6 @@
 There are mainly 2 methods of using this class.
 
 
-* To Generate Structure Based on Structure File
-```
-import Pyland
-frame_dirs = ['path1/', 'path2']
-structure_file_path_main = 'structurefile.struct'
-var = Pyland(frame_dirs, structure_file_path_main)
-```
-
 * To Generate Code and/or Execute Python Commands Based on Frame Cmd
 ```
 import Pyland
@@ -31,6 +23,15 @@ frame_dirs = ['path1/', 'path2']
 structure_file_path_main = "frameName{'arg1':'value1', 'arg2':'value2'}"
 output_file_name = 'outputpath.txt'
 var = Pyland(frame_dirs, structure_file_path_main, output_file_name)
+```
+
+
+* To Generate Structure Based on Structure File
+```
+import Pyland
+frame_dirs = ['path1/', 'path2']
+structure_file_path_main = 'structurefile.struct'
+var = Pyland(frame_dirs, structure_file_path_main)
 ```
 
 ## About Frame Cmd
@@ -90,4 +91,4 @@ frame2 frame will be executed and generated code will be copied to dir1/dir2/fil
 ```
 
 #### Notes
-* frame1 and frame2 frames should be present in any directory listed in 'frame_dirs'
+* frame1 and frame2 frames must be present in any directory listed in 'frame_dirs'
