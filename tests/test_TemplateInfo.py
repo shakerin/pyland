@@ -4,9 +4,9 @@ import pytest
 from string import Template
 from docopt import docopt
 import re
-from ucg.TemplateInfo import TemplateInfo as TI
-from ucg.FileToTemplate import FileToTemplate as FTT
-from tests.path_variables import *
+
+from .context import *
+from .path_variables import *
 
 
 class TestTemplateInfo:

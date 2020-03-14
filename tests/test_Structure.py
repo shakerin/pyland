@@ -6,11 +6,9 @@ from docopt import docopt
 import re
 from os.path import join
 import os
-from ucg.TemplateInfo import TemplateInfo as TI
-from ucg.FileToTemplate import FileToTemplate as FTT
-from ucg.TemplateLibrary import TemplateLibrary as TL
-from ucg.Structure import Structure
-from tests.path_variables import *
+
+from .context import *
+from .path_variables import *
 
 
 class TestStructure:

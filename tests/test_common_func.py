@@ -3,8 +3,8 @@
 import pytest
 import os
 import shutil
-from tests.path_variables import *
-from ucg.common_func import *
+from .path_variables import *
+from .context import *
 
 
 class TestCommonFunc:

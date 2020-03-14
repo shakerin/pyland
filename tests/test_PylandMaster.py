@@ -8,12 +8,8 @@ from os.path import join
 import os
 import filecmp
 
-from ucg.TemplateInfo import TemplateInfo as TI
-from ucg.FileToTemplate import FileToTemplate as FTT
-from ucg.TemplateLibrary import TemplateLibrary as TL
-from ucg.Structure import Structure
-from ucg.PylandMaster import PylandMaster
-from tests.path_variables import *
+from .context import *
+from .path_variables import *
 
 
 
