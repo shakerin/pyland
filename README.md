@@ -60,15 +60,6 @@ See the [Project Status and Plan](https://github.com/shakerin/pyland/blob/master
 #### Detailed Docs
 [Pyland Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/PYLAND.md)
 
-[Structure Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/STRUCTURE.md)
-
-[TemplateLibrary Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/TEMPLATE_LIBRARY.md)
-
-[TemplateInfo Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/TEMPLATE_INFO.md)
-
-[FileToTemplate Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/FILE_TO_TEMPLATE.md)
-
-
 
 
 ## Author
