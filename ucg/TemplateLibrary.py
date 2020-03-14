@@ -26,16 +26,16 @@ Usage:
 
 
 
-from .common_func import *
 from string import Template
 from docopt import docopt
 import re
 from os import walk
 from os.path import join, isfile
 
+from .common_func import *
+from .global_vars import *
 from .TemplateInfo import TemplateInfo as TI
 from .FileToTemplate import FileToTemplate as FTT
-from .global_vars import *
 
 
 

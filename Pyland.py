@@ -44,7 +44,6 @@ from docopt import docopt
 import json
 from pathlib import Path
 from ucg.PylandMaster import PylandMaster
-from ucg.global_vars import *
 
 
 PYLANDLICENSE = \
@@ -196,6 +195,7 @@ def showFrameDirs():
 
 
 if __name__ == '__main__':
+
 
     args = docopt(__doc__, version='Pyland 1.0')
 

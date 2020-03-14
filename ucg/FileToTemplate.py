@@ -29,10 +29,11 @@ Usage:
 
 
 
-from .common_func import *
 from string import Template
 from docopt import docopt
 import re
+
+from .common_func import *
 from .TemplateInfo import TemplateInfo
 
 class FileToTemplate(TemplateInfo):
