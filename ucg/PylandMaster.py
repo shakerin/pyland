@@ -90,7 +90,7 @@ class PylandMaster(object):
 
 
 
-	def __init__(self, frame_dirs, filepath_or_frame, output_file=""):
+	def __init__(self, frame_dirs, filepath_or_frame, output_file="", cmd="AUTOMATE"):
 
 
 		self.frame_dirs = frame_dirs
@@ -100,15 +100,29 @@ class PylandMaster(object):
 		
 		if self.isStruct(filepath_or_frame):
 		
-			self.automateStructure(filepath_or_frame)
+			if cmd == "AUTOMATE":
+				
+				self.automateStructure(filepath_or_frame)
+
+
 		
 		
 		else:
-				
-			self.automateFrame(filepath_or_frame, output_file)
-		
 
+			if cmd == "AUTOMATE":
+				
+				self.automateFrame(filepath_or_frame, output_file)
 		
+			elif cmd == "ABOUT":
+
+				self.aboutFrame(filepath_or_frame)
+
+			else:
+
+				pass
+
+
+
 		return
 	
 
@@ -229,8 +243,12 @@ class PylandMaster(object):
 
 
 
-
-
+	def aboutFrame(self, frame_name):
+		if frame_name in self.TL1.frame_names:
+			frame_info = "self.TL1." + frame_name + ".key_words"
+			print(eval(frame_info))
+		else:
+			print(frame_name, " Not Present In Template Library Paths ", self.frame_dirs)
 
 
 
