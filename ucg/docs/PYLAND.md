@@ -28,7 +28,7 @@ var = Pyland(frame_dirs, structure_file_path_main)
 ```
 import Pyland
 frame_dirs = ['path1/', 'path2']
-structure_file_path_main = 'frameName{'arg1':'value1', 'arg2':'value2'}'
+structure_file_path_main = "frameName{'arg1':'value1', 'arg2':'value2'}"
 output_file_name = 'outputpath.txt'
 var = Pyland(frame_dirs, structure_file_path_main, output_file_name)
 ```
