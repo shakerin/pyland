@@ -125,6 +125,11 @@ def createNewFile(file_path, text=""):
 
 	dir_path = file_path.replace(file_name, "")
 
+	dir_path = dir_path.strip()
+
+	if dir_path=="":
+		dir_path = "./"
+
 	createDirIfNotPresent(dir_path)
 
 
