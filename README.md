@@ -2,7 +2,7 @@
 
 | Author | Shakerin Ahmed |
 |--------|----------------|
-| Version|1.0.0 (not released)|
+| Version|1.0.0|
 
 
 This project aims to enable anyone to create a text generator+automator for themselves.
@@ -17,12 +17,6 @@ Users need to follow instruction as mentioned in this readme to leverage the pow
 
 ## General Information About The Project
 
-### Developers
-I am the only developer and planner of the project for now. Any idea or suggestion is welcome.
-
-### Users
-This project is not in a state yet to deliver to any user who is not experienced in python.
-
 ### Prerequisites
 Until now different python libraries are used in the project. So, to make sure everything
 is this project is functional make sure the following items are present in the system.
@@ -35,7 +29,10 @@ pytest-3
 
 ### Installing
 
-As per today, it is *not installable*.
+* Go to release and download the latest release,
+* Create alias named 'pyland' and assign the 'path to executable' to it,
+* Type 'pyland -h' to make sure installed properly.
+
 
 ## Running The Tests
 
@@ -47,6 +44,7 @@ PROJECT_DIR is defined inside pyland/tests/path_variables.py file.
 ```
 ./clean
 pytest-3 .
+./clean
 ```
 
 ### Test Status

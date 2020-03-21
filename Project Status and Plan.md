@@ -1,5 +1,7 @@
 # Pyland
 
+This doc is only for developers. Users only need to check [README.md](https://github.com/shakerin/pyland/blob/master/README.md)
+
 ## Information about completed items
 * TemplateInfo class represents the structure of each frame class,
 * FileToTemplate class is same as TemplateInfo except, it reads the frame string from a file,
@@ -7,9 +9,11 @@
 * frame objects from TemplateLibrary class can be utilized to generate text or execute accessible system commands,
 * Finalize a structure that can be used for generating texts
 * execute commands easily from users perspective
+* create package for distribution
 
 ## Next Step
-* create package for distribution
+* Clean up main modules and test codes
+* Add documentation
 
 
 ## Common Terms
@@ -40,6 +44,8 @@ This is a text file containing all directory and file names for creation.
 User can mention the frame object name and provide arguments in proper form
 for text auto generation in that file and also execution of any python code.
 *structure file concept already delevoped in Pyland*
+
+
 
 ## Structure to generate some code
 
