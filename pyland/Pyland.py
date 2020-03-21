@@ -45,7 +45,6 @@ import json
 from pathlib import Path
 from ucg.PylandMaster import PylandMaster
 
-
 PYLANDLICENSE = \
 """
   License
