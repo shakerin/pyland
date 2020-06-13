@@ -56,9 +56,7 @@ pytest-3 .
 See the [Project Status and Plan](https://github.com/shakerin/pyland/blob/master/Project%20Status%20and%20Plan.md)
 
 #### Detailed Docs
-[Pyland Class Information](https://github.com/shakerin/pyland/blob/master/ucg/docs/PYLAND.md)
-
-
+Check the docs  directory
 
 ## Author
 
