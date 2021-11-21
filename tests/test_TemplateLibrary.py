@@ -88,8 +88,9 @@ class TestTemplateLibrary:
         for root, dirs, files in os.walk(PV_testdir_TemplateLibrary_FrameFiles):
             for filename in files:
                 expected_list.append(os.path.join(root, filename))
-        expected_abspath_list = [join(PV_testdir_TemplateLibrary_FrameFiles, f) for f in expected_list] 
-        assert sorted(expected_abspath_list) == sorted(ins.frame_files)
+        #expected_abspath_list = [join(PV_testdir_TemplateLibrary_FrameFiles, f) for f in expected_list] 
+        print(expected_list)
+        assert sorted(expected_list) == sorted(ins.frame_files)
 
     def test_TemplateLibrary_loadFrameFilesFromDir_frame_names(self):
         """check the internal list frame_files after calling loadFrameFilesFromDir(dir_path)

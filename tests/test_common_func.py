@@ -19,12 +19,16 @@ class TestCommonFunc:
         (ii) directory is not created if already present
         """
         dir_path = PV_testdir_common_func + "/" + PV_delete_by_clean_dir
+        print(dir_path)
         # checks if directory already present
         dir_initially_present = os.path.isdir(dir_path)
         createDirIfNotPresent(dir_path)
         dir_created = os.path.isdir(dir_path)
         # trying to re-create directory
         dir_already_present = createDirIfNotPresent(dir_path)
+        print(dir_initially_present)
+        print(dir_already_present)
+        print(dir_created)
         assert (dir_initially_present==False) and \
                 (dir_created==True) and \
                 (dir_already_present==True)
