@@ -6,6 +6,7 @@ Usage:
     pyland run <f_or_s> [--output=<output_filename>]
     pyland about <frame_name>
     pyland show (--frame_dirs|--frames)
+    pyland addnew <frame_dir_path>
     pyland -h | --help
     pyland --version
     pyland --license
@@ -73,7 +74,7 @@ AUTHOR = (
 
 
 
-default_config_file = '~/pyland.json'
+default_config_file = '/root/.pyland.json'
 
 execpath_config_file = 'pyland.json'
 
@@ -185,6 +186,28 @@ def showFrameDirs():
 
 
 
+def addNewFrameDir(dir_path):
+
+    if (Path(dir_path).is_dir()):
+        print("This path exists")
+        default_config_file
+        if(Path(default_config_file).is_file()):
+            with open(default_config_file, "r+") as f:
+                readData = json.load(f)
+                readData['frame_dirs'].append(dir_path)
+                data_json = json.dumps(readData)
+            with open(default_config_file, "w") as f:
+                f.write(data_json)
+            print("added in ~/.pyland.json")
+        else:
+            with open(default_config_file, "a+") as f:
+                data = {"frame_dirs":[dir_path]}
+                data_json = json.dumps(data)
+                f.write(data_json)
+            print("created ~/.pyland.json & added frame dir in this file")
+
+    else:
+        print("This path doesn't Exist")
 
 
 
@@ -234,6 +257,10 @@ if __name__ == '__main__':
 
             pass
 
+
+    elif args['addnew']:
+
+        addNewFrameDir(args['<frame_dir_path>'])
 
 
     elif args['--license']:
